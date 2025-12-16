@@ -1,0 +1,26 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --background: #E0BC7D;
+
+  --textcolor: #56110a;
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: var(--background);
+  --color-text: var(--textcolor);
+
+  --section-gap: 160px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
+
+body {
+  font-size: 25px;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: normal;
+}
