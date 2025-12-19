@@ -12,15 +12,15 @@
 </template>
 
 <script>
-import foto1 from '@/assets/whitecross.png'
-import foto2 from '@/assets/barca.JPG'
-import foto3 from '@/assets/paddle.jpg'
-import foto4 from '@/assets/splash.jpg'
-import foto5 from '@/assets/mare.png'
-import foto6 from '@/assets/vela.png'
-import foto7 from '@/assets/zanzi.png'
-import foto8 from '@/assets/couple1.png'
-import foto9 from '@/assets/sci.png'
+import foto1 from '@/components/icons/whitecross.png'
+import foto2 from '@/components/icons/barca.JPG'
+import foto3 from '@/components/icons/paddle.jpg'
+import foto4 from '@/components/icons/splash.jpg'
+import foto5 from '@/components/icons/mare.png'
+import foto6 from '@/components/icons/vela.png'
+import foto7 from '@/components/icons/zanzi.png'
+import foto8 from '@/components/icons/couple1.png'
+import foto9 from '@/components/icons/sci.png'
 export default {
   name: 'ImageSlider',
   data() {
@@ -42,13 +42,12 @@ export default {
 
 <style scoped>
 .slider-container {
-  position: relative;
-  width: 900px;
-  height: 800px;
-  margin: 2rem auto;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 1em 2em var(--textcolor);
 }
 .slider {
   display: flex;
@@ -59,15 +58,13 @@ export default {
   overflow: hidden;
 }
 .slide img {
-  width: 1200px;
-  height: 800px;
+  justify-self: center;
   object-fit: cover;
-  display: block;
 }
 button.prev,
 button.next {
   position: absolute;
-  top: 50%;
+  /* top: 40%; */
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.8);
   color: #333;
@@ -75,7 +72,7 @@ button.next {
   padding: 1rem;
   cursor: pointer;
   font-size: 1.5rem;
-  border-radius: 50%;
+  border-radius: 10px;
   transition: background 0.3s;
 }
 button.prev:hover,
@@ -83,9 +80,9 @@ button.next:hover {
   background: rgba(255, 255, 255, 1);
 }
 button.prev {
-  left: 10px;
+  left: 5px;
 }
 button.next {
-  right: 10px;
+  right: 5px;
 }
 </style>

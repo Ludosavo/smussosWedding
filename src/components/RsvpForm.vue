@@ -55,18 +55,61 @@ function onSubmit() {
 }
 </script>
 
-<style scoped>
-@media screen and (max-width: 768px) {
+<style >
+@media screen and (min-width: 769px) {
   form {
     display: flex;
     flex-direction: column;
     justify-self: center;
     background-color: var(--textcolor);
     color: var(--background);
-    width: auto;
+    width: 15em;
     border-radius: 10px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 1em;
+  }
+  .field {
+    margin: 15px;
+  }
+  input,
+  textarea {
+    width: 90%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  button {
+    display: flex;
+    width: 40%;
+    text-align: center;
+    flex-direction: column;
+    align-self: center;
+    background-color: var(--background);
+    color: var(--textcolor);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 10px;
+  }
+  button:hover {
+    background-color: #c8e0f5;
+  }
+
+  .successo {
+    margin-top: 1rem;
+    color: var(--textcolor);
+    font-weight: bold;
+  }
+}
+@media screen and (max-width: 768px) {
+  form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--textcolor);
+    color: var(--background);
+    justify-self: center;
+    width: 15em;
+    border-radius: 10px;
+    padding-bottom: 1em;
   }
   .field {
     margin: 15px;
@@ -102,49 +145,4 @@ function onSubmit() {
   }
 }
 
-@media screen and (min-width: 769px) {
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    background-color: var(--textcolor);
-    color: var(--background);
-    width: 400px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-  }
-  .field {
-    margin: 15px;
-  }
-  input,
-  textarea {
-    width: 90%;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-  button {
-    display: flex;
-    width: 40%;
-    text-align: center;
-    flex-direction: column;
-    align-self: center;
-    background-color: var(--background);
-    color: var(--textcolor);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    padding: 10px;
-  }
-  button:hover {
-    background-color: #c8e0f5;
-  }
-
-  .successo {
-    margin-top: 1rem;
-    color: var(--textcolor);
-    font-weight: bold;
-  }
-}
 </style>

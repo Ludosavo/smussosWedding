@@ -1,26 +1,46 @@
-/* color palette from <https://github.com/vuejs/theme> */
-:root {
-  --background: #E0BC7D;
+/* base.css */
+@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
 
-  --textcolor: #56110a;
-}
-
-/* semantic color variables for this project */
 :root {
+  --textcolor: #f6f6f6;
+  --background: #0b92a7;
+
   --color-background: var(--background);
   --color-text: var(--textcolor);
 
   --section-gap: 160px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+}
 
 body {
   font-size: 25px;
   color: var(--color-text);
-  background: var(--color-background);
   line-height: 1.6;
   font-family: "Old Standard TT", serif;
   font-weight: 400;
   font-style: normal;
+}
+
+/* Qui gestiamo SOLO lo sfondo */
+html {
+  position: relative;
+  overflow: auto;
+}
+
+/* Sfondo con filtro */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url('@/components/icons/home_pic.png') center/cover no-repeat;
+  filter: brightness(0.5); /* ⬅️ ora si vede davvero */
+  z-index: -1; /* dietro a tutto */
 }

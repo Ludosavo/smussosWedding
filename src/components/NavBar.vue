@@ -1,12 +1,12 @@
 <template>
   <nav>
-    <RouterLink to="/"><FontAwesomeIcon :icon="faHouse" /> Home</RouterLink>
-    <RouterLink to="/storia"><FontAwesomeIcon :icon="faBook" /> La Nostra Storia</RouterLink>
-    <RouterLink to="/cerimonia"><FontAwesomeIcon :icon="faChurch" /> Cerimonia</RouterLink>
-    <RouterLink to="/location"><FontAwesomeIcon :icon="faChessRook" /> Location</RouterLink>
-    <RouterLink to="/alloggio"><FontAwesomeIcon :icon="faHotel" /> Dove Alloggiare</RouterLink>
-    <RouterLink to="/contatti"><FontAwesomeIcon :icon="faAddressBook" /> Contatti & FAQ</RouterLink>
-    <RouterLink to="/listaNozze"><FontAwesomeIcon :icon="faList" /> Lista Nozze</RouterLink>
+    <div class="navbar"><RouterLink to="/"><FontAwesomeIcon :icon="faHouse" /> Home</RouterLink></div>
+    <div class="navbar"><RouterLink to="/storia"><FontAwesomeIcon :icon="faBook" /> La Nostra Storia</RouterLink></div>
+    <div class="navbar"><RouterLink to="/cerimonia"><FontAwesomeIcon :icon="faChurch" /> Cerimonia</RouterLink></div>
+    <div class="navbar"><RouterLink to="/location"><FontAwesomeIcon :icon="faChessRook" /> Location</RouterLink></div>
+    <div class="navbar"><RouterLink to="/alloggio"><FontAwesomeIcon :icon="faHotel" /> Dove Alloggiare</RouterLink></div>
+    <div class="navbar"><RouterLink to="/contatti"><FontAwesomeIcon :icon="faAddressBook" /> Contatti & FAQ</RouterLink></div>
+    <div class="navbar"><RouterLink to="/listaNozze"><FontAwesomeIcon :icon="faList" /> Lista Nozze</RouterLink></div>
   </nav>
 </template>
 <script setup>
@@ -22,21 +22,46 @@ import { faList } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <style scoped>
+  @media screen and (min-width: 769px) {
+
+  .navbar {
+    color: var(--textcolor);
+    border-radius: 10px;
+    padding: 1em;
+    
+  }
+  nav {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  nav a {
+    text-decoration: none;
+  }
+}
 @media screen and (max-width: 769px) {
   nav {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    color: var(--textcolor);
+    align-items: stretch;
+    justify-self: center;
     gap: 1rem;
     margin: 1rem 0;
     text-align: center;
-    border: 1px solid var(--background);
     border-radius: 8px;
-    background-color: var(--textcolor);
+    width: min-content;
+  }
+  nav div {
+    display: flex;
   }
   nav a {
     text-decoration: none;
+    width: 100%;
+    white-space: nowrap;
   }
 
   #casa {
@@ -45,25 +70,7 @@ import { faList } from '@fortawesome/free-solid-svg-icons'
     position: inherit;
     margin-bottom: -5px;
     margin-right: 5px;
-    color: var(--textcolor);
   }
 }
-@media screen and (min-width: 769px) {
-  nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: var(--textcolor);
-    gap: 1rem;
-    margin: 1rem 0;
-    text-align: center;
-    border: 1px solid var(--background);
-    border-radius: 8px;
-    background-color: var(--textcolor);
-  }
-  nav a {
-    text-decoration: none;
-  }
-}
+
 </style>

@@ -30,10 +30,37 @@ export default {
 </script>
 
 <style>
+  @media screen and (min-width: 769px) {
+  h2 {
+    text-align: center;
+  }
+  #titolo {
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+    width: 83%;
+    margin-left: 16px;
+    color: var(--textcolor);
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  #testo {
+    padding: 20px;
+    justify-self: center;
+    color: var(--textcolor);
+    width: 80%;
+    border: 1px solid var(--textcolor);
+    border-radius: 10px;
+    margin-left: 25px;
+  }
+}
 @media screen and (max-width: 768px) {
+
   h2 {
     text-align: center;
   }
+
   #titolo {
     display: flex;
     justify-self: center;
@@ -46,6 +73,7 @@ export default {
     padding: 10px;
     border-radius: 10px;
   }
+
   #testo {
     padding: 20px;
     justify-self: center;
@@ -56,30 +84,5 @@ export default {
     margin-left: 25px;
   }
 }
-@media screen and (min-width: 769px) {
-  h2 {
-    text-align: center;
-  }
-  #titolo {
-    display: flex;
-    justify-self: center;
-    justify-content: center;
-    width: 83%;
-    margin-left: 16px;
-    background-color: var(--textcolor);
-    color: var(--background);
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px;
-  }
-  #testo {
-    padding: 20px;
-    justify-self: center;
-    background-color: var(--textcolor);
-    color: var(--background);
-    width: 80%;
-    border-radius: 10px;
-    margin-left: 25px;
-  }
-}
+
 </style>
