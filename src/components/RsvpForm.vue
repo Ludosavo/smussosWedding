@@ -60,10 +60,10 @@ function onSubmit() {
   form {
     display: flex;
     flex-direction: column;
-    justify-self: center;
     background-color: var(--textcolor);
     color: var(--background);
     width: 15em;
+    margin-left: 200px;
     border-radius: 10px;
     padding-bottom: 1em;
   }
