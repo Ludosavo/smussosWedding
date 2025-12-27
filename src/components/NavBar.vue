@@ -2,7 +2,7 @@
   <nav>
     <div class="navbar"><RouterLink to="/"><FontAwesomeIcon :icon="faHouse" /> Home</RouterLink></div>
     <div class="navbar"><RouterLink to="/storia"><FontAwesomeIcon :icon="faBook" /> La Nostra Storia</RouterLink></div>
-    <div class="navbar"><RouterLink to="/cerimonia"><FontAwesomeIcon :icon="faChurch" /> Cerimonia</RouterLink></div>
+    <div class="navbar"><RouterLink to="/infoUtili"><FontAwesomeIcon :icon="faChurch" /> Info Utili</RouterLink></div>
     <div class="navbar"><RouterLink to="/location"><FontAwesomeIcon :icon="faChessRook" /> Location</RouterLink></div>
     <div class="navbar"><RouterLink to="/alloggio"><FontAwesomeIcon :icon="faHotel" /> Dove Alloggiare</RouterLink></div>
     <div class="navbar"><RouterLink to="/contatti"><FontAwesomeIcon :icon="faAddressBook" /> Contatti & FAQ</RouterLink></div>

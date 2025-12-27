@@ -46,8 +46,8 @@ export default {
         { id: 2, ruolo: 'Sposo', numero: '+39 333 1720209', foto: '' },
         { id: 3, ruolo: 'Testimone (Anna)', numero: '+39 3319483693', foto: '' },
         { id: 4, ruolo: 'Testimone (Isabel)', numero: '+39 3457244224', foto: '' },
-        { id: 5, ruolo: 'Testimone', numero: '', foto: '' },
-        { id: 6, ruolo: 'Testimone', numero: '', foto: '' },
+        { id: 5, ruolo: 'Testimone (Filippo)', numero: '+39 3472752852', foto: '' },
+        { id: 6, ruolo: 'Testimone (José)', numero: '+39 3339568853', foto: '' },
       ],
       form: {
         ruolo: '',
@@ -77,6 +77,7 @@ h1 {
   margin-bottom: 40px;
   font-size: 2.5rem;
 }
+
 
 form {
   display: flex;
@@ -114,17 +115,16 @@ button[type="submit"]:hover {
   transform: translateY(-2px);
 }
 
-/* Grid di schede - 3 colonne fissi */
+/* Grid di schede */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  max-width: 900px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 /* Card */
 .card {
+  grid: 1;
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -245,14 +245,15 @@ button[type="submit"]:hover {
 
 @media (max-width: 768px) {
   .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
-}
 
-@media (max-width: 480px) {
-  .cards-grid {
-    grid-template-columns: 1fr;
+  form {
+    flex-direction: column;
+  }
+
+  input {
+    min-width: 100%;
   }
 }
 </style>

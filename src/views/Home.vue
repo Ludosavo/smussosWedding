@@ -5,11 +5,12 @@
       <!-- <h3>Siamo lieti di invitarvi al nostro matrimonio</h3> -->
       <h2>
         Sabato 11 Luglio 2026 <br />
-        Ore 17:00 <br />
-        Chiesa di bla bla bla
+        Ore 16:30 <br />
+        Chiesa di SS. Felice e Agata, <br> Via XX Settembre, 59 - Oviglio (AL)
       </h2>
       <h4>
-        Per confermare la tua presenza, puoi utilizzare il seguente form
+        Vi chiediamo di confermare la presenza di ogni invitato (entro il 11.06.2026),
+         <br> utilizzando il form a sinistra.
       </h4>
     </div>
     <div id="form">
@@ -32,7 +33,7 @@ export default {
   main {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     justify-content: center;
     z-index: 1;
   }
@@ -61,8 +62,6 @@ export default {
     padding: 20px;
     color: var(--textcolor);
     border-bottom: 1px solid var(--textcolor);
-    /* background-color: var(--textcolor); */
-    /* border-radius: 10px; */
     text-decoration: none;
     z-index: 1;
   }
@@ -71,6 +70,7 @@ export default {
   main {
     position: relative;
     z-index: 1;
+
   }
 
   h2, h3, h4 {

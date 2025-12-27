@@ -22,7 +22,7 @@ html, body, #app {
 
 body {
   font-size: 22px;
-  color: var(--textcolor);
+  color: rgb(0, 104, 208);
   line-height: 1.6;
   font-family: "Jersey 10", sans-serif;
   font-weight: 400;
@@ -41,6 +41,6 @@ html::before {
   position: fixed;
   inset: 0;
   background: url('@/components/icons/home_pic.png') center/cover no-repeat;
-  filter: brightness(0.5); 
+  filter: brightness(0.7); 
   z-index: -1; 
 }

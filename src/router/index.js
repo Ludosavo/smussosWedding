@@ -3,7 +3,7 @@ import Home from '@/views/Home.vue'
 import Contatti from '@/views/Contatti.vue'
 import ListaNozze from "@/views/ListaNozze.vue";
 import DoveAlloggiare from "@/views/DoveAlloggiare.vue";
-import Cerimonia from "@/views/Cerimonia.vue";
+import InfoUtili from '@/views/InfoUtili.vue';
 import Storia from '@/views/NostraStoria.vue'
 import Location from '@/views/Location.vue'
 
@@ -14,7 +14,7 @@ const routes = [
   { path: '/location', component: Location },
   { path: '/listanozze', component: ListaNozze },
   { path: '/alloggio', component: DoveAlloggiare },
-  { path: '/cerimonia', component: Cerimonia },
+  { path: '/infoUtili', component: InfoUtili},
 ]
 
 export const router = createRouter({

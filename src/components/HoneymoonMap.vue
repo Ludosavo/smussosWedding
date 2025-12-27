@@ -409,6 +409,7 @@ watch(
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  
 }
 .honeymoon-marker .dot {
   width: 18px;

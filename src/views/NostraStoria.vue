@@ -1,31 +1,6 @@
 <template>
   <div class="containerHistory">
-    <h3 id="titolo">
-      Francesca e Carlo: una storia a sirene spiegate (quelle dell’ambulanza,
-      eh!)
-    </h3>
-    <p id="testo">
-      Carlo e Francesca si sono conosciuti quasi 8 anni fa… in ambulanza! No,
-      non per un incidente amoroso, ma perché entrambi immersi nel fantastico (e
-      frenetico) mondo del soccorso. <br />
-      Solo che, come in ogni storia ben riuscita, ci abbiamo messo un po’ a
-      capirlo: la nostra vera storia d’amore è cominciata molto dopo.<br />
-      Lui è farmacista e soccorritore: una combinazione perfetta per stare con
-      una come Francesca , che ogni due per tre cade, si fa male o ha qualche
-      reazione allergica misteriosa. <br />
-      Diciamo che la sua laurea non prende mai polvere, anzi… è praticamente in
-      servizio permanente effettivo!<br />
-      Siamo anche due grandi sportivi. Forse. Lui sicuramente (forse). Lei ?
-      Dai, ci prova… ogni tanto. Ma se c’è una cosa su cui non scherziamo è il
-      nostro amore per i viaggi. <br />
-      E ancora di più per il mare: in barca ci sentiamo a casa. È il nostro
-      rifugio, la nostra avventura, la nostra pausa dal mondo. Insomma, ci siamo
-      trovati tra sirene e cerotti, ma oggi navighiamo insieme – tra risate,
-      avventure e qualche livido qua e là – verso tutto quello che la vita ha da
-      offrirci. <br />
-      E finché c’è il mare, la barca e un po’ di amore… possiamo affrontare
-      qualsiasi mare mosso!
-    </p>
+    
     <ImageSlider />
   </div>
 </template>
@@ -58,15 +33,15 @@ export default {
     justify-self: center;
     width: 42%;
     margin-left: 16px;
-    color: var(--textcolor);
+    color: var(--background);
     text-align: center;
     padding: 10px;
   }
   #testo {
-    padding: 20px;
     justify-self: center;
-    color: var(--textcolor);
     width: 80%;
+    color: var(--background);
+    background-color: rgb(79, 167, 197);
     border: 1px solid var(--textcolor);
     border-radius: 10px;
     margin-left: 25px;
@@ -98,7 +73,8 @@ export default {
   #testo {
     padding: 20px;
     justify-self: center;
-    color: var(--textcolor);
+    color: var(--background);
+    background-color: var(--textcolor);
     border: 1px solid var(--textcolor);
     width: 85%;
     border-radius: 10px;

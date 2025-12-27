@@ -18,10 +18,10 @@
         <input id="cognome" name="cognome" v-model="cognome" required />
       </div>
 
-      <div class="field">
+      <!-- <div class="field">
         <label for="plusOne">Eventuale +1</label>
-        <input id="plusOne" name="plusOne" v-model="plusOne" />
-      </div>
+        <input id="plusOne" name="plusOne" v-model="plusOne" placeholder="Nome e Cognome" />
+      </div> -->
 
       <div class="field">
         <label for="allergie">Allergie alimentari</label>
@@ -63,7 +63,7 @@ function onSubmit() {
     background-color: var(--textcolor);
     color: var(--background);
     width: 15em;
-    margin-left: 200px;
+    margin: 50px;
     border-radius: 10px;
     padding-bottom: 1em;
   }
