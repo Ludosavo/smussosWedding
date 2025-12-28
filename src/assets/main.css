@@ -1,99 +1,113 @@
 @import './base.css';
 
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
 
-/*@media (max-width: 769px) {
+/* Mobile (portrait) - 320px to 480px */
+@media (max-width: 480px) {
   body {
-    align-content: center;
-    place-items: center;
+    font-size: 16px;
   }
-
-  a {
-    align-self: center;
-    text-align: center;
-    padding: 20px;
-    color: var(--background);
-    text-decoration: none;
-  }
-
-  nav {
-    margin: 20px;
-    padding: 20px;
-    text-align: center;
-    border: 1px solid var(--background);
-    border-radius: 8px;
-    background-color: var(--textcolor);
-    color: var(--background);
-  }
-
-  nav a {
-    align-items: center;
-    padding: 0.75rem 1.25rem;
-    text-decoration: none;
-    color: var(--background);
-    transition: background-color 0.2s ease;
-    border-right: 1px solid #ddd;
-  }
-
-  nav a:hover,
-  .router-link-exact-active {
-    text-align: center;
-    background-color: var(--background);
-    color: var(--textcolor);
-    border-radius: 8px;
-    align-self: center;
+  
+  #app {
+    padding: 0.5rem;
   }
 }
 
-@media screen and (min-width: 769px) {
+/* Mobile (landscape) / Small tablets - 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
   body {
-    align-content: center;
-    place-items: center;
+    font-size: 17px;
   }
-
-  a {
-    align-self: center;
-    text-align: center;
-    padding: 20px;
-    color: var(--background);
-    text-decoration: none;
+  
+  #app {
+    padding: 1rem;
   }
+}
 
-  nav {
-    margin: 20px;
-    padding: 20px;
-    text-align: center;
-    border: 1px solid var(--background);
-    border-radius: 8px;
-    background-color: var(--textcolor);
-    color: var(--background);
+/* Tablets - 769px to 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  body {
+    font-size: 18px;
   }
-
-  nav a {
-    align-items: center;
-    padding: 0.75rem 1.25rem;
-    text-decoration: none;
-    color: var(--background);
-    transition: background-color 0.2s ease;
-    border-right: 1px solid #ddd;
+  
+  #app {
+    padding: 1.5rem;
   }
+}
 
-  nav a:hover,
-  .router-link-exact-active {
-    text-align: center;
-    background-color: var(--background);
-    color: var(--textcolor);
-    border-radius: 8px;
-    align-self: center;
+/* Desktop - 1025px to 1439px */
+@media (min-width: 1025px) and (max-width: 1439px) {
+  body {
+    font-size: 18px;
   }
-
-  nav a:not(:last-child) {
-    border-right: 1px solid #ccc;
-    padding-right: 2rem;
-    padding-left: 2rem;
+  
+  #app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
   }
+}
 
-  nav a:last-child {
-    border-right: none;
+/* Large desktop - 1440px+ */
+@media (min-width: 1440px) {
+  body {
+    font-size: 20px;
   }
+  
+  #app {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+}
 
-}*/
+/* ========================================
+   GLOBAL LINK STYLES
+   ======================================== */
+
+a {
+  color: var(--wine-burgundy);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--terracotta);
+}
+
+/* ========================================
+   ROUTER LINK ACTIVE STATE
+   ======================================== */
+
+.router-link-active,
+.router-link-exact-active {
+  color: var(--wine-burgundy);
+  font-weight: 600;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }

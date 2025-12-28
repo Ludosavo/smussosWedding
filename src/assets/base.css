@@ -1,12 +1,24 @@
 /* base.css */
-@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600&family=Great+Vibes&display=swap');
 
 :root {
-  --textcolor: #f6f6f6;
-  --background: #000000;
+  /* Italian Castle & Vineyard Theme Colors */
+  --wine-burgundy: #6B1C23;
+  --terracotta: #C45D3F;
+  --champagne: #F4EBD9;
+  --sage-green: #8A9A7B;
+  --stone-gray: #756F65;
+  --ivory: #FFFEF2;
+  --gold-accent: #D4AF37;
+  --olive: #5C6B3D;
+  --text-dark: #2C2416;
+  --text-light: #FFFEF2;
 
-  --color-background: var(--background);
-  --color-text: var(--textcolor);
+  /* Legacy variable names (for backward compatibility) */
+  --textcolor: var(--text-dark);
+  --background: var(--champagne);
+  --color-background: var(--champagne);
+  --color-text: var(--text-dark);
 
   --section-gap: 160px;
 }
@@ -21,12 +33,23 @@ html, body, #app {
 }
 
 body {
-  font-size: 22px;
-  color: rgb(0, 104, 208);
+  font-size: 18px;
+  color: var(--text-dark);
   line-height: 1.6;
-  font-family: "Jersey 10", sans-serif;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
   font-style: normal;
+  background-color: var(--champagne);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: var(--wine-burgundy);
+}
+
+.script-font {
+  font-family: 'Great Vibes', cursive;
 }
 
 /* Qui gestiamo SOLO lo sfondo */
@@ -35,12 +58,109 @@ html {
   overflow: auto;
 }
 
-/* Sfondo con filtro */
+/* Sfondo con gradiente soft */
 html::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url('@/components/icons/home_pic.png') center/cover no-repeat;
-  filter: brightness(0.7); 
+  background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 50%, #FAF0E6 100%);
   z-index: -1; 
+}
+
+/* Optional: Add subtle texture overlay */
+html::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,.02) 2px,
+      rgba(0,0,0,.02) 4px
+    );
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============================================
+   Scroll Animation Utilities
+   ============================================ */
+
+/* Base animation state - hidden by default */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Visible state when element enters viewport */
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade in from left */
+.animate-fade-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.animate-fade-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Fade in from right */
+.animate-fade-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.animate-fade-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale up animation */
+.animate-scale-up {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-scale-up.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger children animations */
+.animate-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.animate-stagger.is-visible > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+.animate-stagger.is-visible > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+.animate-stagger.is-visible > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+.animate-stagger.is-visible > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+.animate-stagger.is-visible > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+.animate-stagger.is-visible > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll,
+  .animate-fade-left,
+  .animate-fade-right,
+  .animate-scale-up,
+  .animate-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

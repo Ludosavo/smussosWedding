@@ -1,12 +1,36 @@
 <template>
-  <nav>
-    <div class="navbar"><RouterLink to="/"><FontAwesomeIcon :icon="faHouse" /> Home</RouterLink></div>
-    <div class="navbar"><RouterLink to="/storia"><FontAwesomeIcon :icon="faBook" /> La Nostra Storia</RouterLink></div>
-    <div class="navbar"><RouterLink to="/infoUtili"><FontAwesomeIcon :icon="faChurch" /> Info Utili</RouterLink></div>
-    <div class="navbar"><RouterLink to="/location"><FontAwesomeIcon :icon="faChessRook" /> Location</RouterLink></div>
-    <div class="navbar"><RouterLink to="/alloggio"><FontAwesomeIcon :icon="faHotel" /> Dove Alloggiare</RouterLink></div>
-    <div class="navbar"><RouterLink to="/contatti"><FontAwesomeIcon :icon="faAddressBook" /> Contatti & FAQ</RouterLink></div>
-    <div class="navbar"><RouterLink to="/listaNozze"><FontAwesomeIcon :icon="faList" /> Lista Nozze</RouterLink></div>
+  <!-- Desktop Navigation -->
+  <nav class="desktop-nav">
+    <div class="nav-items">
+      <RouterLink to="/">
+        <FontAwesomeIcon :icon="faHouse" />
+        <span>Home</span>
+      </RouterLink>
+      <RouterLink to="/storia">
+        <FontAwesomeIcon :icon="faBook" />
+        <span>La Nostra Storia</span>
+      </RouterLink>
+      <RouterLink to="/infoUtili">
+        <FontAwesomeIcon :icon="faChurch" />
+        <span>Info Utili</span>
+      </RouterLink>
+      <RouterLink to="/location">
+        <FontAwesomeIcon :icon="faChessRook" />
+        <span>Location</span>
+      </RouterLink>
+      <RouterLink to="/alloggio">
+        <FontAwesomeIcon :icon="faHotel" />
+        <span>Dove Alloggiare</span>
+      </RouterLink>
+      <RouterLink to="/contatti">
+        <FontAwesomeIcon :icon="faAddressBook" />
+        <span>Contatti & FAQ</span>
+      </RouterLink>
+      <RouterLink to="/listaNozze">
+        <FontAwesomeIcon :icon="faList" />
+        <span>Lista Nozze</span>
+      </RouterLink>
+    </div>
   </nav>
 </template>
 <script setup>
@@ -22,55 +46,80 @@ import { faList } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <style scoped>
-  @media screen and (min-width: 769px) {
+/* Desktop Navigation - Hidden on mobile */
+.desktop-nav {
+  display: none;
+}
 
-  .navbar {
-    color: var(--textcolor);
-    border-radius: 10px;
-    padding: 1em;
-    
+@media (min-width: 769px) {
+  .desktop-nav {
+    display: block;
+    background: var(--ivory);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem auto;
+    max-width: 1200px;
+    position: sticky;
+    top: 1rem;
+    z-index: 100;
   }
-  nav {
+  
+  .nav-items {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
-    margin: 1rem 0;
-    text-align: center;
-    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    gap: 0;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
   }
-  nav a {
-    text-decoration: none;
-  }
-}
-@media screen and (max-width: 769px) {
-  nav {
+  
+  .desktop-nav a {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-self: center;
-    gap: 1rem;
-    margin: 1rem 0;
-    text-align: center;
-    border-radius: 8px;
-    width: min-content;
-  }
-  nav div {
-    display: flex;
-  }
-  nav a {
-    text-decoration: none;
-    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
     white-space: nowrap;
   }
-
-  #casa {
-    width: 30px;
-    height: 30px;
-    position: inherit;
-    margin-bottom: -5px;
-    margin-right: 5px;
+  
+  /* Underline animation on hover */
+  .desktop-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 2px;
+    background: var(--wine-burgundy);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .desktop-nav a:hover {
+    color: var(--wine-burgundy);
+  }
+  
+  .desktop-nav a:hover::after {
+    transform: scaleX(1);
+  }
+  
+  .desktop-nav a.router-link-active {
+    color: var(--wine-burgundy);
+    font-weight: 600;
+  }
+  
+  .desktop-nav a.router-link-active::after {
+    transform: scaleX(1);
+    background: var(--terracotta);
+  }
+  
+  .desktop-nav a svg {
+    font-size: 1.1rem;
   }
 }
-
 </style>

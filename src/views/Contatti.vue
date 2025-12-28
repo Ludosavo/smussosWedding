@@ -1,259 +1,336 @@
 <template>
-  <div class="container">
-    <!-- Schede contatti -->
-    <div class="cards-grid">
-      <div v-for="contatto in contatti" :key="contatto.id" class="card">
-        <!-- Foto -->
-        <div class="photo-container">
-          <img v-if="contatto.foto" :src="contatto.foto" :alt="contatto.ruolo" class="photo">
-          <div v-else class="photo-placeholder">
-            <span>Senza foto</span>
+  <div class="contatti-page">
+    <!-- Header -->
+    <header class="page-header">
+      <h1>Contatti</h1>
+      <p class="subtitle">Per qualsiasi domanda, siamo qui per aiutarti</p>
+    </header>
+    
+    <!-- Contacts Grid -->
+    <div class="contacts-container">
+      <div class="contacts-grid">
+        <div v-for="contatto in contatti" :key="contatto.id" class="contact-card">
+          <div class="card-header">
+            <div class="icon-circle">
+              <FontAwesomeIcon :icon="contatto.icon" />
+            </div>
+            <h3>{{ contatto.ruolo }}</h3>
           </div>
-        </div>
-
-        <!-- Info contatto -->
-        <div class="card-content">
-          <h3>{{ contatto.ruolo }}</h3>
           
-          <div class="numero-section">
-            <p v-if="contatto.numero">{{ contatto.numero }}</p>
-            <p v-else class="no-numero">—</p>
-          </div>
-
-          <!-- Pulsanti -->
-          <div class="buttons">
-            <a 
-              v-if="contatto.numero" 
-              :href="`tel:${contatto.numero.replace(/\s/g, '')}`"
-              class="btn-call"
+          <div class="card-body">
+            <div class="contact-info">
+              <FontAwesomeIcon :icon="faPhone" class="info-icon" />
+              <a :href="`tel:${contatto.numero.replace(/\s/g, '')}`" class="phone-link">
+                {{ contatto.numero }}
+              </a>
+            </div>
+            
+            <button 
+              @click="callContact(contatto.numero)"
+              class="call-btn"
             >
-              📞 Chiama
-            </a>
+              <FontAwesomeIcon :icon="faPhoneAlt" />
+              Chiama Ora
+            </button>
           </div>
         </div>
       </div>
+      
+      <!-- Help Section -->
+      <section class="help-section">
+        <div class="help-content">
+          <FontAwesomeIcon :icon="faEnvelope" class="help-icon" />
+          <h2>Hai bisogno di aiuto?</h2>
+          <p>Non esitare a contattare gli sposi o i testimoni per qualsiasi informazione sul matrimonio, 
+             l'alloggio, o la cerimonia. Siamo qui per rendere questo giorno speciale anche per te!</p>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Contatti",
-  data() {
-    return {
-      contatti: [
-        { id: 1, ruolo: 'Sposa', numero: '+39 3486596445', foto: '' },
-        { id: 2, ruolo: 'Sposo', numero: '+39 333 1720209', foto: '' },
-        { id: 3, ruolo: 'Testimone (Anna)', numero: '+39 3319483693', foto: '' },
-        { id: 4, ruolo: 'Testimone (Isabel)', numero: '+39 3457244224', foto: '' },
-        { id: 5, ruolo: 'Testimone (Filippo)', numero: '+39 3472752852', foto: '' },
-        { id: 6, ruolo: 'Testimone (José)', numero: '+39 3339568853', foto: '' },
-      ],
-      form: {
-        ruolo: '',
-        numero: '',
-        foto: ''
-      }
-    }
+<script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { 
+  faPhone, 
+  faPhoneAlt,
+  faEnvelope,
+  faHeart,
+  faUserTie,
+  faUsers
+} from '@fortawesome/free-solid-svg-icons'
+
+const contatti = [
+  { 
+    id: 1, 
+    ruolo: 'Francesca (Sposa)', 
+    numero: '+39 348 659 6445',
+    icon: faHeart
+  },
+  { 
+    id: 2, 
+    ruolo: 'Carlo (Sposo)', 
+    numero: '+39 333 172 0209',
+    icon: faHeart
+  },
+  { 
+    id: 3, 
+    ruolo: 'Testimone - Anna', 
+    numero: '+39 331 948 3693',
+    icon: faUsers
+  },
+  { 
+    id: 4, 
+    ruolo: 'Testimone - Isabel', 
+    numero: '+39 345 724 4224',
+    icon: faUsers
+  },
+  { 
+    id: 5, 
+    ruolo: 'Testimone - Filippo', 
+    numero: '+39 347 275 2852',
+    icon: faUsers
+  },
+  { 
+    id: 6, 
+    ruolo: 'Testimone - José', 
+    numero: '+39 333 956 8853',
+    icon: faUsers
   }
+]
+
+function callContact(numero) {
+  window.location.href = `tel:${numero.replace(/\s/g, '')}`
 }
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
+.contatti-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
 }
 
-.container {
+.page-header {
+  text-align: center;
+  padding: 4rem 2rem 2rem;
+  background: linear-gradient(to bottom, var(--wine-burgundy), var(--terracotta));
+  color: var(--text-light);
+}
+
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-style: italic;
+  margin: 0;
+  opacity: 0.95;
+}
+
+.contacts-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
-  min-height: 100vh;
+  padding: 3rem 2rem;
 }
 
-h1 {
-  text-align: center;
-  color: white;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-}
-
-
-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-input {
-  flex: 1;
-  min-width: 150px;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.3s;
-}
-
-input:focus {
-  outline: none;
-  border-color: #667eea;
-}
-
-button[type="submit"] {
-  padding: 12px 30px;
-  background: var(--textcolor);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-button[type="submit"]:hover {
-  transform: translateY(-2px);
-}
-
-/* Grid di schede */
-.cards-grid {
+.contacts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
 }
 
-/* Card */
-.card {
-  grid: 1;
-  background: white;
-  border-radius: 12px;
+.contact-card {
+  background: var(--ivory);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
-.card:hover {
+.contact-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(107, 28, 35, 0.15);
+  border-color: var(--wine-burgundy);
 }
 
-/* Foto */
-.photo-container {
-  width: 100%;
-  height: 180px;
-  background: #f0f0f0;
-  overflow: hidden;
+.card-header {
+  background: linear-gradient(135deg, var(--wine-burgundy), var(--terracotta));
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-light);
 }
 
-.photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.photo-placeholder {
-  width: 100%;
-  height: 100%;
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #0580b4 100%);
-  color: white;
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
+  font-size: 1.8rem;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Contenuto card */
-.card-content {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.card-content h3 {
-  margin: 0 0 12px 0;
-  color: #333;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.numero-section {
-  margin-bottom: 15px;
-  padding: 10px;
-  background: #f8f8f8;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.numero-section p {
+.card-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
   margin: 0;
-  color: #667eea;
-  font-weight: bold;
-  font-size: 14px;
-  word-break: break-word;
+  font-weight: 600;
 }
 
-.no-numero {
-  color: #999 !important;
-  font-weight: normal !important;
+.card-body {
+  padding: 1.5rem;
 }
 
-/* Pulsanti */
-.buttons {
+.contact-info {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--champagne);
+  border-radius: 12px;
+  margin-bottom: 1rem;
 }
 
-.btn-call, .btn-delete {
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
+.info-icon {
+  color: var(--wine-burgundy);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.phone-link {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: var(--text-dark);
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.phone-link:hover {
+  color: var(--wine-burgundy);
+}
+
+.call-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--wine-burgundy);
+  color: var(--text-light);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
 }
 
-.btn-call {
-  background: #4caf50;
-  color: white;
-  display: block;
-}
-
-.btn-call:hover {
-  background: #45a049;
+.call-btn:hover {
+  background: var(--terracotta);
   transform: translateY(-2px);
 }
 
-.btn-delete {
-  background: #f44336;
-  color: white;
+.help-section {
+  background: var(--ivory);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--wine-burgundy);
 }
 
-.btn-delete:hover {
-  background: #da190b;
-  transform: translateY(-2px);
+.help-content {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+.help-icon {
+  font-size: 3rem;
+  color: var(--wine-burgundy);
+  margin-bottom: 1.5rem;
+}
+
+.help-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: var(--wine-burgundy);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.help-section p {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .page-header {
+    padding: 3rem 1.5rem 1.5rem;
   }
 
-  form {
-    flex-direction: column;
+  .contacts-container {
+    padding: 2rem 1rem;
   }
 
-  input {
-    min-width: 100%;
+  .contacts-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .help-section {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-header {
+    padding: 2.5rem 1rem 1rem;
+  }
+
+  .contacts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .help-section {
+    padding: 2rem 1rem;
+  }
+
+  .help-icon {
+    font-size: 2.5rem;
+  }
+
+  .help-section p {
+    font-size: 1rem;
   }
 }
 </style>

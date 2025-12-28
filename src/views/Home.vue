@@ -1,107 +1,472 @@
 <template>
-  <main>
-    <div id="testoHome">
-      <h1><i>Carlo e Francesca</i></h1>
-      <!-- <h3>Siamo lieti di invitarvi al nostro matrimonio</h3> -->
-      <h2>
-        Sabato 11 Luglio 2026 <br />
-        Ore 16:30 <br />
-        Chiesa di SS. Felice e Agata, <br> Via XX Settembre, 59 - Oviglio (AL)
-      </h2>
-      <h4>
-        Vi chiediamo di confermare la presenza di ogni invitato (entro il 11.06.2026),
-         <br> utilizzando il form a sinistra.
-      </h4>
-    </div>
-    <div id="form">
-      <RsvpForm />
-    </div>
+  <main class="home-hero">
+    <!-- Hero Section -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <h1 class="couple-names">Carlo <span class="ampersand">&</span> Francesca</h1>
+        
+        <GrapevineDivider />
+        
+        <div class="wedding-date">
+          <span class="date-line"></span>
+          <p>11 Luglio 2026</p>
+          <span class="date-line"></span>
+        </div>
+        
+        <div class="venue-info">
+          <FontAwesomeIcon :icon="faChurch" class="venue-icon" />
+          <p class="venue-name">Chiesa di SS. Felice e Agata</p>
+          <p class="venue-address">Via XX Settembre, 59 - Oviglio (AL)</p>
+          <p class="ceremony-time">Ore 16:30</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- RSVP Section -->
+    <section class="rsvp-section">
+      <WineGlassIcon :size="48" :filled="true" :sparkle="true" />
+      <h2>Conferma la tua presenza</h2>
+      <p class="deadline">Entro il 11 Giugno 2026</p>
+      <button @click="openRsvpModal" class="rsvp-button">
+        Rispondi all'invito
+      </button>
+    </section>
+    
+    <!-- Quick Links Cards -->
+    <section class="quick-links">
+      <div 
+        v-for="link in quickLinks" 
+        :key="link.path" 
+        class="link-card"
+      >
+        <RouterLink :to="link.path">
+          <FontAwesomeIcon :icon="link.icon" class="card-icon" />
+          <h3>{{ link.title }}</h3>
+          <p>{{ link.description }}</p>
+        </RouterLink>
+      </div>
+    </section>
+
+    <!-- RSVP Modal -->
+    <Transition name="modal">
+      <div v-if="showRsvpModal" class="modal-overlay" @click="closeRsvpModal">
+        <div class="modal-container" @click.stop>
+          <button @click="closeRsvpModal" class="close-modal-btn">
+            ✕
+          </button>
+          <RsvpForm @success="handleRsvpSuccess" />
+        </div>
+      </div>
+    </Transition>
   </main>
 </template>
 
-<script>
-import RsvpForm from "@/components/RsvpForm.vue";
+<script setup>
+import { ref } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { 
+  faChurch, 
+  faMapMarkerAlt, 
+  faHeart, 
+  faCamera, 
+  faGift, 
+  faBed 
+} from '@fortawesome/free-solid-svg-icons'
+import RsvpForm from '@/components/RsvpForm.vue'
+import GrapevineDivider from '@/components/decorative/GrapevineDivider.vue'
+import WineGlassIcon from '@/components/decorative/WineGlassIcon.vue'
 
-export default {
-  name: "Home",
-  components: { RsvpForm },
-};
+const showRsvpModal = ref(false)
+
+const quickLinks = [
+  {
+    path: '/location',
+    icon: faMapMarkerAlt,
+    title: 'Location',
+    description: 'Come arrivare al Castello'
+  },
+  {
+    path: '/nostra-storia',
+    icon: faCamera,
+    title: 'La Nostra Storia',
+    description: 'Il nostro viaggio insieme'
+  },
+  {
+    path: '/lista-nozze',
+    icon: faGift,
+    title: 'Lista Nozze',
+    description: 'Idee regalo per gli sposi'
+  },
+  {
+    path: '/dove-alloggiare',
+    icon: faBed,
+    title: 'Dove Alloggiare',
+    description: 'Hotel e B&B consigliati'
+  }
+]
+
+function openRsvpModal() {
+  showRsvpModal.value = true
+  document.body.style.overflow = 'hidden'
+}
+
+function closeRsvpModal() {
+  showRsvpModal.value = false
+  document.body.style.overflow = ''
+}
+
+function handleRsvpSuccess() {
+  setTimeout(() => {
+    closeRsvpModal()
+  }, 3000)
+}
 </script>
 
-<style>
-@media screen and (min-width: 769px) {
-  main {
-    position: relative;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    z-index: 1;
-  }
+<style scoped>
+/* Main Container */
+.home-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px 40px;
+  overflow-y: auto;
+}
 
-  #testoHome {
-    align-self: center;
-    left: 10%;
-    text-align: center;
-    color: var(--textcolor);
-    z-index: 1;
-  }
+/* Hero Banner Section */
+.hero-banner {
+  flex: 0 0 auto;
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+}
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-  body {
-    align-content: center;
-    place-items: center;
-    z-index: 1;
-  }
+.couple-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3rem, 10vw, 7rem);
+  margin: 0 0 1.5rem 0;
+  color: var(--wine-burgundy);
+  font-weight: 400;
+  line-height: 1.2;
+}
 
-  a {
-    align-self: center;
-    padding: 20px;
-    color: var(--textcolor);
-    border-bottom: 1px solid var(--textcolor);
-    text-decoration: none;
-    z-index: 1;
+.ampersand {
+  font-size: 1.2em;
+  display: inline-block;
+  margin: 0 0.3em;
+  color: var(--terracotta);
+}
+
+.wedding-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.date-line {
+  flex: 1;
+  max-width: 100px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--wine-burgundy), transparent);
+}
+
+.wedding-date p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--wine-burgundy);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.venue-info {
+  margin-top: 2.5rem;
+  color: var(--text-dark);
+}
+
+.venue-icon {
+  font-size: 2rem;
+  color: var(--wine-burgundy);
+  margin-bottom: 1rem;
+}
+
+.venue-name {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.venue-address {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  margin: 0.3rem 0;
+  opacity: 0.8;
+}
+
+.ceremony-time {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 600;
+  color: var(--terracotta);
+  margin-top: 1rem;
+}
+
+/* RSVP Section */
+.rsvp-section {
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(244, 235, 217, 0.3), rgba(255, 254, 242, 0.3));
+  border-radius: 20px;
+  margin: 2rem auto;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(107, 28, 35, 0.1);
+}
+
+.rsvp-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: var(--wine-burgundy);
+  margin: 1rem 0 0.5rem;
+}
+
+.deadline {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--stone-gray);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.rsvp-button {
+  padding: 1rem 3rem;
+  background: var(--wine-burgundy);
+  color: var(--text-light);
+  border: none;
+  border-radius: 50px;
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(107, 28, 35, 0.3);
+}
+
+.rsvp-button:hover {
+  background: var(--terracotta);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 28, 35, 0.4);
+}
+
+.rsvp-button:active {
+  transform: translateY(0);
+}
+
+/* Quick Links Section */
+.quick-links {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.link-card {
+  background: var(--ivory);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+}
+
+.link-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(107, 28, 35, 0.15);
+  border-color: var(--wine-burgundy);
+}
+
+.link-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  color: var(--wine-burgundy);
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.link-card:hover .card-icon {
+  transform: scale(1.1);
+  color: var(--terracotta);
+}
+
+.link-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--wine-burgundy);
+  margin: 1rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.link-card p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  color: var(--stone-gray);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 2rem;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  position: relative;
+  background: var(--champagne);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 550px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
+
+.close-modal-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 44px;
+  height: 44px;
+  background: var(--wine-burgundy);
+  color: var(--text-light);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  line-height: 1;
+}
+
+.close-modal-btn:hover {
+  background: var(--terracotta);
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 4px 12px rgba(107, 28, 35, 0.4);
+}
+
+/* Modal Transitions */
+.modal-enter-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+/* Responsive Adjustments */
 @media screen and (max-width: 768px) {
-  main {
-    position: relative;
-    z-index: 1;
-
+  .home-hero {
+    padding: 70px 15px 30px;
   }
-
-  h2, h3, h4 {
-    margin: 0;
+  
+  .hero-banner {
+    padding: 2rem 1rem;
   }
-
-  #testoHome {
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    align-self: center;
-    position: relative;
-    width: 80%;
-    text-align: center;
-    color: var(--textcolor);
-    z-index: 1;
+  
+  .date-line {
+    max-width: 60px;
   }
-
-  #form {
-    width: 100%;
+  
+  .rsvp-section {
+    padding: 2rem 1.5rem;
+    margin: 1.5rem auto;
   }
+  
+  .quick-links {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+  }
+  
+  .link-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .modal-container {
+    padding: 2rem 1.5rem;
+  }
+}
 
-  nav a {
-    align-self: center;
-    padding: 20px;
-    color: var(--textcolor);
-    border-bottom: 1px solid var(--textcolor);
-    /* background-color: var(--textcolor); */
-    /* border-radius: 10px; */
-    text-decoration: none;
-    z-index: 1;
+@media screen and (max-width: 480px) {
+  .home-hero {
+    padding: 60px 10px 20px;
+  }
+  
+  .wedding-date {
+    gap: 1rem;
+  }
+  
+  .date-line {
+    max-width: 40px;
+  }
+  
+  .rsvp-section {
+    border-radius: 15px;
+    padding: 1.5rem 1rem;
+  }
+  
+  .rsvp-button {
+    padding: 0.9rem 2rem;
+  }
+  
+  .modal-overlay {
+    padding: 1rem;
   }
 }
 </style>

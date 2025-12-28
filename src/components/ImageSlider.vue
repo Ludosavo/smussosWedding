@@ -15,15 +15,15 @@
 </template>
 
 <script>
-import foto1 from "@/components/icons/whitecross.png";
-import foto2 from "@/components/icons/barca.JPG";
-import foto3 from "@/components/icons/paddle.jpg";
-import foto4 from "@/components/icons/splash.jpg";
-import foto5 from "@/components/icons/mare.png";
-import foto6 from "@/components/icons/vela.png";
-import foto7 from "@/components/icons/zanzi.png";
-import foto8 from "@/components/icons/couple1.png";
-import foto9 from "@/components/icons/sci.png";
+import foto1 from "@/components/pictures/whitecross.png";
+import foto2 from "@/components/pictures/barca.JPG";
+import foto3 from "@/components/pictures/paddle.jpg";
+import foto4 from "@/components/pictures/splash.jpg";
+import foto5 from "@/components/pictures/mare.png";
+import foto6 from "@/components/pictures/vela.png";
+import foto7 from "@/components/pictures/zanzi.png";
+import foto8 from "@/components/pictures/couple1.png";
+import foto9 from "@/components/pictures/sci.png";
 export default {
   name: "ImageSlider",
   data() {
