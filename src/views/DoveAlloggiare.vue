@@ -1,10 +1,10 @@
 <template>
   <div class="accommodation-page">
     <!-- Header -->
-    <header class="page-header">
-      <h1>Dove Alloggiare</h1>
-      <p class="subtitle">Consigli per il tuo soggiorno nel Monferrato</p>
-    </header>
+        <PageHero
+          title="Dove Alloggiare"
+          subtitle="Consigli per il tuo soggiorno nel Monferrato"
+        />
     
     <!-- Intro Section -->
     <div class="content-container">
@@ -89,6 +89,7 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import PageHero from '@/components/PageHero.vue'
 import { 
   faBed,
   faMapMarkerAlt,
@@ -141,29 +142,6 @@ const hotels = [
 .accommodation-page {
   min-height: 100vh;
   background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
-}
-
-.page-header {
-  text-align: center;
-  padding: 4rem 2rem 2rem;
-  background: linear-gradient(to bottom, var(--wine-burgundy), var(--terracotta));
-  color: var(--text-light);
-}
-
-.page-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.subtitle {
-  font-family: 'Lato', sans-serif;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-style: italic;
-  margin: 0;
-  opacity: 0.95;
 }
 
 .content-container {
@@ -220,23 +198,25 @@ const hotels = [
 }
 
 .hotel-header {
-  background: linear-gradient(135deg, var(--wine-burgundy), var(--terracotta));
-  color: var(--text-light);
+  background: linear-gradient(135deg, rgba(244, 235, 217, 0.95), rgba(255, 254, 242, 0.95));
+  color: var(--wine-burgundy);
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  border-bottom: 1px solid rgba(107, 28, 35, 0.15);
 }
 
 .hotel-icon {
   width: 50px;
   height: 50px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(107, 28, 35, 0.08);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
+  color: var(--wine-burgundy);
   flex-shrink: 0;
 }
 
@@ -368,9 +348,6 @@ const hotels = [
 
 /* Responsive */
 @media screen and (max-width: 768px) {
-  .page-header {
-    padding: 3rem 1.5rem 1.5rem;
-  }
 
   .content-container {
     padding: 2rem 1rem;
@@ -392,9 +369,6 @@ const hotels = [
 }
 
 @media screen and (max-width: 480px) {
-  .page-header {
-    padding: 2.5rem 1rem 1rem;
-  }
 
   .intro-section {
     padding: 1.5rem;

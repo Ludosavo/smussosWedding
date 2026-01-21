@@ -2,41 +2,73 @@
   <Teleport to="body">
     <Transition name="modal">
       <div v-if="modelValue" class="modal-overlay" @click="closeModal">
-        <div class="modal-content" @click.stop>
+        <div class="modal-container" @click.stop>
           <button @click="closeModal" class="close-btn" aria-label="Chiudi">
             <FontAwesomeIcon :icon="faTimes" />
           </button>
           
-          <div class="photo-viewer">
-            <img :src="photo.photo" :alt="photo.title" class="main-photo" />
-            
-            <div class="photo-info">
-              <h2>{{ photo.title }}</h2>
-              <p class="location">
-                <FontAwesomeIcon :icon="faMapMarkerAlt" />
-                {{ photo.location }}
-              </p>
-              <p class="date">{{ photo.date }}</p>
-              <p class="description">{{ photo.description }}</p>
+          <div class="modal-content">
+            <!-- Photo Section -->
+            <div class="photo-section">
+              <div class="photo-wrapper">
+                <img :src="photo.photo" :alt="photo.title" class="main-photo" />
+              </div>
+              
+              <!-- Navigation arrows on photo -->
+              <button 
+                v-if="hasPrev" 
+                @click="$emit('prev')" 
+                class="nav-btn prev"
+                aria-label="Foto precedente"
+              >
+                <FontAwesomeIcon :icon="faChevronLeft" />
+              </button>
+              <button 
+                v-if="hasNext" 
+                @click="$emit('next')" 
+                class="nav-btn next"
+                aria-label="Foto successiva"
+              >
+                <FontAwesomeIcon :icon="faChevronRight" />
+              </button>
             </div>
             
-            <!-- Navigation arrows -->
-            <button 
-              v-if="hasPrev" 
-              @click="$emit('prev')" 
-              class="nav-btn prev"
-              aria-label="Foto precedente"
-            >
-              <FontAwesomeIcon :icon="faChevronLeft" />
-            </button>
-            <button 
-              v-if="hasNext" 
-              @click="$emit('next')" 
-              class="nav-btn next"
-              aria-label="Foto successiva"
-            >
-              <FontAwesomeIcon :icon="faChevronRight" />
-            </button>
+            <!-- Info Section -->
+            <div class="info-section">
+              <div class="info-content">
+                <h2>{{ photo.title }}</h2>
+                <div class="meta-row">
+                  <p class="location">
+                    <FontAwesomeIcon :icon="faMapMarkerAlt" />
+                    {{ photo.location }}
+                  </p>
+                  <p class="date">
+                    <FontAwesomeIcon :icon="faCalendar" />
+                    {{ photo.date }}
+                  </p>
+                </div>
+                <p class="description">{{ photo.description }}</p>
+              </div>
+              
+              <!-- Photo counter -->
+              <div class="photo-counter" v-if="hasPrev || hasNext">
+                <button 
+                  class="counter-nav" 
+                  :disabled="!hasPrev"
+                  @click="$emit('prev')"
+                >
+                  <FontAwesomeIcon :icon="faChevronLeft" />
+                </button>
+                <span>Scorri le foto</span>
+                <button 
+                  class="counter-nav" 
+                  :disabled="!hasNext"
+                  @click="$emit('next')"
+                >
+                  <FontAwesomeIcon :icon="faChevronRight" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -45,13 +77,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
   faTimes, 
   faChevronLeft, 
   faChevronRight, 
-  faMapMarkerAlt 
+  faMapMarkerAlt,
+  faCalendar
 } from '@fortawesome/free-solid-svg-icons'
 
 const props = defineProps({
@@ -81,40 +114,45 @@ const closeModal = () => {
 }
 
 // Handle keyboard navigation
-if (typeof window !== 'undefined') {
-  const handleKeydown = (e) => {
-    if (!props.modelValue) return
-    
-    if (e.key === 'Escape') {
-      closeModal()
-    } else if (e.key === 'ArrowLeft' && props.hasPrev) {
-      emit('prev')
-    } else if (e.key === 'ArrowRight' && props.hasNext) {
-      emit('next')
-    }
-  }
+const handleKeydown = (e) => {
+  if (!props.modelValue) return
   
-  window.addEventListener('keydown', handleKeydown)
+  if (e.key === 'Escape') {
+    closeModal()
+  } else if (e.key === 'ArrowLeft' && props.hasPrev) {
+    emit('prev')
+  } else if (e.key === 'ArrowRight' && props.hasNext) {
+    emit('next')
+  }
 }
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style scoped>
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
-  padding: 20px;
+  padding: 1.5rem;
   overflow-y: auto;
 }
 
-.modal-content {
+.modal-container {
   position: relative;
-  max-width: 90vw;
-  max-height: 95vh;
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   animation: modalZoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -123,88 +161,188 @@ if (typeof window !== 'undefined') {
 @keyframes modalZoom {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95) translateY(20px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
-.photo-viewer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: var(--text-dark);
-  border-radius: 12px;
+.modal-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--ivory);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+}
+
+/* Desktop: side-by-side layout */
+@media screen and (min-width: 769px) {
+  .modal-content {
+    grid-template-columns: 1.4fr 1fr;
+    max-height: 80vh;
+  }
+}
+
+/* Photo Section */
+.photo-section {
+  position: relative;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+}
+
+.photo-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-photo {
   width: 100%;
-  max-width: 1200px;
-  max-height: 70vh;
+  height: 100%;
+  max-height: 55vh;
   object-fit: contain;
   display: block;
-  background: #000;
 }
 
-.photo-info {
-  background: var(--champagne);
-  padding: 2rem;
-  color: var(--text-dark);
+@media screen and (min-width: 769px) {
+  .main-photo {
+    max-height: 80vh;
+  }
 }
 
-.photo-info h2 {
+/* Info Section */
+.info-section {
+  display: flex;
+  flex-direction: column;
+  background: var(--ivory);
+  overflow-y: auto;
+}
+
+.info-content {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 769px) {
+  .info-content {
+    padding: 2rem;
+    justify-content: center;
+  }
+}
+
+.info-content h2 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.4rem, 3vw, 2rem);
   color: var(--wine-burgundy);
   margin: 0 0 1rem 0;
   font-weight: 600;
+  line-height: 1.2;
 }
 
-.location {
-  font-family: 'Lato', sans-serif;
-  font-size: 1.1rem;
-  color: var(--stone-gray);
-  margin: 0.5rem 0;
+.meta-row {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.location svg {
-  color: var(--wine-burgundy);
-}
-
+.location,
 .date {
   font-family: 'Lato', sans-serif;
   font-size: 0.95rem;
-  color: var(--text-dark);
-  font-style: italic;
-  margin: 0.5rem 0 1rem;
+  color: var(--stone-gray);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.location svg,
+.date svg {
+  color: var(--wine-burgundy);
+  font-size: 0.85rem;
 }
 
 .description {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--text-dark);
   margin: 0;
 }
 
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 50px;
-  height: 50px;
+@media screen and (min-width: 769px) {
+  .description {
+    font-size: 1.05rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Photo Counter / Navigation */
+.photo-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--champagne);
+  border-top: 1px solid rgba(107, 28, 35, 0.1);
+}
+
+.photo-counter span {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  color: var(--stone-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.counter-nav {
+  width: 36px;
+  height: 36px;
   background: var(--wine-burgundy);
-  color: var(--text-light);
+  color: white;
   border: none;
   border-radius: 50%;
-  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.counter-nav:hover:not(:disabled) {
+  background: var(--terracotta);
+  transform: scale(1.1);
+}
+
+.counter-nav:disabled {
+  background: rgba(107, 28, 35, 0.3);
+  cursor: not-allowed;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  width: 44px;
+  height: 44px;
+  background: var(--wine-burgundy);
+  color: var(--text-light);
+  border: 3px solid var(--ivory);
+  border-radius: 50%;
+  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -219,36 +357,55 @@ if (typeof window !== 'undefined') {
   transform: rotate(90deg) scale(1.1);
 }
 
+/* Navigation Arrows on Photo */
 .nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  background: rgba(107, 28, 35, 0.8);
-  color: var(--text-light);
-  border: none;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 .nav-btn:hover {
-  background: var(--wine-burgundy);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-50%) scale(1.1);
 }
 
 .nav-btn.prev {
-  left: 1.5rem;
+  left: 0.75rem;
 }
 
 .nav-btn.next {
-  right: 1.5rem;
+  right: 0.75rem;
+}
+
+/* Hide photo nav arrows on mobile, use bottom bar instead */
+@media screen and (max-width: 768px) {
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+  }
+  
+  .nav-btn.prev {
+    left: 0.5rem;
+  }
+  
+  .nav-btn.next {
+    right: 0.5rem;
+  }
 }
 
 /* Modal transitions */
@@ -262,76 +419,64 @@ if (typeof window !== 'undefined') {
   opacity: 0;
 }
 
-/* Responsive */
-@media screen and (max-width: 768px) {
-  .modal-content {
-    max-width: 95vw;
-  }
-  
-  .main-photo {
-    max-height: 60vh;
-  }
-  
-  .photo-info {
-    padding: 1.5rem;
-  }
-  
-  .photo-info h2 {
-    font-size: 1.5rem;
-  }
-  
-  .close-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1.5rem;
-    top: 0.75rem;
-    right: 0.75rem;
-  }
-  
-  .nav-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
-  }
-  
-  .nav-btn.prev {
-    left: 0.75rem;
-  }
-  
-  .nav-btn.next {
-    right: 0.75rem;
-  }
-}
-
+/* Small Mobile */
 @media screen and (max-width: 480px) {
   .modal-overlay {
-    padding: 10px;
+    padding: 0.75rem;
+  }
+  
+  .modal-container {
+    max-height: 95vh;
+  }
+  
+  .modal-content {
+    border-radius: 12px;
   }
   
   .main-photo {
-    max-height: 50vh;
+    max-height: 45vh;
   }
   
-  .photo-info {
-    padding: 1rem;
+  .info-content {
+    padding: 1.25rem;
+  }
+  
+  .info-content h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .meta-row {
+    gap: 0.4rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .location,
+  .date {
+    font-size: 0.85rem;
   }
   
   .description {
     font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  
+  .photo-counter {
+    padding: 0.75rem 1rem;
+  }
+  
+  .close-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+    top: -0.4rem;
+    right: -0.4rem;
   }
   
   .nav-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1rem;
-  }
-  
-  .nav-btn.prev {
-    left: 0.5rem;
-  }
-  
-  .nav-btn.next {
-    right: 0.5rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
   }
 }
 </style>

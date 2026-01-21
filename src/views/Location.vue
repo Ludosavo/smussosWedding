@@ -1,11 +1,17 @@
 <template>
   <div class="location-page">
-    <!-- Header -->
-    <header class="page-header">
-      <img src="@/components/logos/logo_castello.png" alt="Logo Castello di Oviglio" class="castle-logo" />
-      <h1>Il Castello</h1>
-      <p class="subtitle">Castello di Oviglio - Una storia d'amore in un luogo storico</p>
-    </header>
+    <PageHero
+      title="Il Castello"
+      subtitle="Castello di Oviglio - Una storia d'amore in un luogo storico"
+    >
+      <template #media>
+        <img
+          src="@/components/logos/logo_castello.png"
+          alt="Logo Castello di Oviglio"
+          class="page-hero__logo"
+        />
+      </template>
+    </PageHero>
     
     <!-- Map + Info Section -->
     <div class="location-content">
@@ -121,7 +127,8 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { 
+import PageHero from '@/components/PageHero.vue'
+import {
   faMapMarkerAlt, 
   faRoute, 
   faParking, 
@@ -139,37 +146,6 @@ import {
   background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
 }
 
-.page-header {
-  text-align: center;
-  padding: 4rem 2rem 2rem;
-  background: linear-gradient(to bottom, var(--wine-burgundy), var(--terracotta));
-  color: var(--text-light);
-  position: relative;
-}
-
-.castle-logo {
-  width: 180px;
-  height: auto;
-  margin-bottom: 1.5rem;
-  filter: brightness(0) invert(1);
-  opacity: 0.95;
-}
-
-.page-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.subtitle {
-  font-family: 'Lato', sans-serif;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-style: italic;
-  margin: 0;
-  opacity: 0.95;
-}
 
 .location-content {
   max-width: 1400px;
@@ -373,14 +349,6 @@ import {
 
 /* Responsive */
 @media screen and (max-width: 768px) {
-  .page-header {
-    padding: 3rem 1.5rem 1.5rem;
-  }
-
-  .castle-logo {
-    width: 140px;
-  }
-
   .location-content {
     padding: 2rem 1rem;
   }
@@ -409,14 +377,6 @@ import {
 }
 
 @media screen and (max-width: 480px) {
-  .page-header {
-    padding: 2.5rem 1rem 1rem;
-  }
-
-  .castle-logo {
-    width: 120px;
-  }
-
   .styled-map {
     height: 300px;
   }

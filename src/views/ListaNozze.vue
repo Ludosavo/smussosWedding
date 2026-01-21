@@ -1,10 +1,9 @@
 <template>
   <div class="lista-nozze-page">
-    <!-- Header -->
-    <header class="page-header">
-      <h1>Lista Nozze</h1>
-      <p class="subtitle">Il vostro regalo più bello</p>
-    </header>
+    <PageHero
+      title="Lista Nozze"
+      subtitle="Il vostro regalo più bello"
+    />
     
     <div class="content-container">
       <!-- Message Section -->
@@ -42,22 +41,14 @@
         </div>
       </section>
 
-      <!-- Honeymoon Map Section -->
+      <!-- Honeymoon Journey Section -->
       <section class="map-section">
         <h2>Il Nostro Viaggio di Nozze</h2>
         <p class="map-intro">
           Seguici nella nostra avventura attraverso Nuova Zelanda e Fiji! Il nostro viaggio parte da Milano e ritorna a casa dopo aver esplorato l'emisfero australe.
         </p>
         <div class="map-container">
-          <HoneymoonMap 
-            :waypoints="WAYPOINTS" 
-            :stops="STOPS"
-            height="500px" 
-            :follow="false"
-            :speed-kmh="200000"
-            :loop-pause-ms="2000"
-            :show-timeline="false"
-          />
+          <HoneymoonSequence :stops="STOPS" />
         </div>
         
         <div class="destinations-grid">
@@ -88,19 +79,34 @@ import {
   faMountain,
   faUmbrellaBeach
 } from '@fortawesome/free-solid-svg-icons'
-import HoneymoonMap from '@/components/HoneymoonMap.vue'
+import HoneymoonSequence from '@/components/HoneymoonSequence.vue'
+import PageHero from '@/components/PageHero.vue'
 
-const WAYPOINTS = [
-  [9.09, 45.27],   // Milano (partenza)
-  [174.76, -41.29], // Wellington, New Zealand
-  [177.44, -17.71], // Fiji (Suva)
-  [9.09, 45.27]    // Milano (ritorno)
-]
-
-// Define stops for the animation (pause at each destination)
 const STOPS = [
-  { lng: 174.76, lat: -41.29, title: 'Nuova Zelanda' }, 
-  { lng: 177.44, lat: -17.71, title: 'Fiji' }
+  {
+    id: 1,
+    title: 'Partenza da Milano',
+    location: 'Milano, Italia',
+    description: 'Il nostro viaggio inizia tra le vie di casa, con il cuore pieno di emozione.'
+  },
+  {
+    id: 2,
+    title: 'Nuova Zelanda',
+    location: 'Wellington',
+    description: 'Paesaggi mozzafiato, natura incontaminata e nuove avventure insieme.'
+  },
+  {
+    id: 3,
+    title: 'Fiji',
+    location: 'Suva',
+    description: 'Relax tropicale, mare cristallino e tramonti indimenticabili.'
+  },
+  {
+    id: 4,
+    title: 'Ritorno a Milano',
+    location: 'Milano, Italia',
+    description: 'Torniamo a casa con ricordi preziosi e un nuovo capitolo da scrivere.'
+  }
 ]
 
 const isCopied = ref(false)
@@ -122,28 +128,6 @@ function copyIBAN() {
   background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
 }
 
-.page-header {
-  text-align: center;
-  padding: 4rem 2rem 2rem;
-  background: linear-gradient(to bottom, var(--wine-burgundy), var(--terracotta));
-  color: var(--text-light);
-}
-
-.page-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.subtitle {
-  font-family: 'Lato', sans-serif;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-style: italic;
-  margin: 0;
-  opacity: 0.95;
-}
 
 .content-container {
   max-width: 1200px;
@@ -207,18 +191,20 @@ function copyIBAN() {
 }
 
 .iban-header {
-  background: linear-gradient(135deg, var(--wine-burgundy), var(--terracotta));
-  color: var(--text-light);
+  background: linear-gradient(135deg, rgba(244, 235, 217, 0.95), rgba(255, 254, 242, 0.95));
+  color: var(--wine-burgundy);
   padding: 2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  border-bottom: 1px solid rgba(107, 28, 35, 0.15);
 }
 
 .iban-icon {
   font-size: 2.5rem;
+  color: var(--wine-burgundy);
 }
 
 .iban-header h2 {
@@ -294,8 +280,10 @@ function copyIBAN() {
 .map-section {
   background: var(--ivory);
   padding: 3rem 2rem;
+  padding-top: 4rem; /* Extra space for scene that pops out */
   border-radius: 20px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: visible; /* Allow scene to pop out */
 }
 
 .map-section h2 {
@@ -318,9 +306,9 @@ function copyIBAN() {
 
 .map-container {
   margin-bottom: 2rem;
+  margin-top: 1rem;
   border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: visible; /* Allow scene to pop out */
 }
 
 .destinations-grid {
@@ -365,10 +353,6 @@ function copyIBAN() {
 
 /* Responsive */
 @media screen and (max-width: 768px) {
-  .page-header {
-    padding: 3rem 1.5rem 1.5rem;
-  }
-
   .content-container {
     padding: 2rem 1rem;
   }
@@ -396,10 +380,6 @@ function copyIBAN() {
 }
 
 @media screen and (max-width: 480px) {
-  .page-header {
-    padding: 2.5rem 1rem 1rem;
-  }
-
   .message-card {
     padding: 2rem 1rem;
   }

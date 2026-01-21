@@ -1,10 +1,9 @@
 <template>
   <div class="info-utili-page">
-    <!-- Header -->
-    <header class="page-header">
-      <h1>Info Utili</h1>
-      <p class="subtitle">Tutto quello che devi sapere per il grande giorno</p>
-    </header>
+    <PageHero
+      title="Info Utili"
+      subtitle="Tutto quello che devi sapere per il grande giorno"
+    />
     
     <div class="content-container">
       <!-- Timeline Section -->
@@ -99,6 +98,7 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import PageHero from '@/components/PageHero.vue'
 import { 
   faChurch,
   faGlassCheers,
@@ -179,28 +179,6 @@ const infoCards = [
   background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
 }
 
-.page-header {
-  text-align: center;
-  padding: 4rem 2rem 2rem;
-  background: linear-gradient(to bottom, var(--wine-burgundy), var(--terracotta));
-  color: var(--text-light);
-}
-
-.page-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.subtitle {
-  font-family: 'Lato', sans-serif;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-style: italic;
-  margin: 0;
-  opacity: 0.95;
-}
 
 .content-container {
   max-width: 1200px;
@@ -521,10 +499,6 @@ const infoCards = [
 
 /* Responsive */
 @media screen and (max-width: 768px) {
-  .page-header {
-    padding: 3rem 1.5rem 1.5rem;
-  }
-
   .content-container {
     padding: 2rem 1rem;
   }
@@ -564,10 +538,6 @@ const infoCards = [
 }
 
 @media screen and (max-width: 480px) {
-  .page-header {
-    padding: 2.5rem 1rem 1rem;
-  }
-
   .timeline-item {
     flex-direction: column;
     align-items: center;
