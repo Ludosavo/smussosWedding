@@ -21,7 +21,7 @@ const routes = [
     }
   },
   { 
-    path: '/storia', 
+    path: '/nostra-storia', 
     component: Storia,
     meta: {
       title: 'La Nostra Storia | Carlo & Francesca',
@@ -45,7 +45,7 @@ const routes = [
     }
   },
   { 
-    path: '/listanozze', 
+    path: '/lista-nozze', 
     component: ListaNozze,
     meta: {
       title: 'Lista Nozze | Carlo & Francesca',
@@ -53,7 +53,7 @@ const routes = [
     }
   },
   { 
-    path: '/alloggio', 
+    path: '/dove-alloggiare', 
     component: DoveAlloggiare,
     meta: {
       title: 'Dove Alloggiare | Carlo & Francesca',
@@ -61,7 +61,7 @@ const routes = [
     }
   },
   { 
-    path: '/infoUtili', 
+    path: '/info-utili', 
     component: InfoUtili,
     meta: {
       title: 'Info Utili | Carlo & Francesca',
@@ -74,12 +74,14 @@ export const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { top: 0, behavior: 'smooth' }
-    }
+    // Always scroll to top on navigation
+    return { top: 0, left: 0 }
   }
+})
+
+// Force scroll to top on initial load and every navigation
+router.beforeEach(() => {
+  window.scrollTo(0, 0)
 })
 
 // Update document title and meta description on route change

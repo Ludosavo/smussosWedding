@@ -12,12 +12,47 @@
           <p>11 Luglio 2026</p>
           <span class="date-line"></span>
         </div>
+
+        <!-- Countdown Timer -->
+        <div class="countdown-container">
+          <div class="countdown-item">
+            <span class="countdown-number">{{ countdown.days }}</span>
+            <span class="countdown-label">Giorni</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number">{{ countdown.hours }}</span>
+            <span class="countdown-label">Ore</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number">{{ countdown.minutes }}</span>
+            <span class="countdown-label">Minuti</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number">{{ countdown.seconds }}</span>
+            <span class="countdown-label">Secondi</span>
+          </div>
+        </div>
         
         <div class="venue-info">
           <FontAwesomeIcon :icon="faChurch" class="venue-icon" />
           <p class="venue-name">Chiesa di SS. Felice e Agata</p>
           <p class="venue-address">Via XX Settembre, 59 - Oviglio (AL)</p>
           <p class="ceremony-time">Ore 16:30</p>
+        </div>
+
+        <!-- Add to Calendar -->
+        <div class="calendar-buttons">
+          <a :href="googleCalendarUrl" target="_blank" rel="noopener noreferrer" class="calendar-btn google">
+            <FontAwesomeIcon :icon="faCalendarPlus" />
+            Google Calendar
+          </a>
+          <a :href="icsFileUrl" download="carlo-francesca-matrimonio.ics" class="calendar-btn ical">
+            <FontAwesomeIcon :icon="faCalendarAlt" />
+            iCal / Outlook
+          </a>
         </div>
       </div>
     </section>
@@ -62,7 +97,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
   faChurch, 
@@ -70,13 +105,80 @@ import {
   faHeart, 
   faCamera, 
   faGift, 
-  faBed 
+  faBed,
+  faCalendarPlus,
+  faCalendarAlt
 } from '@fortawesome/free-solid-svg-icons'
 import RsvpForm from '@/components/RsvpForm.vue'
 import GrapevineDivider from '@/components/decorative/GrapevineDivider.vue'
 import WineGlassIcon from '@/components/decorative/WineGlassIcon.vue'
 
 const showRsvpModal = ref(false)
+
+// Wedding date: July 11, 2026 at 16:30 Italian time
+const weddingDate = new Date('2026-07-11T16:30:00+02:00')
+
+// Calculate initial countdown immediately to prevent layout shift
+function calculateCountdown() {
+  const now = new Date()
+  const diff = weddingDate.getTime() - now.getTime()
+  
+  if (diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+  }
+  
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((diff % (1000 * 60)) / 1000)
+  }
+}
+
+// Initialize with actual values immediately (not zeros)
+const countdown = ref(calculateCountdown())
+
+let countdownInterval = null
+
+onMounted(() => {
+  countdownInterval = setInterval(() => {
+    countdown.value = calculateCountdown()
+  }, 1000)
+})
+
+onUnmounted(() => {
+  if (countdownInterval) {
+    clearInterval(countdownInterval)
+  }
+})
+
+// Google Calendar URL
+const googleCalendarUrl = computed(() => {
+  const startDate = '20260711T143000Z' // 16:30 Italian time = 14:30 UTC
+  const endDate = '20260712T000000Z'   // End at midnight
+  const title = encodeURIComponent('Matrimonio Carlo & Francesca')
+  const location = encodeURIComponent('Chiesa di SS. Felice e Agata, Via XX Settembre 59, 15026 Oviglio AL, Italia')
+  const details = encodeURIComponent('Cerimonia alle 16:30 presso la Chiesa di SS. Felice e Agata.\nRicevimento al Castello di Oviglio.')
+  
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}&sf=true&output=xml`
+})
+
+// ICS file for iCal/Outlook
+const icsFileUrl = computed(() => {
+  const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carlo & Francesca Wedding//IT
+BEGIN:VEVENT
+DTSTART:20260711T143000Z
+DTEND:20260712T000000Z
+SUMMARY:Matrimonio Carlo & Francesca
+DESCRIPTION:Cerimonia alle 16:30 presso la Chiesa di SS. Felice e Agata.\\nRicevimento al Castello di Oviglio.
+LOCATION:Chiesa di SS. Felice e Agata, Via XX Settembre 59, 15026 Oviglio AL, Italia
+END:VEVENT
+END:VCALENDAR`
+  
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsContent)
+})
 
 const quickLinks = [
   {
@@ -215,6 +317,94 @@ function handleRsvpSuccess() {
   font-weight: 600;
   color: var(--terracotta);
   margin-top: 1rem;
+}
+
+/* Countdown Timer */
+.countdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(107, 28, 35, 0.05);
+  border-radius: 16px;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.countdown-number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--wine-burgundy);
+  line-height: 1;
+}
+
+.countdown-label {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  color: var(--text-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+.countdown-separator {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--terracotta);
+  font-weight: 300;
+  padding-bottom: 1rem;
+}
+
+/* Calendar Buttons */
+.calendar-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.calendar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.calendar-btn.google {
+  background: white;
+  color: var(--wine-burgundy);
+  border: 2px solid var(--wine-burgundy);
+}
+
+.calendar-btn.google:hover {
+  background: var(--wine-burgundy);
+  color: white;
+}
+
+.calendar-btn.ical {
+  background: var(--sage-green);
+  color: white;
+  border: 2px solid var(--sage-green);
+}
+
+.calendar-btn.ical:hover {
+  background: #6b7d60;
+  border-color: #6b7d60;
 }
 
 /* RSVP Section */
@@ -421,6 +611,30 @@ function handleRsvpSuccess() {
   
   .date-line {
     max-width: 60px;
+  }
+
+  .countdown-container {
+    gap: 0.25rem;
+    padding: 1rem;
+  }
+
+  .countdown-item {
+    min-width: 55px;
+  }
+
+  .countdown-separator {
+    padding-bottom: 0.75rem;
+  }
+
+  .calendar-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .calendar-btn {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
   }
   
   .rsvp-section {

@@ -44,11 +44,41 @@
              l'alloggio, o la cerimonia. Siamo qui per rendere questo giorno speciale anche per te!</p>
         </div>
       </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Domande Frequenti</h2>
+        <div class="faq-grid">
+          <div 
+            v-for="faq in faqs" 
+            :key="faq.id" 
+            class="faq-card"
+            :class="{ open: openFaq === faq.id }"
+            @click="toggleFaq(faq.id)"
+          >
+            <div class="faq-header">
+              <FontAwesomeIcon :icon="faq.icon" class="faq-icon" />
+              <h3>{{ faq.question }}</h3>
+              <FontAwesomeIcon 
+                :icon="faChevronDown" 
+                class="chevron-icon"
+                :class="{ rotated: openFaq === faq.id }"
+              />
+            </div>
+            <Transition name="accordion">
+              <div v-if="openFaq === faq.id" class="faq-answer">
+                <p>{{ faq.answer }}</p>
+              </div>
+            </Transition>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
   faPhone, 
@@ -56,10 +86,22 @@ import {
   faEnvelope,
   faHeart,
   faUserTie,
-  faUsers
+  faUsers,
+  faChevronDown,
+  faUserPlus,
+  faChild,
+  faClock,
+  faParking,
+  faLeaf
 } from '@fortawesome/free-solid-svg-icons'
 
 import PageHero from '@/components/PageHero.vue'
+
+const openFaq = ref(null)
+
+function toggleFaq(id) {
+  openFaq.value = openFaq.value === id ? null : id
+}
 
 const contatti = [
   { 
@@ -97,6 +139,39 @@ const contatti = [
     ruolo: 'Testimone - José', 
     numero: '+39 333 956 8853',
     icon: faUsers
+  }
+]
+
+const faqs = [
+  {
+    id: 1,
+    icon: faUserPlus,
+    question: 'Posso portare un accompagnatore?',
+    answer: 'Sì! Se sei stato invitato con il tuo partner o famiglia, includi tutti nella conferma di partecipazione. Se il tuo invito è nominativo, ti preghiamo di rispettare il numero indicato per motivi organizzativi.'
+  },
+  {
+    id: 2,
+    icon: faChild,
+    question: 'I bambini sono benvenuti?',
+    answer: 'Assolutamente sì! I bambini sono i benvenuti al nostro matrimonio. Avremo un menù dedicato per i più piccoli. Ti chiediamo solo di indicare il numero di bambini presenti nel modulo RSVP.'
+  },
+  {
+    id: 3,
+    icon: faClock,
+    question: 'A che ora finisce la festa?',
+    answer: 'La festa proseguirà fino alle ore 02:00 circa. Vi consigliamo di organizzarvi con un alloggio nelle vicinanze se prevedete di restare fino a tardi!'
+  },
+  {
+    id: 4,
+    icon: faParking,
+    question: 'C\'è parcheggio in entrambe le location?',
+    answer: 'Sì, sia presso la Chiesa di SS. Felice e Agata che al Castello di Oviglio è disponibile parcheggio gratuito con ampio spazio per tutti gli ospiti.'
+  },
+  {
+    id: 5,
+    icon: faLeaf,
+    question: 'Ci saranno opzioni vegetariane/vegane?',
+    answer: 'Certamente! Il nostro menu includerà opzioni vegetariane e vegane. Ti preghiamo di indicare eventuali esigenze alimentari specifiche nel modulo RSVP, così potremo garantire piatti deliziosi per tutti.'
   }
 ]
 
@@ -260,6 +335,113 @@ function callContact(numero) {
   line-height: 1.8;
   color: var(--text-dark);
   margin: 0;
+}
+
+/* FAQ Section */
+.faq-section {
+  margin-top: 4rem;
+}
+
+.faq-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: var(--wine-burgundy);
+  text-align: center;
+  margin: 0 0 2rem 0;
+  font-weight: 700;
+}
+
+.faq-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-card {
+  background: var(--ivory);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.faq-card:hover {
+  border-color: var(--wine-burgundy);
+}
+
+.faq-card.open {
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 8px 24px rgba(107, 28, 35, 0.15);
+}
+
+.faq-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.faq-icon {
+  font-size: 1.3rem;
+  color: var(--wine-burgundy);
+  flex-shrink: 0;
+}
+
+.faq-header h3 {
+  flex: 1;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.chevron-icon {
+  font-size: 1rem;
+  color: var(--wine-burgundy);
+  transition: transform 0.3s ease;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 1.5rem 1.5rem;
+  padding-left: calc(1.5rem + 1.3rem + 1rem);
+}
+
+.faq-answer p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* Accordion Animation */
+.accordion-enter-active,
+.accordion-leave-active {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.accordion-enter-from,
+.accordion-leave-to {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.accordion-enter-to,
+.accordion-leave-from {
+  opacity: 1;
+  max-height: 200px;
 }
 
 /* Responsive */

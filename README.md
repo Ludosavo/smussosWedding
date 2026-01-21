@@ -2,7 +2,7 @@
 
 > Italian wedding website for **Carlo & Francesca** — July 11, 2026 at Castello di Oviglio, Piedmont, Italy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/smussosWedding)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tlex-web/smussosWedding)
 
 Built with **Vue 3** + **Vite** (rolldown-vite) | Serverless RSVP via **Vercel** + **Resend**
 
@@ -70,7 +70,7 @@ npm run preview  # Preview production build locally
 
 ### One-Click Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/smussosWedding&env=RESEND_API_KEY,RSVP_NOTIFICATION_EMAIL)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tlex-web/smussosWedding&env=RESEND_API_KEY,RSVP_NOTIFICATION_EMAIL)
 
 ### Manual Deployment
 

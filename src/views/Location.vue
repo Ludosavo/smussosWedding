@@ -80,6 +80,120 @@
       </div>
     </div>
     
+    <!-- Getting There Section -->
+    <section class="getting-there">
+      <h2>Come Arrivare</h2>
+      <p class="getting-intro">
+        La giornata inizia con la cerimonia in chiesa e prosegue al Castello per il ricevimento.
+      </p>
+      
+      <div class="venues-journey">
+        <!-- Church Card -->
+        <div class="venue-card church-card">
+          <div class="venue-header">
+            <div class="venue-icon">
+              <FontAwesomeIcon :icon="faChurch" />
+            </div>
+            <div class="venue-badge">Cerimonia</div>
+          </div>
+          <h3>Chiesa di SS. Felice e Agata</h3>
+          <p class="venue-address">
+            <FontAwesomeIcon :icon="faMapMarkerAlt" />
+            Via XX Settembre, 59 - 15026 Oviglio (AL)
+          </p>
+          <p class="venue-time">
+            <FontAwesomeIcon :icon="faClock" />
+            Ore 16:30
+          </p>
+          <div class="venue-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2816.8847520849473!2d8.484099776291391!3d44.86289997097017!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47879ce36dacddd3%3A0x8e8c8e8c8e8c8e8c!2sVia%20XX%20Settembre%2C%2059%2C%2015026%20Oviglio%20AL!5e0!3m2!1sit!2sit!4v1705689600000!5m2!1sit!2sit"
+              class="mini-map"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <a 
+            href="https://www.google.com/maps/dir/?api=1&destination=Via+XX+Settembre+59+15026+Oviglio+AL" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="venue-directions-btn"
+          >
+            <FontAwesomeIcon :icon="faRoute" />
+            Indicazioni Chiesa
+          </a>
+        </div>
+
+        <!-- Journey Arrow -->
+        <div class="journey-connector">
+          <div class="journey-line"></div>
+          <div class="journey-info">
+            <FontAwesomeIcon :icon="faCar" class="car-icon" />
+            <span class="journey-distance">~2 km</span>
+            <span class="journey-time">5 minuti in auto</span>
+          </div>
+          <div class="journey-line"></div>
+        </div>
+
+        <!-- Castle Card -->
+        <div class="venue-card castle-card">
+          <div class="venue-header">
+            <div class="venue-icon">
+              <FontAwesomeIcon :icon="faChessRook" />
+            </div>
+            <div class="venue-badge">Ricevimento</div>
+          </div>
+          <h3>Castello di Oviglio</h3>
+          <p class="venue-address">
+            <FontAwesomeIcon :icon="faMapMarkerAlt" />
+            Via XXIV Maggio, 1 - 15026 Oviglio (AL)
+          </p>
+          <p class="venue-time">
+            <FontAwesomeIcon :icon="faClock" />
+            Dalle ore 17:30
+          </p>
+          <div class="venue-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3030.6227387696003!2d8.484674076289313!3d44.86045777351844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47879ce36dacddd3%3A0xcf63cf8766901e09!2sCastello%20di%20Oviglio!5e1!3m2!1sit!2sit!4v1753208199142!5m2!1sit!2sit"
+              class="mini-map"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <a 
+            href="https://www.google.com/maps/dir/?api=1&destination=Castello+di+Oviglio,Via+XXIV+Maggio,1,15026+Oviglio+AL" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="venue-directions-btn"
+          >
+            <FontAwesomeIcon :icon="faRoute" />
+            Indicazioni Castello
+          </a>
+        </div>
+      </div>
+
+      <!-- Transportation Info -->
+      <div class="transportation-info">
+        <div class="transport-card">
+          <FontAwesomeIcon :icon="faCar" class="transport-icon" />
+          <h4>In Auto</h4>
+          <p>Consigliamo di arrivare in auto propria. Parcheggio gratuito disponibile sia presso la chiesa che al castello.</p>
+        </div>
+        <div class="transport-card">
+          <FontAwesomeIcon :icon="faParking" class="transport-icon" />
+          <h4>Parcheggio</h4>
+          <p>Ampi spazi parcheggio in entrambe le location. Seguite le indicazioni all'arrivo.</p>
+        </div>
+        <div class="transport-card">
+          <FontAwesomeIcon :icon="faWineGlass" class="transport-icon" />
+          <h4>Consiglio</h4>
+          <p>Se prevedete di bere, organizzatevi con un guidatore designato o prenotate un taxi in anticipo.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Castle History Section -->
     <section class="castle-history">
       <h2>Il Nostro Castello</h2>
@@ -136,7 +250,11 @@ import {
   faClock,
   faWineBottle,
   faLandmarkDome,
-  faTree
+  faTree,
+  faChurch,
+  faChessRook,
+  faCar,
+  faWineGlass
 } from '@fortawesome/free-solid-svg-icons'
 </script>
 
@@ -146,6 +264,227 @@ import {
   background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
 }
 
+/* Getting There Section */
+.getting-there {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.getting-there h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--wine-burgundy);
+  text-align: center;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.getting-intro {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--text-dark);
+  margin: 0 0 3rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.venues-journey {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.venue-card {
+  flex: 1;
+  background: var(--ivory);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.venue-card:hover {
+  border-color: var(--wine-burgundy);
+  transform: translateY(-5px);
+}
+
+.venue-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.venue-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--wine-burgundy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.venue-badge {
+  background: var(--terracotta);
+  color: white;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.venue-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--wine-burgundy);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.venue-address,
+.venue-time {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.venue-address svg,
+.venue-time svg {
+  color: var(--wine-burgundy);
+  width: 16px;
+}
+
+.venue-map {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--champagne);
+}
+
+.mini-map {
+  width: 100%;
+  height: 200px;
+  border: none;
+  display: block;
+}
+
+.venue-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--wine-burgundy);
+  color: white;
+  text-decoration: none;
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.venue-directions-btn:hover {
+  background: var(--terracotta);
+  transform: translateY(-2px);
+}
+
+/* Journey Connector */
+.journey-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 1rem 0;
+}
+
+.journey-line {
+  width: 3px;
+  flex: 1;
+  min-height: 40px;
+  background: linear-gradient(to bottom, var(--champagne), var(--wine-burgundy), var(--champagne));
+}
+
+.journey-info {
+  background: var(--wine-burgundy);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+}
+
+.car-icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.journey-distance {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.journey-time {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Transportation Info */
+.transportation-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.transport-card {
+  background: var(--ivory);
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.transport-icon {
+  font-size: 2rem;
+  color: var(--wine-burgundy);
+  margin-bottom: 1rem;
+}
+
+.transport-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--wine-burgundy);
+  margin: 0 0 0.75rem 0;
+}
+
+.transport-card p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.6;
+}
 
 .location-content {
   max-width: 1400px;
@@ -372,6 +711,61 @@ import {
   }
 
   .history-features {
+    grid-template-columns: 1fr;
+  }
+
+  /* Getting There responsive */
+  .getting-there {
+    padding: 2rem 1rem;
+  }
+
+  .venues-journey {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .journey-connector {
+    flex-direction: row;
+    min-width: auto;
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  .journey-line {
+    height: 3px;
+    width: auto;
+    flex: 1;
+    min-height: auto;
+    background: linear-gradient(to right, var(--champagne), var(--wine-burgundy), var(--champagne));
+  }
+
+  .journey-info {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .car-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+  }
+
+  .journey-distance,
+  .journey-time {
+    display: inline;
+    font-size: 0.85rem;
+  }
+
+  .venue-card {
+    padding: 1.5rem;
+  }
+
+  .mini-map {
+    height: 180px;
+  }
+
+  .transportation-info {
     grid-template-columns: 1fr;
   }
 }

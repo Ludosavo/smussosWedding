@@ -6,11 +6,11 @@
         <FontAwesomeIcon :icon="faHouse" />
         <span>Home</span>
       </RouterLink>
-      <RouterLink to="/storia">
+      <RouterLink to="/nostra-storia">
         <FontAwesomeIcon :icon="faBook" />
         <span>La Nostra Storia</span>
       </RouterLink>
-      <RouterLink to="/infoUtili">
+      <RouterLink to="/info-utili">
         <FontAwesomeIcon :icon="faChurch" />
         <span>Info Utili</span>
       </RouterLink>
@@ -18,7 +18,7 @@
         <FontAwesomeIcon :icon="faChessRook" />
         <span>Location</span>
       </RouterLink>
-      <RouterLink to="/alloggio">
+      <RouterLink to="/dove-alloggiare">
         <FontAwesomeIcon :icon="faHotel" />
         <span>Dove Alloggiare</span>
       </RouterLink>
@@ -26,7 +26,7 @@
         <FontAwesomeIcon :icon="faAddressBook" />
         <span>Contatti & FAQ</span>
       </RouterLink>
-      <RouterLink to="/listaNozze">
+      <RouterLink to="/lista-nozze">
         <FontAwesomeIcon :icon="faList" />
         <span>Lista Nozze</span>
       </RouterLink>

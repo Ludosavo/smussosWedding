@@ -17,13 +17,13 @@ export default async function handler(req, res) {
   }
   
   try {
-    const { nome, cognome, email, telefono, numeroOspiti, allergie } = req.body
+    const { partecipa, nome, cognome, email, telefono, numeroAdulti, numeroBambini, allergie, messaggio } = req.body
     
     // Validation
-    if (!nome || !cognome || !email) {
+    if (!nome || !cognome || !email || !partecipa) {
       return res.status(400).json({ 
         error: 'Dati mancanti',
-        message: 'Nome, cognome ed email sono obbligatori' 
+        message: 'Nome, cognome, email e risposta sono obbligatori' 
       })
     }
     
@@ -35,13 +35,18 @@ export default async function handler(req, res) {
         message: 'Inserisci un indirizzo email valido' 
       })
     }
+
+    const isAttending = partecipa === 'si'
+    const totalGuests = isAttending ? (parseInt(numeroAdulti) || 1) + (parseInt(numeroBambini) || 0) : 0
     
     // Send confirmation email to guest
     const guestEmailResult = await resend.emails.send({
       from: 'Carlo & Francesca <noreply@smussowedding.com>',
       to: email,
-      subject: 'Conferma RSVP - Matrimonio Carlo & Francesca',
-      html: `
+      subject: isAttending 
+        ? 'Conferma RSVP - Matrimonio Carlo & Francesca' 
+        : 'Risposta Ricevuta - Matrimonio Carlo & Francesca',
+      html: isAttending ? `
         <!DOCTYPE html>
         <html lang="it">
         <head>
@@ -133,7 +138,8 @@ export default async function handler(req, res) {
                 <li><strong>Nome:</strong> ${nome} ${cognome}</li>
                 <li><strong>Email:</strong> ${email}</li>
                 ${telefono ? `<li><strong>Telefono:</strong> ${telefono}</li>` : ''}
-                <li><strong>Numero ospiti:</strong> ${numeroOspiti}</li>
+                <li><strong>Adulti:</strong> ${numeroAdulti}</li>
+                ${parseInt(numeroBambini) > 0 ? `<li><strong>Bambini:</strong> ${numeroBambini}</li>` : ''}
                 ${allergie ? `<li><strong>Allergie/Note:</strong> ${allergie}</li>` : ''}
               </ul>
             </div>
@@ -151,6 +157,70 @@ export default async function handler(req, res) {
           </div>
         </body>
         </html>
+      ` : `
+        <!DOCTYPE html>
+        <html lang="it">
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body {
+              font-family: 'Lato', Arial, sans-serif;
+              color: #2C2416;
+              line-height: 1.6;
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 20px;
+            }
+            .header {
+              background: linear-gradient(135deg, #8A9A7B, #6b7d60);
+              color: #FFFEF2;
+              padding: 40px 20px;
+              text-align: center;
+              border-radius: 10px 10px 0 0;
+            }
+            .header h1 {
+              margin: 0;
+              font-family: 'Playfair Display', Georgia, serif;
+              font-size: 32px;
+            }
+            .content {
+              background: #F4EBD9;
+              padding: 30px;
+              border-radius: 0 0 10px 10px;
+            }
+            .footer {
+              text-align: center;
+              margin-top: 30px;
+              color: #756F65;
+              font-size: 14px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Carlo & Francesca</h1>
+            <p style="margin: 10px 0 0;">11 Luglio 2026</p>
+          </div>
+          
+          <div class="content">
+            <h2>Grazie per averci risposto, ${nome}!</h2>
+            <p>Abbiamo ricevuto la tua risposta. Ci dispiace che non potrai essere con noi il giorno del nostro matrimonio, ma ti penseremo!</p>
+            
+            ${messaggio ? `<p style="font-style: italic; background: #FFFEF2; padding: 15px; border-radius: 8px;">"${messaggio}"</p>` : ''}
+            
+            <p>Ti auguriamo tutto il meglio e speriamo di vederci presto in un'altra occasione.</p>
+            
+            <p style="margin-top: 30px; text-align: center;">
+              <strong>Con affetto,</strong><br>
+              Carlo & Francesca 💕
+            </p>
+          </div>
+          
+          <div class="footer">
+            <p>Questa email è stata inviata in risposta alla tua risposta all'invito di matrimonio di Carlo e Francesca.</p>
+          </div>
+        </body>
+        </html>
       `
     })
     
@@ -158,7 +228,9 @@ export default async function handler(req, res) {
     const coupleEmailResult = await resend.emails.send({
       from: 'Wedding RSVP System <rsvp@smussowedding.com>',
       to: process.env.RSVP_NOTIFICATION_EMAIL || 'carlo.francesca.wedding@example.com',
-      subject: `✓ Nuova conferma: ${nome} ${cognome}`,
+      subject: isAttending 
+        ? `✓ Nuova conferma: ${nome} ${cognome} (${totalGuests} ospiti)`
+        : `✗ Declina: ${nome} ${cognome}`,
       html: `
         <!DOCTYPE html>
         <html lang="it">
@@ -212,7 +284,14 @@ export default async function handler(req, res) {
         </head>
         <body>
           <div class="container">
-            <h2>🎉 Nuova Conferma Ricevuta</h2>
+            <h2>${isAttending ? '🎉 Nuova Conferma Ricevuta' : '😢 Declina Invito'}</h2>
+            
+            <div class="info-row">
+              <span class="label">Risposta:</span>
+              <span class="value" style="color: ${isAttending ? '#8A9A7B' : '#C45D3F'}; font-weight: bold;">
+                ${isAttending ? 'PARTECIPA' : 'NON PARTECIPA'}
+              </span>
+            </div>
             
             <div class="info-row">
               <span class="label">Nome Completo:</span>
@@ -231,22 +310,36 @@ export default async function handler(req, res) {
             </div>
             ` : ''}
             
+            ${isAttending ? `
             <div class="info-row">
-              <span class="label">Numero di Ospiti:</span>
-              <span class="value">${numeroOspiti}</span>
+              <span class="label">Adulti:</span>
+              <span class="value">${numeroAdulti}</span>
             </div>
             
-            ${allergie ? `
+            <div class="info-row">
+              <span class="label">Bambini:</span>
+              <span class="value">${numeroBambini || '0'}</span>
+            </div>
+            
+            <div class="info-row">
+              <span class="label" style="color: #6B1C23; font-weight: bold;">TOTALE OSPITI:</span>
+              <span class="value" style="color: #6B1C23; font-weight: bold; font-size: 18px;">${totalGuests}</span>
+            </div>
+            ` : ''}
+            
+            ${allergie && isAttending ? `
             <div class="info-row">
               <span class="label">Allergie/Note:</span>
               <span class="value">${allergie}</span>
             </div>
-            ` : `
+            ` : ''}
+            
+            ${messaggio && !isAttending ? `
             <div class="info-row">
-              <span class="label">Allergie/Note:</span>
-              <span class="value" style="color: #8A9A7B;">Nessuna allergia segnalata</span>
+              <span class="label">Messaggio:</span>
+              <span class="value" style="font-style: italic;">"${messaggio}"</span>
             </div>
-            `}
+            ` : ''}
             
             <div class="timestamp">
               Ricevuto il: ${new Date().toLocaleString('it-IT', { 

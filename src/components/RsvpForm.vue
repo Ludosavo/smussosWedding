@@ -1,9 +1,42 @@
 <template>
   <div class="rsvp-form-container">
-    <h2 class="form-title">Conferma la tua presenza</h2>
-    <p class="form-subtitle">Compila il form per farci sapere che ci sarai</p>
+    <h2 class="form-title">Rispondi all'Invito</h2>
+    <p class="form-subtitle">Facci sapere se potrai essere con noi</p>
     
     <form @submit.prevent="handleSubmit" class="rsvp-form">
+      <!-- Attendance Choice -->
+      <div class="form-group attendance-group">
+        <label>Parteciperai al matrimonio? *</label>
+        <div class="attendance-options">
+          <label class="attendance-option" :class="{ selected: formData.partecipa === 'si' }">
+            <input 
+              type="radio" 
+              v-model="formData.partecipa" 
+              value="si"
+              required
+              :disabled="isSubmitting"
+            />
+            <span class="option-content">
+              <FontAwesomeIcon :icon="faCheckCircle" class="option-icon yes" />
+              <span class="option-text">Sì, ci sarò!</span>
+            </span>
+          </label>
+          <label class="attendance-option" :class="{ selected: formData.partecipa === 'no' }">
+            <input 
+              type="radio" 
+              v-model="formData.partecipa" 
+              value="no"
+              required
+              :disabled="isSubmitting"
+            />
+            <span class="option-content">
+              <FontAwesomeIcon :icon="faTimesCircle" class="option-icon no" />
+              <span class="option-text">Mi dispiace, non potrò</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="nome">Nome *</label>
         <input 
@@ -51,43 +84,85 @@
         />
       </div>
       
-      <div class="form-group">
-        <label for="numeroOspiti">Numero di ospiti *</label>
-        <select 
-          id="numeroOspiti" 
-          v-model="formData.numeroOspiti" 
-          required
-          :disabled="isSubmitting"
-        >
-          <option value="">Seleziona...</option>
-          <option value="1">1 persona</option>
-          <option value="2">2 persone</option>
-          <option value="3">3 persone</option>
-          <option value="4">4 persone</option>
-          <option value="5">5+ persone</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="allergie">Allergie/Intolleranze alimentari</label>
-        <textarea 
-          id="allergie" 
-          v-model="formData.allergie" 
-          rows="3"
-          placeholder="Es: Glutine, Lattosio, Crostacei..."
-          :disabled="isSubmitting"
-        ></textarea>
-        <small class="form-hint">Aiutaci a rendere il menu perfetto per tutti</small>
-      </div>
+      <!-- Only show guest details if attending -->
+      <template v-if="formData.partecipa === 'si'">
+        <!-- Plus-one info box -->
+        <div class="info-box">
+          <FontAwesomeIcon :icon="faInfoCircle" class="info-icon" />
+          <p>Sei stato invitato con i tuoi familiari/partner? Includi tutti gli ospiti nel conteggio.</p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="numeroAdulti">Numero adulti *</label>
+            <select 
+              id="numeroAdulti" 
+              v-model="formData.numeroAdulti" 
+              required
+              :disabled="isSubmitting"
+            >
+              <option value="">Seleziona...</option>
+              <option value="1">1 adulto</option>
+              <option value="2">2 adulti</option>
+              <option value="3">3 adulti</option>
+              <option value="4">4 adulti</option>
+              <option value="5">5+ adulti</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="numeroBambini">Numero bambini</label>
+            <select 
+              id="numeroBambini" 
+              v-model="formData.numeroBambini"
+              :disabled="isSubmitting"
+            >
+              <option value="0">Nessun bambino</option>
+              <option value="1">1 bambino</option>
+              <option value="2">2 bambini</option>
+              <option value="3">3 bambini</option>
+              <option value="4">4+ bambini</option>
+            </select>
+            <small class="form-hint">Sotto i 12 anni</small>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="allergie">Allergie/Intolleranze alimentari</label>
+          <textarea 
+            id="allergie" 
+            v-model="formData.allergie" 
+            rows="3"
+            placeholder="Es: Mario - celiaco, Anna - vegetariana..."
+            :disabled="isSubmitting"
+          ></textarea>
+          <small class="form-hint">Indica il nome della persona e le sue esigenze alimentari</small>
+        </div>
+      </template>
+
+      <!-- Decline message -->
+      <template v-if="formData.partecipa === 'no'">
+        <div class="form-group">
+          <label for="messaggio">Vuoi lasciarci un messaggio? (opzionale)</label>
+          <textarea 
+            id="messaggio" 
+            v-model="formData.messaggio" 
+            rows="3"
+            placeholder="Ci dispiace che non potrai essere con noi..."
+            :disabled="isSubmitting"
+          ></textarea>
+        </div>
+      </template>
       
       <button 
         type="submit" 
         class="submit-btn"
-        :disabled="isSubmitting"
+        :class="{ 'decline-btn': formData.partecipa === 'no' }"
+        :disabled="isSubmitting || !formData.partecipa"
       >
         <span v-if="!isSubmitting">
-          <FontAwesomeIcon :icon="faHeart" />
-          Conferma Presenza
+          <FontAwesomeIcon :icon="formData.partecipa === 'si' ? faHeart : faPaperPlane" />
+          {{ formData.partecipa === 'si' ? 'Conferma Presenza' : 'Invia Risposta' }}
         </span>
         <span v-else>
           <FontAwesomeIcon :icon="faSpinner" spin />
@@ -98,11 +173,16 @@
     
     <!-- Success Message -->
     <Transition name="fade">
-      <div v-if="showSuccess" class="success-message">
+      <div v-if="showSuccess" class="success-message" :class="{ 'decline-success': formData.partecipa === 'no' }">
         <FontAwesomeIcon :icon="faCheckCircle" class="success-icon" />
         <h3>Grazie, {{ formData.nome }}!</h3>
-        <p>La tua conferma è stata ricevuta. Ti abbiamo inviato una email di conferma a <strong>{{ formData.email }}</strong></p>
-        <p class="success-note">Non vediamo l'ora di festeggiare con te! 🎉</p>
+        <p v-if="formData.partecipa === 'si'">
+          La tua conferma è stata ricevuta. Ti abbiamo inviato una email di conferma a <strong>{{ formData.email }}</strong>
+        </p>
+        <p v-else>
+          Abbiamo ricevuto la tua risposta. Ci dispiace che non potrai essere con noi, ma ti penseremo!
+        </p>
+        <p class="success-note">{{ formData.partecipa === 'si' ? 'Non vediamo l\'ora di festeggiare con te! 🎉' : '💕' }}</p>
       </div>
     </Transition>
     
@@ -123,17 +203,28 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSpinner, faCheckCircle, faExclamationCircle, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { 
+  faSpinner, 
+  faCheckCircle, 
+  faExclamationCircle, 
+  faHeart, 
+  faTimesCircle,
+  faInfoCircle,
+  faPaperPlane
+} from '@fortawesome/free-solid-svg-icons'
 
 const emit = defineEmits(['success'])
 
 const formData = reactive({
+  partecipa: '',
   nome: '',
   cognome: '',
   email: '',
   telefono: '',
-  numeroOspiti: '',
-  allergie: ''
+  numeroAdulti: '',
+  numeroBambini: '0',
+  allergie: '',
+  messaggio: ''
 })
 
 const isSubmitting = ref(false)
@@ -166,12 +257,15 @@ async function handleSubmit() {
     // Reset form after 5 seconds
     setTimeout(() => {
       Object.assign(formData, {
+        partecipa: '',
         nome: '',
         cognome: '',
         email: '',
         telefono: '',
-        numeroOspiti: '',
-        allergie: ''
+        numeroAdulti: '',
+        numeroBambini: '0',
+        allergie: '',
+        messaggio: ''
       })
       showSuccess.value = false
     }, 5000)
@@ -208,6 +302,100 @@ async function handleSubmit() {
 
 .rsvp-form {
   width: 100%;
+}
+
+/* Attendance Options */
+.attendance-group {
+  margin-bottom: 2rem;
+}
+
+.attendance-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.attendance-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.attendance-option input {
+  display: none;
+}
+
+.option-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  border: 2px solid #DDD;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.attendance-option:hover .option-content {
+  border-color: var(--wine-burgundy);
+}
+
+.attendance-option.selected .option-content {
+  border-color: var(--wine-burgundy);
+  background: rgba(107, 28, 35, 0.05);
+}
+
+.option-icon {
+  font-size: 1.8rem;
+}
+
+.option-icon.yes {
+  color: var(--sage-green);
+}
+
+.option-icon.no {
+  color: var(--terracotta);
+}
+
+.option-text {
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+/* Info Box */
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(138, 154, 123, 0.15);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--sage-green);
+}
+
+.info-box .info-icon {
+  color: var(--sage-green);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.info-box p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Form Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .form-group {
@@ -292,6 +480,14 @@ async function handleSubmit() {
   box-shadow: 0 6px 20px rgba(107, 28, 35, 0.4);
 }
 
+.submit-btn.decline-btn {
+  background: var(--stone-gray);
+}
+
+.submit-btn.decline-btn:hover:not(:disabled) {
+  background: #5a6855;
+}
+
 .submit-btn:active:not(:disabled) {
   transform: translateY(0);
 }
@@ -313,10 +509,19 @@ async function handleSubmit() {
   animation: slideIn 0.4s ease;
 }
 
+.success-message.decline-success {
+  background: linear-gradient(135deg, #f5e6d3, #ece0d1);
+  border-color: var(--terracotta);
+}
+
 .success-icon {
   font-size: 3rem;
   color: #155724;
   margin-bottom: 1rem;
+}
+
+.decline-success .success-icon {
+  color: var(--terracotta);
 }
 
 .success-message h3 {
@@ -326,12 +531,20 @@ async function handleSubmit() {
   margin: 0 0 0.5rem 0;
 }
 
+.decline-success h3 {
+  color: var(--wine-burgundy);
+}
+
 .success-message p {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   color: #155724;
   margin: 0.5rem 0;
   line-height: 1.6;
+}
+
+.decline-success p {
+  color: var(--text-dark);
 }
 
 .success-note {
@@ -418,6 +631,23 @@ async function handleSubmit() {
 @media screen and (max-width: 480px) {
   .form-title {
     font-size: 1.6rem;
+  }
+  
+  .attendance-options {
+    flex-direction: column;
+  }
+  
+  .option-content {
+    flex-direction: row;
+    padding: 1rem;
+  }
+  
+  .option-icon {
+    font-size: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
   }
   
   .form-group input,

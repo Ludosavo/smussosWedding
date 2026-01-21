@@ -19,11 +19,11 @@
           <FontAwesomeIcon :icon="faHouse" />
           Home
         </RouterLink>
-        <RouterLink @click="closeMenu" to="/storia">
+        <RouterLink @click="closeMenu" to="/nostra-storia">
           <FontAwesomeIcon :icon="faBook" />
           La Nostra Storia
         </RouterLink>
-        <RouterLink @click="closeMenu" to="/infoUtili">
+        <RouterLink @click="closeMenu" to="/info-utili">
           <FontAwesomeIcon :icon="faChurch" />
           Info Utili
         </RouterLink>
@@ -31,7 +31,7 @@
           <FontAwesomeIcon :icon="faChessRook" />
           Location
         </RouterLink>
-        <RouterLink @click="closeMenu" to="/alloggio">
+        <RouterLink @click="closeMenu" to="/dove-alloggiare">
           <FontAwesomeIcon :icon="faHotel" />
           Dove Alloggiare
         </RouterLink>
@@ -39,7 +39,7 @@
           <FontAwesomeIcon :icon="faAddressBook" />
           Contatti & FAQ
         </RouterLink>
-        <RouterLink @click="closeMenu" to="/listaNozze">
+        <RouterLink @click="closeMenu" to="/lista-nozze">
           <FontAwesomeIcon :icon="faList" />
           Lista Nozze
         </RouterLink>
