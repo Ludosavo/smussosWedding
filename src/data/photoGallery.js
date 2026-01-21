@@ -1,14 +1,16 @@
 // Photo Gallery Data
-// Import photos from the pictures directory
-import whitecross from '@/components/pictures/whitecross.png'
-import barca from '@/components/pictures/barca.JPG'
-import paddle from '@/components/pictures/paddle.jpg'
-import splash from '@/components/pictures/splash.jpg'
-import mare from '@/components/pictures/mare.png'
-import vela from '@/components/pictures/vela.png'
-import zanzi from '@/components/pictures/zanzi.png'
-import couple1 from '@/components/pictures/couple1.png'
-import sci from '@/components/pictures/sci.png'
+// Import optimized photos
+import {
+  whitecross,
+  barca,
+  paddle,
+  splash,
+  mare,
+  vela,
+  zanzi,
+  couple1,
+  sci
+} from '@/components/pictures/optimized-images.js'
 
 export const photoLocations = [
   {
@@ -18,7 +20,8 @@ export const photoLocations = [
     lat: -6.1659,
     lng: 39.2026,
     date: 'Agosto 2024',
-    photo: zanzi,
+    photo: zanzi.large,
+    thumb: zanzi.thumb,
     description: 'Le nostre vacanze in paradiso tra spiagge bianche e acque cristalline'
   },
   {
@@ -28,7 +31,8 @@ export const photoLocations = [
     lat: 46.0833,
     lng: 7.9633,
     date: 'Gennaio 2025',
-    photo: sci,
+    photo: sci.large,
+    thumb: sci.thumb,
     description: 'Sciando insieme sulle Alpi italiane con vista sul Monte Rosa'
   },
   {
@@ -38,7 +42,8 @@ export const photoLocations = [
     lat: 45.8569,
     lng: 8.5511,
     date: 'Estate 2024',
-    photo: barca,
+    photo: barca.large,
+    thumb: barca.thumb,
     description: 'Una giornata in barca sul Lago Maggiore'
   },
   {
@@ -48,7 +53,8 @@ export const photoLocations = [
     lat: 45.9781,
     lng: 9.2426,
     date: 'Luglio 2024',
-    photo: paddle,
+    photo: paddle.large,
+    thumb: paddle.thumb,
     description: 'Provando il paddle surf insieme sul lago'
   },
   {
@@ -58,7 +64,8 @@ export const photoLocations = [
     lat: 44.1191,
     lng: 9.1795,
     date: 'Agosto 2024',
-    photo: mare,
+    photo: mare.large,
+    thumb: mare.thumb,
     description: 'Giorni di sole e mare sulla costa ligure'
   },
   {
@@ -68,7 +75,8 @@ export const photoLocations = [
     lat: 44.3030,
     lng: 9.2099,
     date: 'Settembre 2024',
-    photo: vela,
+    photo: vela.large,
+    thumb: vela.thumb,
     description: 'Una giornata in barca a vela tra le bellezze di Portofino'
   },
   {
@@ -78,7 +86,8 @@ export const photoLocations = [
     lat: 45.0833,
     lng: 8.6169,
     date: 'Estate 2024',
-    photo: splash,
+    photo: splash.large,
+    thumb: splash.thumb,
     description: 'Momenti di gioco e divertimento in piscina'
   },
   {
@@ -88,7 +97,8 @@ export const photoLocations = [
     lat: 46.0000,
     lng: 7.7500,
     date: 'Inverno 2024',
-    photo: whitecross,
+    photo: whitecross.large,
+    thumb: whitecross.thumb,
     description: 'Escursione alla Croce Bianca in alta montagna'
   },
   {
@@ -98,7 +108,8 @@ export const photoLocations = [
     lat: 44.8538,
     lng: 8.4881,
     date: '2024',
-    photo: couple1,
+    photo: couple1.large,
+    thumb: couple1.thumb,
     description: 'Il nostro amore'
   }
 ]

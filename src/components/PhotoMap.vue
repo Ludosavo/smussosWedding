@@ -26,7 +26,7 @@
           class="photo-list-item"
           @click="selectPhoto(photo)"
         >
-          <img :src="photo.photo" :alt="photo.title" loading="lazy" />
+          <img :src="photo.thumb || photo.photo" :alt="photo.title" loading="lazy" />
           <div class="photo-list-info">
             <h4>{{ photo.title }}</h4>
             <p>{{ photo.location }}</p>
@@ -49,7 +49,7 @@
           :class="{ active: selectedPhotoId === photo.id }"
           @click="focusOnPhoto(photo)"
         >
-          <img :src="photo.photo" :alt="photo.title" loading="lazy" />
+          <img :src="photo.thumb || photo.photo" :alt="photo.title" loading="lazy" />
           <span class="photo-title">{{ photo.title }}</span>
         </button>
       </div>
@@ -93,11 +93,12 @@ let markers = {}
 // Create custom marker with photo thumbnail
 const createPhotoIcon = (photo, isActive = false) => {
   const size = isActive ? 56 : 44
+  const thumbSrc = photo.thumb || photo.photo
   return L.divIcon({
     className: `photo-marker ${isActive ? 'active' : ''}`,
     html: `
       <div class="marker-wrapper" style="width: ${size}px; height: ${size}px;">
-        <img src="${photo.photo}" alt="${photo.title}" />
+        <img src="${thumbSrc}" alt="${photo.title}" />
       </div>
     `,
     iconSize: [size, size],

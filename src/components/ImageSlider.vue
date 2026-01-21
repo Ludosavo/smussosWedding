@@ -15,20 +15,33 @@
 </template>
 
 <script>
-import foto1 from "@/components/pictures/whitecross.png";
-import foto2 from "@/components/pictures/barca.JPG";
-import foto3 from "@/components/pictures/paddle.jpg";
-import foto4 from "@/components/pictures/splash.jpg";
-import foto5 from "@/components/pictures/mare.png";
-import foto6 from "@/components/pictures/vela.png";
-import foto7 from "@/components/pictures/zanzi.png";
-import foto8 from "@/components/pictures/couple1.png";
-import foto9 from "@/components/pictures/sci.png";
+import {
+  whitecross,
+  barca,
+  paddle,
+  splash,
+  mare,
+  vela,
+  zanzi,
+  couple1,
+  sci
+} from "@/components/pictures/optimized-images.js";
+
 export default {
   name: "ImageSlider",
   data() {
     return {
-      images: [foto1, foto2, foto3, foto4, foto5, foto6, foto7, foto8, foto9],
+      images: [
+        whitecross.large,
+        barca.large,
+        paddle.large,
+        splash.large,
+        mare.large,
+        vela.large,
+        zanzi.large,
+        couple1.large,
+        sci.large
+      ],
       currentIndex: 0,
     };
   },

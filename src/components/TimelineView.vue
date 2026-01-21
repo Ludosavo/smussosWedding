@@ -16,7 +16,7 @@
         
         <div class="timeline-content" @click="$emit('photo-selected', event.id)">
           <div class="timeline-image">
-            <img :src="event.photo" :alt="event.title" />
+            <img :src="event.thumb || event.photo" :alt="event.title" />
             <div class="image-overlay">
               <FontAwesomeIcon :icon="faCamera" class="camera-icon" />
             </div>
