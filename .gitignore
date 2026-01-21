@@ -11,3 +11,5 @@ coverage/
 *.log
 .github/
 docs/
+.vercel
+.env*.local

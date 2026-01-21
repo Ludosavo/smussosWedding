@@ -2,6 +2,9 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// Use verified domain or fall back to Resend's testing domain
+const SENDER_EMAIL = process.env.SENDER_EMAIL || 'Carlo & Francesca <onboarding@resend.dev>'
+
 export default async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -41,7 +44,7 @@ export default async function handler(req, res) {
     
     // Send confirmation email to guest
     const guestEmailResult = await resend.emails.send({
-      from: 'Carlo & Francesca <noreply@smussowedding.com>',
+      from: SENDER_EMAIL,
       to: email,
       subject: isAttending 
         ? 'Conferma RSVP - Matrimonio Carlo & Francesca' 
@@ -226,7 +229,7 @@ export default async function handler(req, res) {
     
     // Send notification email to couple
     const coupleEmailResult = await resend.emails.send({
-      from: 'Wedding RSVP System <rsvp@smussowedding.com>',
+      from: SENDER_EMAIL,
       to: process.env.RSVP_NOTIFICATION_EMAIL || 'carlo.francesca.wedding@example.com',
       subject: isAttending 
         ? `✓ Nuova conferma: ${nome} ${cognome} (${totalGuests} ospiti)`
