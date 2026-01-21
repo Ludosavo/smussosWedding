@@ -157,7 +157,7 @@ export default async function handler(req, res) {
     // Send notification email to couple
     const coupleEmailResult = await resend.emails.send({
       from: 'Wedding RSVP System <rsvp@smussowedding.com>',
-      to: process.env.NOTIFICATION_EMAIL || 'carlo.francesca.wedding@example.com',
+      to: process.env.RSVP_NOTIFICATION_EMAIL || 'carlo.francesca.wedding@example.com',
       subject: `✓ Nuova conferma: ${nome} ${cognome}`,
       html: `
         <!DOCTYPE html>
