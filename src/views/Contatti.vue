@@ -1,150 +1,291 @@
 <template>
-  <div class="container">
-    <!-- Schede contatti -->
-    <div class="cards-grid">
-      <div v-for="contatto in contatti" :key="contatto.id" class="card">
-        <!-- Foto -->
-        <div class="photo-container">
-          <img v-if="contatto.foto" :src="contatto.foto" :alt="contatto.ruolo" class="photo">
-          <div v-else class="photo-placeholder">
-            <span>Senza foto</span>
-          </div>
-        </div>
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">Per ogni evenienza</p>
+      <h1>Contatti</h1>
+      <p class="lede">Chiama direttamente chi segue l’organizzazione del matrimonio.</p>
+    </section>
 
-        <!-- Info contatto -->
-        <div class="card-content">
-          <h3>{{ contatto.ruolo }}</h3>
-          
-          <div class="numero-section">
-            <p v-if="contatto.numero">{{ contatto.numero }}</p>
-            <p v-else class="no-numero">—</p>
+    <section class="family-tree">
+      <div v-for="ramo in rami" :key="ramo.id" class="branch">
+        <article class="card main-card">
+          <div class="photo-container">
+            <img v-if="ramo.foto" :src="ramo.foto" :alt="ramo.ruolo" class="photo">
+            <div v-else class="photo-placeholder">
+              <span>{{ ramo.ruolo }}</span>
+            </div>
           </div>
 
-          <!-- Pulsanti -->
-          <div class="buttons">
-            <a 
-              v-if="contatto.numero" 
-              :href="`tel:${contatto.numero.replace(/\s/g, '')}`"
-              class="btn-call"
-            >
-              📞 Chiama
-            </a>
+          <div class="card-content">
+            <h3>{{ ramo.ruolo }}</h3>
+            
+            <div class="numero-section">
+              <p v-if="ramo.numero">{{ ramo.numero }}</p>
+              <p v-else class="no-numero">—</p>
+            </div>
+
+            <div class="buttons">
+              <a 
+                v-if="ramo.numero" 
+                :href="`tel:${ramo.numero.replace(/\s/g, '')}`"
+                class="btn-call"
+              >
+                📞 Chiama
+              </a>
+            </div>
           </div>
+        </article>
+
+        <div class="branch-connector" aria-hidden="true"></div>
+
+        <div class="witness-row">
+          <article 
+            v-for="testimone in ramo.testimoni" 
+            :key="testimone.id" 
+            class="card witness-card"
+          >
+            <div class="photo-container">
+              <img v-if="testimone.foto" :src="testimone.foto" :alt="testimone.ruolo" class="photo">
+              <div v-else class="photo-placeholder">
+                <span>{{ testimone.ruolo }}</span>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <h3>{{ testimone.ruolo }}</h3>
+              
+              <div class="numero-section">
+                <p v-if="testimone.numero">{{ testimone.numero }}</p>
+                <p v-else class="no-numero">—</p>
+              </div>
+
+              <div class="buttons">
+                <a 
+                  v-if="testimone.numero" 
+                  :href="`tel:${testimone.numero.replace(/\s/g, '')}`"
+                  class="btn-call"
+                >
+                  📞 Chiama
+                </a>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
+
+    <!-- <section class="faq-section glass-card">
+      <h2>FAQ</h2>
+      <div class="faq-list">
+        <article
+          v-for="(faq, idx) in faqs"
+          :key="faq.id"
+          class="faq-item"
+          :class="{ open: faq.open }"
+        >
+          <button
+            type="button"
+            class="faq-header"
+            @click="toggleFaq(idx)"
+            :aria-expanded="faq.open"
+          >
+            <span class="faq-question">{{ faq.domanda }}</span>
+            <span class="faq-icon" aria-hidden="true">{{ faq.open ? '−' : '+' }}</span>
+          </button>
+          <div v-show="faq.open" class="faq-body">
+            <p v-html="faq.risposta"></p>
+          </div>
+        </article>
+      </div>
+    </section> -->
+  </main>
 </template>
 
 <script>
+import SposoImg from "@/components/icons/Carlo.jpeg";
+import SposaImg from "@/components/icons/Francini.jpeg";
+import AnnaImg from "@/components/icons/Anna.jpeg";
+import IsabelImg from "@/components/icons/Isabel.jpeg";
+
 export default {
   name: "Contatti",
   data() {
     return {
-      contatti: [
-        { id: 1, ruolo: 'Sposa', numero: '+39 3486596445', foto: '' },
-        { id: 2, ruolo: 'Sposo', numero: '+39 333 1720209', foto: '' },
-        { id: 3, ruolo: 'Testimone (Anna)', numero: '+39 3319483693', foto: '' },
-        { id: 4, ruolo: 'Testimone (Isabel)', numero: '+39 3457244224', foto: '' },
-        { id: 5, ruolo: 'Testimone (Filippo)', numero: '+39 3472752852', foto: '' },
-        { id: 6, ruolo: 'Testimone (José)', numero: '+39 3339568853', foto: '' },
+      rami: [
+        { 
+          id: 'sposo', 
+          ruolo: 'Sposo', 
+          numero: '+39 333 172 0209', 
+          foto: SposoImg, 
+          testimoni: [
+            { id: 'filippo', ruolo: 'Filippo - Testimone', numero: '+39 347 275 2852', foto: '' },
+            { id: 'jose', ruolo: ' José - Testimone', numero: '+39 333 956 8853', foto: '' },
+          ],
+        },
+        { 
+          id: 'sposa', 
+          ruolo: 'Sposa', 
+          numero: '+39 348 659 6445', 
+          foto: SposaImg, 
+          testimoni: [
+            { id: 'anna', ruolo: 'Anna - Testimone', numero: '+39 331 948 3693', foto: AnnaImg },
+            { id: 'isabel', ruolo: 'Isabel - Testimone', numero: '+39 345 724 4224', foto: IsabelImg },
+          ],
+        },
       ],
-      form: {
-        ruolo: '',
-        numero: '',
-        foto: ''
-      }
+      faqs: [
+        {
+          id: 'parcheggio',
+          domanda: 'Dove posso parcheggiare?',
+          risposta: 'Parcheggi gratuiti lungo Via XX Settembre e vie adiacenti. In alternativa, il parcheggio a pagamento più vicino è in Via Cavour, a 5 minuti a piedi dalla chiesa.',
+          open: false,
+        },
+        {
+          id: 'dresscode',
+          domanda: 'C’è un dress code?',
+          risposta: 'Elegante, lungo o corto. Si consiglia di evitare il bianco e colori troppo simili.',
+          open: false,
+        },
+        {
+          id: 'allergie',
+          domanda: 'Come segnalo allergie o intolleranze?',
+          risposta: 'Usa il form RSVP nella Home e indica tutte le allergie alimentari: saranno comunicate al catering.',
+          open: false,
+        },
+        {
+          id: 'bimbi',
+          domanda: 'Ci sono servizi per i bambini?',
+          risposta: 'No, non portate i bambini che sono il male.',
+          open: false,
+        },
+      ],
     }
-  }
+  },
+  methods: {
+    toggleFaq(idx) {
+      this.faqs[idx].open = !this.faqs[idx].open;
+    },
+  },
 }
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-}
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
-  min-height: 100vh;
-}
-
-h1 {
-  text-align: center;
-  color: white;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-}
-
-
-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-input {
-  flex: 1;
-  min-width: 150px;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.3s;
-}
-
-input:focus {
-  outline: none;
-  border-color: #667eea;
-}
-
-button[type="submit"] {
-  padding: 12px 30px;
-  background: var(--textcolor);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-button[type="submit"]:hover {
-  transform: translateY(-2px);
-}
-
-/* Grid di schede */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-/* Card */
-.card {
-  grid: 1;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 2rem clamp(1rem, 2vw, 2.5rem) 3rem;
+  color: var(--textcolor);
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero {
+  text-align: center;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.lede {
+  max-width: 640px;
+  margin: 0 auto;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.family-tree {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+  align-items: start;
+}
+
+.branch {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  padding: 0 0.4rem 0.8rem;
+}
+
+.main-card {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.branch-connector {
+  width: 2px;
+  height: 28px;
+  background: #25744b;
+  margin: 0.1rem auto 0.4rem;
+  border-radius: 999px;
+}
+
+.witness-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.witness-row::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #25744b;
+  border-radius: 999px;
+}
+
+.witness-card {
+  position: relative;
+}
+
+.witness-card::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 2px;
+  height: 14px;
+  transform: translateX(-50%);
+  background: #25744b;
+  border-radius: 999px;
+}
+
+.card {
+  background: linear-gradient(130deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(12px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
-/* Foto */
 .photo-container {
   width: 100%;
   height: 180px;
-  background: #f0f0f0;
+  background: rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  position: relative;
 }
 
 .photo {
@@ -159,101 +300,200 @@ button[type="submit"]:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #0580b4 100%);
-  color: white;
-  font-size: 14px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  color: var(--textcolor);
+  font-size: 0.95rem;
   text-align: center;
   padding: 10px;
+  letter-spacing: 0.04em;
 }
 
-/* Contenuto card */
 .card-content {
-  padding: 15px;
+  padding: 1rem 1.1rem 1.2rem;
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: 0.65rem;
 }
 
 .card-content h3 {
-  margin: 0 0 12px 0;
-  color: #333;
-  font-size: 16px;
-  font-weight: bold;
+  margin: 0;
+  color: var(--textcolor);
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .numero-section {
-  margin-bottom: 15px;
-  padding: 10px;
-  background: #f8f8f8;
+  padding: 0.6rem 0.75rem;
+  background: rgba(0, 0, 0, 0.35);
   border-radius: 8px;
   text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .numero-section p {
   margin: 0;
-  color: #667eea;
-  font-weight: bold;
-  font-size: 14px;
+  color: var(--textcolor);
+  font-weight: 700;
+  font-size: 0.95rem;
   word-break: break-word;
 }
 
 .no-numero {
-  color: #999 !important;
+  color: rgba(255, 255, 255, 0.6) !important;
   font-weight: normal !important;
 }
 
-/* Pulsanti */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  border: 1px solid #25744b;
+  border-radius: 8px;
   margin-top: auto;
 }
 
 .btn-call, .btn-delete {
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
+  padding: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  font-weight: 700;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  font-size: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  font-size: 0.95rem;
 }
 
 .btn-call {
-  background: #4caf50;
-  color: white;
-  display: block;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12));
+  color: var(--textcolor);
 }
 
 .btn-call:hover {
-  background: #45a049;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-.btn-delete {
-  background: #f44336;
-  color: white;
+.glass-card {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 16px;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
 }
 
-.btn-delete:hover {
-  background: #da190b;
-  transform: translateY(-2px);
+.faq-section {
+  padding: 1.2rem 1.4rem;
+  color: var(--textcolor);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.faq-section h2 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.faq-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.faq-item {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item.open {
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
+}
+
+.faq-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--textcolor);
+  cursor: pointer;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.faq-question {
+  text-align: left;
+  font-weight: 400;
+}
+
+.faq-icon {
+  font-size: 1.1rem;
+}
+
+.faq-body {
+  padding: 0 1rem 1rem;
+  color: var(--textcolor);
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  .family-tree {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
   }
 
-  form {
-    flex-direction: column;
+  .branch {
+    gap: 0.8rem;
   }
 
-  input {
-    min-width: 100%;
+  .main-card {
+    width: 100%;
+  }
+
+  .branch-connector {
+    height: 16px;
+  }
+
+  .witness-row {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .witness-row::before,
+  .witness-card::before {
+    display: none;
+  }
+
+  .photo-container {
+    height: 160px;
+  }
+
+  .faq-section {
+    padding: 1rem 1.05rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .family-tree {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .faq-section {
+    width: 1000px;
+    margin: 0 auto;
   }
 }
 </style>

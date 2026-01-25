@@ -1,21 +1,21 @@
 <template>
   <main>
-    <div id="testoHome">
+    <div id="testoHome" class="glass-card">
       <h1><i>Carlo e Francesca</i></h1>
-      <!-- <h3>Siamo lieti di invitarvi al nostro matrimonio</h3> -->
-      <h2>
+      <h3>
         Sabato 11 Luglio 2026 <br />
         Ore 16:30 <br />
-        Chiesa di SS. Felice e Agata, <br> Via XX Settembre, 59 - Oviglio (AL)
-      </h2>
+        Chiesa di SS. Felice e Agata, <br />
+        Via XX Settembre, 59 - Oviglio (AL)
+      </h3>
       <h4>
-        Vi chiediamo di confermare la presenza di ogni invitato (entro il 11.06.2026),
-         <br> utilizzando il form a sinistra.
+        Vi chiediamo di confermare la presenza di ogni invitato (entro il
+        31.05.2026),
+        <br />
+        utilizzando il form in basso.
       </h4>
     </div>
-    <div id="form">
-      <RsvpForm />
-    </div>
+    <RsvpForm />
   </main>
 </template>
 
@@ -29,18 +29,31 @@ export default {
 </script>
 
 <style>
+.glass-card {
+  padding: 1.25rem 1.4rem;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+}
+
 @media screen and (min-width: 769px) {
   main {
     position: relative;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    gap: 3rem;
     z-index: 1;
+    margin-top: 1.25rem;
+    overflow:hidden;
   }
 
   #testoHome {
+    /* max-width: 420px; */
     align-self: center;
-    left: 10%;
     text-align: center;
     color: var(--textcolor);
     z-index: 1;
@@ -69,11 +82,17 @@ export default {
 @media screen and (max-width: 768px) {
   main {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
     z-index: 1;
-
+    margin-top: 1rem;
   }
 
-  h2, h3, h4 {
+  h2,
+  h3,
+  h4 {
     margin: 0;
   }
 
@@ -90,7 +109,7 @@ export default {
   }
 
   #form {
-    width: 100%;
+    margin-bottom: 20px;
   }
 
   nav a {

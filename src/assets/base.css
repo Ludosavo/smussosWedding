@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
 
 :root {
-  --textcolor: #f6f6f6;
+  --textcolor: #25744b;
   --background: #000000;
 
   --color-background: var(--background);
@@ -21,26 +21,33 @@ html, body, #app {
 }
 
 body {
+  background-color: rgb(255, 255, 255);
   font-size: 22px;
-  color: rgb(0, 104, 208);
+  color: #25744b;
   line-height: 1.6;
   font-family: "Jersey 10", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-/* Qui gestiamo SOLO lo sfondo */
+
 html {
   position: relative;
   overflow: auto;
 }
 
-/* Sfondo con filtro */
 html::before {
+  content: none;
+}
+
+html.home-bg::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url('@/components/icons/home_pic.png') center/cover no-repeat;
-  filter: brightness(0.7); 
-  z-index: -1; 
+  background-image: url('@/components/icons/home_pic.png');
+  background-position: center 20%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: brightness(0.7);
+  z-index: -1;
 }

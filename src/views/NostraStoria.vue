@@ -1,6 +1,5 @@
 <template>
   <div class="containerHistory">
-    
     <ImageSlider />
   </div>
 </template>
@@ -41,7 +40,7 @@ export default {
     justify-self: center;
     width: 80%;
     color: var(--background);
-    background-color: rgb(79, 167, 197);
+    /* background-color: rgb(79, 167, 197); */
     border: 1px solid var(--textcolor);
     border-radius: 10px;
     margin-left: 25px;

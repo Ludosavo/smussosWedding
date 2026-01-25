@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carlo e Francesca//RSVP//IT
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:carlo-francesca-wedding-20260711
+DTSTAMP:20240329T120000Z
+DTSTART;TZID=Europe/Rome:20260711T163000
+DTEND;TZID=Europe/Rome:20260711T223000
+SUMMARY:Matrimonio di Carlo e Francesca
+LOCATION:Chiesa di SS. Felice e Agata\, Via XX Settembre\, 59 - Oviglio (AL)
+DESCRIPTION:Cerimonia alle 16:30. Conferma presenza e allergie tramite il form RSVP.
+END:VEVENT
+END:VCALENDAR
