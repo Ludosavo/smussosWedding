@@ -1,13 +1,13 @@
 <template>
   <main>
     <div id="testoHome" class="glass-card">
-      <h1><i>Carlo e Francesca</i></h1>
-      <h3>
+      <h3>Carlo <span id="e">e</span> Francesca</h3>
+      <h4>
         Sabato 11 Luglio 2026 <br />
         Ore 16:30 <br />
         Chiesa di SS. Felice e Agata, <br />
         Via XX Settembre, 59 - Oviglio (AL)
-      </h3>
+      </h4>
       <h4>
         Vi chiediamo di confermare la presenza di ogni invitato (entro il
         31.05.2026),
@@ -31,7 +31,11 @@ export default {
 <style>
 .glass-card {
   padding: 1.25rem 1.4rem;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.85));
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.85)
+  );
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 16px;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
@@ -48,9 +52,12 @@ export default {
     gap: 3rem;
     z-index: 1;
     margin-top: 1.25rem;
-    overflow:hidden;
+    overflow: hidden;
   }
 
+  #e{
+    color: white
+  }
   #testoHome {
     /* max-width: 420px; */
     align-self: center;
@@ -62,6 +69,11 @@ export default {
   img {
     width: 100%;
     height: 100%;
+  }
+  h3 {
+    font-family: "Great Vibes", cursive;
+    font-size: 55px;
+    margin: 0;
   }
 
   body {
@@ -89,10 +101,13 @@ export default {
     z-index: 1;
     margin-top: 1rem;
   }
+  #e{
+    color: white
+  }
 
-  h2,
-  h3,
-  h4 {
+  h3 {
+    font-family: "Great Vibes", cursive;
+    font-size: 40px;
     margin: 0;
   }
 
