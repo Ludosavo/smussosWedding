@@ -2,7 +2,7 @@
   <main class="container">
     <section class="hero">
       <p class="eyebrow">Per ogni evenienza</p>
-      <h1>Contatti</h1>
+  
       <p class="lede">Chiama direttamente chi segue l’organizzazione del matrimonio.</p>
     </section>
 
@@ -73,31 +73,6 @@
         </div>
       </div>
     </section>
-
-    <!-- <section class="faq-section glass-card">
-      <h2>FAQ</h2>
-      <div class="faq-list">
-        <article
-          v-for="(faq, idx) in faqs"
-          :key="faq.id"
-          class="faq-item"
-          :class="{ open: faq.open }"
-        >
-          <button
-            type="button"
-            class="faq-header"
-            @click="toggleFaq(idx)"
-            :aria-expanded="faq.open"
-          >
-            <span class="faq-question">{{ faq.domanda }}</span>
-            <span class="faq-icon" aria-hidden="true">{{ faq.open ? '−' : '+' }}</span>
-          </button>
-          <div v-show="faq.open" class="faq-body">
-            <p v-html="faq.risposta"></p>
-          </div>
-        </article>
-      </div>
-    </section> -->
   </main>
 </template>
 
@@ -106,6 +81,8 @@ import SposoImg from "@/components/icons/Carlo.jpeg";
 import SposaImg from "@/components/icons/Francini.jpeg";
 import AnnaImg from "@/components/icons/Anna.jpeg";
 import IsabelImg from "@/components/icons/Isabel.jpeg";
+import FilippoImg from "@/components/icons/Filippo.jpeg";
+import JoseImg from "@/components/icons/Jose.jpeg";
 
 export default {
   name: "Contatti",
@@ -118,8 +95,8 @@ export default {
           numero: '+39 333 172 0209', 
           foto: SposoImg, 
           testimoni: [
-            { id: 'filippo', ruolo: 'Filippo - Testimone', numero: '+39 347 275 2852', foto: '' },
-            { id: 'jose', ruolo: ' José - Testimone', numero: '+39 333 956 8853', foto: '' },
+            { id: 'filippo', ruolo: 'Filippo - Testimone', numero: '+39 347 275 2852', foto: FilippoImg },
+            { id: 'jose', ruolo: ' José - Testimone', numero: '+39 333 956 8853', foto: JoseImg },
           ],
         },
         { 
@@ -319,7 +296,7 @@ export default {
 .card-content h3 {
   margin: 0;
   color: var(--textcolor);
-  font-size: 1rem;
+  font-size: 22px;
   text-align: center;
   font-weight: 700;
   letter-spacing: 0.04em;

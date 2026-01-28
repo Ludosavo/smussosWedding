@@ -1,9 +1,11 @@
 <template>
   <main class="info-page">
+    <h3> Chiesa di SS. Felice e Agata </h3>
+    <img class="chiesa-image" :src="chiesaImg" alt="Chiesa SS. Felice e Agata" loading="lazy"/>
     <section class="parking-section glass-card">
       <div class="section-header">
-        <h1>Info utili</h1>
-        <p>Dove parcheggiare vicino alla chiesa e al castello.</p>
+        <h3>Info utili</h3>
+        <p>Dove parcheggiare vicino alla chiesa.</p>
       </div>
 
       <div class="parking-grid">
@@ -26,43 +28,34 @@
 </template>
 
 <script>
+
+import chiesaImg from "@/components/icons/chiesa.jpeg";
+import ParcheggiImg from "@/components/icons/ParcheggioPiccolo.png";
+import ParcheggioGrande from "@/components/icons/ParcheggioGrande.png";
+
 export default {
   name: "InfoUtili",
   data() {
     return {
+      chiesaImg,
       parcheggi: [
         {
           id: "chiesa-principale",
           nome: "Parcheggio Chiesa SS. Felice e Agata",
-          indirizzo: "Via XX Settembre 59, Oviglio (AL)",
-          distanza: "2 min a piedi",
+          indirizzo: "Via XXIV Maggio, Oviglio (AL)",
+          distanza: "4-5 min a piedi dalla chiesa",
           nota: "Stalli lungo la via e piazzale adiacente la chiesa. Arrivate con qualche minuto di anticipo.",
-          img: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+          img: ParcheggiImg,
         },
         {
           id: "via-xx-settembre",
-          nome: "Parcheggio su Via XX Settembre",
-          indirizzo: "Via XX Settembre, Oviglio (AL)",
-          distanza: "3-4 min a piedi dalla chiesa",
+          nome: "Parcheggio su Piazza Madre Teresa di Calcutta 6",
+          indirizzo: "Piazza Madre Teresa di Calcutta 6, Oviglio (AL)",
+          distanza: "6 min a piedi dalla chiesa",
           nota: "Sosta libera lungo la via principale; seguite la segnaletica fino alla chiesa.",
-          img: "https://images.unsplash.com/photo-1441123694162-e54a981ceba3?auto=format&fit=crop&w=1200&q=80",
+          img: ParcheggioGrande,
         },
-        {
-          id: "castello-adiacente",
-          nome: "Parcheggio vicino al Castello di Oviglio",
-          indirizzo: "Via Ventiquattro Maggio 1, Oviglio (AL)",
-          distanza: "1-2 min a piedi",
-          nota: "Stalli fronte ingresso e lungo la via laterale. Seguite le indicazioni dello staff.",
-          img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80",
-        },
-        {
-          id: "castello-centrale",
-          nome: "Parcheggio area centrale Oviglio",
-          indirizzo: "Piazza Umberto I, Oviglio (AL)",
-          distanza: "5 min a piedi dal Castello",
-          nota: "Ampio parcheggio pubblico; ideale per chi arriva con anticipo e vuole una passeggiata breve.",
-          img: "https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?auto=format&fit=crop&w=1200&q=80",
-        },
+    
       ],
     };
   },
@@ -70,6 +63,14 @@ export default {
 </script>
 
 <style scoped>
+
+.chiesa-image{
+  width: 60%;
+  object-fit:scale-down;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+}
 .info-page {
   max-width: 1100px;
   margin: 0 auto;
@@ -89,10 +90,9 @@ export default {
   padding: 1.3rem 1.5rem;
 }
 
-.section-header h1 {
+.section-header h3, .section-header p {
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  text-align: center;
 }
 
 .section-header p {
@@ -125,7 +125,7 @@ export default {
 .parking-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -145,7 +145,7 @@ export default {
 .parking-top h3 {
   margin: 0;
   letter-spacing: 0.03em;
-  font-size: 1rem;
+  font-size: 30px;
 }
 
 .distance {

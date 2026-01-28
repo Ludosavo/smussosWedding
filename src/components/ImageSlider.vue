@@ -1,15 +1,4 @@
 <template>
-  <div class="map-wrapper">
-    <div ref="mapEl" class="map" @mouseleave="clearPhoto"></div>
-
-    <transition name="fade">
-      <div class="preview" v-if="hovered">
-        <img :src="hovered.src" :alt="hovered.label" />
-        <div class="preview-label">{{ hovered.label }}</div>
-      </div>
-    </transition>
-  </div>
-
   <section class="slider-section glass-card">
     <header class="slider-header">
       <h2>I nostri momenti</h2>
@@ -34,16 +23,28 @@ import { onMounted, onBeforeUnmount, ref } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-import foto1 from "@/components/icons/whitecross.jpeg";
-import foto2 from "@/components/icons/barca.JPG";
-import foto3 from "@/components/icons/paddle.jpg";
-import foto4 from "@/components/icons/splash.jpg";
-import foto5 from "@/components/icons/mare.png";
-import foto6 from "@/components/icons/vela.png";
-import foto7 from "@/components/icons/zanzi.png";
-import foto8 from "@/components/icons/couple1.png";
-import foto9 from "@/components/icons/sci.png";
-import foto10 from "@/components/icons/Croazia.jpeg";
+import foto1 from "@/components/icons/CroceBianca2021.jpeg";
+import foto2 from "@/components/icons/Capri2022.JPG";
+import foto3 from "@/components/icons/Capri2-2022.jpeg";
+import foto4 from "@/components/icons/Capri3-2022.jpeg";
+import foto5 from "@/components/icons/RivaTrigoso2023.jpeg";
+import foto6 from "@/components/icons/Puglia2023.jpeg";
+import foto7 from "@/components/icons/Marocco2024.jpeg";
+import foto8 from "@/components/icons/Laurea2024.jpeg";
+import foto9 from "@/components/icons/Macugnaga2024.jpeg";
+import foto10 from "@/components/icons/Croazia2024.jpeg";
+import foto11 from "@/components/icons/Croazia2024.png";
+import foto12 from "@/components/icons/Tanzania2024.png";
+import foto13 from "@/components/icons/Zanzibar2025.png";
+import foto14 from "@/components/icons/Zanzibar2-2025.jpeg";
+import foto15 from "@/components/icons/Zanzibar3-2025.png";
+import foto16 from "@/components/icons/Sardegna2025.jpeg";
+import foto17 from "@/components/icons/Sardegna2-2025.jpg";
+import foto18 from "@/components/icons/SaintTropez2025.jpeg";
+import foto19 from "@/components/icons/NewYork2025.jpeg";
+import foto20 from "@/components/icons/NewYork2-2025.jpeg";
+import foto21 from "@/components/icons/NewYork3-2025.jpeg";
+import foto22 from "@/components/icons/Corsica2025.jpeg";
 
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -72,6 +73,18 @@ export default {
       { src: foto8, lat: 46.003, lng: 7.755 },
       { src: foto9, lat: 45.98, lng: 6.909 },
       { src: foto10,lat: 45.44, lng: 12.315 },
+      { src: foto11,lat: 45.44, lng: 12.315 },
+      { src: foto12,lat: 45.44, lng: 12.315 },
+      { src: foto13,lat: 45.44, lng: 12.315 },
+      { src: foto14,lat: 45.44, lng: 12.315 },
+      { src: foto15,lat: 45.44, lng: 12.315 },
+      { src: foto16,lat: 45.44, lng: 12.315 },
+      { src: foto17,lat: 45.44, lng: 12.315 },
+      { src: foto18,lat: 45.44, lng: 12.315 },
+      { src: foto19,lat: 45.44, lng: 12.315 },
+      { src: foto20,lat: 45.44, lng: 12.315 },
+      { src: foto21,lat: 45.44, lng: 12.315 },
+      { src: foto22,lat: 45.44, lng: 12.315 },
     ];
 
     const clearPhoto = () => {

@@ -12,10 +12,10 @@
         Vi chiediamo di confermare la presenza di ogni invitato (entro il
         31.05.2026),
         <br />
-        utilizzando il form in basso.
+        utilizzando il seguente form.
       </h4>
     </div>
-    <RsvpForm />
+    <!-- <RsvpForm /> -->
   </main>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.85)
+    rgba(255, 255, 255, 0.35)
   );
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 16px;

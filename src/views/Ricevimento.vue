@@ -10,7 +10,7 @@
           />
         </div>
         <div class="hero-text">
-          <h2>Castello di Oviglio</h2>
+          <h3>Castello di Oviglio</h3>
           <p>
             Residenza storica del XVIII secolo immersa nel Monferrato, con sale affrescate e un parco che ospiterà il ricevimento.
           </p>
@@ -27,10 +27,10 @@
           referrerpolicy="no-referrer-when-downgrade"
           title="Castello di Oviglio"
         ></iframe>
-        <h3 class="address">
+        <h4 class="address">
           <i class="fa-solid fa-location-dot"></i>
           Via XXIV Maggio, 1 · 15026 Oviglio (AL)
-        </h3>
+        </h4>
       </section>
     </div>
 
@@ -38,6 +38,20 @@
       <h3>Info Utili</h3>
       <p></p>
     </div>
+
+    <section class="parking-card glass-card">
+      <div class="parking-image">
+        <img src="@/components/icons/Parcheggi.png" alt="Parcheggi consigliati" loading="lazy" />
+      </div>
+      <div class="parking-text">
+        <p>
+          Vi consigliamo di sostare al parcheggio <strong>numero 3</strong>, in quanto più comodo sia per raggiungere il castello (1) che la chiesa (4).
+        </p>
+        <p>
+          Tuttavia, essendo un parcheggio limitato (~15 posti auto), vi consigliamo di posteggiare al <strong>parcheggio numero 2</strong>, poiché più ampio.
+        </p>
+      </div>
+    </section>
   </main>
 </template>
 
@@ -83,7 +97,7 @@ export default {
 
 <style scoped>
 .location-page {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem clamp(1rem, 3vw, 2.6rem) 3rem;
   display: flex;
@@ -94,7 +108,7 @@ export default {
 }
 
 .glass-card {
-  width: min(100%, 900px);
+  width: min(100%, 800px);
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 16px;
   box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
@@ -111,14 +125,15 @@ export default {
 
 .castle-hero {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
   padding: 1.1rem;
   align-items: center;
 }
 
 .hero-image {
-  width: 100%;
+  justify-self: center;
+  width: 80%;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.28);
@@ -138,10 +153,9 @@ export default {
   line-height: 1.5;
 }
 
-.hero-text h2 {
+.hero-text h3 {
+  text-align: center;
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
 .hero-note {
@@ -157,8 +171,9 @@ export default {
 }
 
 .map-embed {
-  width: 100%;
-  height: clamp(360px, 50vw, 540px);
+  padding-top: 5px;
+  width: 95%;
+  height: clamp(360px, 30vw, 540px);
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   overflow: hidden;
@@ -168,7 +183,7 @@ export default {
   margin: 0;
   text-align: center;
   color: var(--textcolor);
-  letter-spacing: 0.02em;
+  font-size: 22px;
 }
 
 .address i {
@@ -250,6 +265,38 @@ export default {
   opacity: 0.95;
 }
 
+.parking-card {
+  width: min(100%, 1200px);
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.parking-image {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.parking-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.parking-text {
+  display: grid;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+
+.parking-text p {
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .location-page {
     padding: 1.5rem 1rem 2.4rem;
@@ -270,6 +317,10 @@ export default {
 
   .poi-section {
     padding: 1.1rem 1.2rem 1.3rem;
+  }
+
+  .parking-card {
+    padding: 1rem;
   }
 }
 </style>
