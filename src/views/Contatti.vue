@@ -77,12 +77,12 @@
 </template>
 
 <script>
-import SposoImg from "@/components/icons/Carlo.jpeg";
-import SposaImg from "@/components/icons/Francini.jpeg";
-import AnnaImg from "@/components/icons/Anna.jpeg";
-import IsabelImg from "@/components/icons/Isabel.jpeg";
-import FilippoImg from "@/components/icons/Filippo.jpeg";
-import JoseImg from "@/components/icons/Jose.jpeg";
+import SposoImg from "@/components/icons/people/Carlo.jpeg";
+import SposaImg from "@/components/icons/people/Francini.jpeg";
+import AnnaImg from "@/components/icons/people/Anna.jpeg";
+import IsabelImg from "@/components/icons/people/Isabel.jpeg";
+import FilippoImg from "@/components/icons/people/Filippo.jpeg";
+import JoseImg from "@/components/icons/people/Jose.jpeg";
 
 export default {
   name: "Contatti",
@@ -96,7 +96,7 @@ export default {
           foto: SposoImg, 
           testimoni: [
             { id: 'filippo', ruolo: 'Filippo - Testimone', numero: '+39 347 275 2852', foto: FilippoImg },
-            { id: 'jose', ruolo: ' José - Testimone', numero: '+39 333 956 8853', foto: JoseImg },
+            { id: 'jose', ruolo: ' Josè - Testimone', numero: '+39 333 956 8853', foto: JoseImg },
           ],
         },
         { 
@@ -304,7 +304,7 @@ export default {
 
 .numero-section {
   padding: 0.6rem 0.75rem;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.094);
   border-radius: 8px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.2);

@@ -1,83 +1,137 @@
 <template>
-  <div class="containerHistory">
-    <ImageSlider />
+  <div class="nostra-storia">
+    <PageHero
+      title="La Nostra Storia"
+      subtitle="Un viaggio d'amore attraverso i ricordi più belli"
+    />
+
+    <div class="timeline-view">
+      <TimelineView 
+        :events="timeline" 
+        @photo-selected="openPhoto"
+      />
+    </div>
+
+    <!-- Photo Modal -->
+    <PhotoModal
+      v-model="showModal"
+      :photo="currentPhoto"
+      :has-prev="hasPrev"
+      :has-next="hasNext"
+      @prev="navigatePrev"
+      @next="navigateNext"
+      @close="closeModal"
+    />
   </div>
 </template>
 
-<script>
-import ImageSlider from "@/components/ImageSlider.vue";
+<script setup>
+import { ref, computed } from 'vue'
+import PhotoModal from '@/components/PhotoModal.vue'
+import TimelineView from '@/components/TimelineView.vue'
+import PageHero from '@/components/PageHero.vue'
+import { photoLocations, timeline } from '@/data/photoGallery.js'
 
-export default {
-  name: "Storia",
-  components: { ImageSlider },
-};
+const showModal = ref(false)
+const currentPhotoIndex = ref(0)
+
+// Current photo data
+const currentPhoto = computed(() => {
+  return timeline[currentPhotoIndex.value]
+})
+
+// Navigation helpers
+const hasPrev = computed(() => currentPhotoIndex.value > 0)
+const hasNext = computed(() => currentPhotoIndex.value < timeline.length - 1)
+
+// Functions
+function openPhoto(photoId) {
+  const index = timeline.findIndex(p => p.id === photoId)
+  if (index !== -1) {
+    currentPhotoIndex.value = index
+    showModal.value = true
+  }
+}
+
+function closeModal() {
+  showModal.value = false
+}
+
+function navigatePrev() {
+  if (hasPrev.value) {
+    currentPhotoIndex.value--
+  }
+}
+
+function navigateNext() {
+  if (hasNext.value) {
+    currentPhotoIndex.value++
+  }
+}
 </script>
 
-<style>
-@media screen and (min-width: 769px) {
-
-  .containerHistory {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  h2 {
-    text-align: center;
-  }
-  #titolo {
-    justify-self: center;
-    width: 42%;
-    margin-left: 16px;
-    color: var(--background);
-    text-align: center;
-    padding: 10px;
-  }
-  #testo {
-    justify-self: center;
-    width: 80%;
-    color: var(--background);
-    /* background-color: rgb(79, 167, 197); */
-    border: 1px solid var(--textcolor);
-    border-radius: 10px;
-    margin-left: 25px;
-  }
-
-  /* img {
-    justify-content: center;
-    width: 42%;
-    height: 66%;
-  } */
+<style scoped>
+.nostra-storia {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--champagne) 0%, var(--ivory) 100%);
 }
+
+
+.map-view,
+.timeline-view {
+  min-height: 60vh;
+  padding-bottom: 2rem;
+}
+
+.map-legend {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(107, 28, 35, 0.05);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.map-legend p {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: var(--wine-burgundy);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.legend-icon {
+  font-size: 1.2rem;
+}
+
+/* Responsive */
 @media screen and (max-width: 768px) {
-  h2 {
-    text-align: center;
+  .map-legend {
+    padding: 1rem;
   }
 
-  #titolo {
-    display: flex;
-    justify-self: center;
-    justify-content: center;
-    width: 83%;
-    margin-left: 16px;
-    color: var(--textcolor);
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px;
+  .map-legend p {
+    font-size: 0.9rem;
   }
 
-  #testo {
-    padding: 20px;
-    justify-self: center;
-    color: var(--background);
-    background-color: var(--textcolor);
-    border: 1px solid var(--textcolor);
-    width: 85%;
-    border-radius: 10px;
-    margin-left: 25px;
+  .map-view,
+  .timeline-view {
+    padding-bottom: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .toggle-button {
+    font-size: 0.95rem;
+    padding: 0.875rem;
+  }
+
+  .map-view,
+  .timeline-view {
+    padding-bottom: 3rem;
   }
 }
 </style>

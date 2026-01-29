@@ -113,10 +113,10 @@ watch(
   align-items: center;
   position: sticky;
   transition: color 0.1s, opacity 0.1s;
-  --nav-bg: #f5e9d5;
+  --nav-bg: #f8eedd;
   --nav-bg-strong: #ebddc3;
   --nav-text: #25744b;
-  --nav-border: rgba(123, 30, 44, 0.2);
+  --nav-border: rgba(255, 255, 255, 0.2);
 }
 
 nav {
@@ -314,7 +314,7 @@ nav {
   }
 
   nav a.router-link-active {
-    background-color: rgba(113, 170, 131, 0.429);
+    background-color: rgba(161, 177, 166, 0.429);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     border-bottom: 1px solid rgba(0, 108, 14, 0.751);

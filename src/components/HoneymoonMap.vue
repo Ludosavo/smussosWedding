@@ -1,18 +1,40 @@
 <template>
-  <div class="map-shell">
-    <div class="map-header">
-      <h2>Il nostro viaggio di nozze</h2>
-      <p class="subtitle">Milano → Nuova Zelanda → Fiji → Milano</p>
-    </div>
-
-    <div class="map-frame">
+  <div class="honeymoon-map-wrapper">
+    <!-- Map container -->
+    <div class="map-wrapper">
       <div
         ref="mapEl"
-        class="map-canvas"
+        class="map-element"
         :style="{ height }"
         @mouseenter="pause()"
         @mouseleave="resume()"
       />
+
+      <!-- Controls overlay -->
+      <div v-if="showControls" class="controls-overlay">
+        <button @click="togglePlay" class="control-btn">
+          {{ paused ? '▶︎ Play' : '⏸ Pausa' }}
+        </button>
+        <div class="speed-display">
+          Velocità: {{ speedLabel }}
+        </div>
+      </div>
+
+      <!-- Timeline (optional) -->
+      <div v-if="showTimeline && stopsLatLngs.length" class="timeline-overlay">
+        <div class="timeline-header">Tappe</div>
+        <ul class="timeline-list">
+          <li
+            v-for="(s, i) in stops"
+            :key="i"
+            :class="['timeline-item', { active: i === activeStopIndex }]"
+            @click="jumpToStop(i)"
+          >
+            <div class="timeline-title">{{ s.title || 'Tappa ' + (i + 1) }}</div>
+            <div v-if="s.subtitle" class="timeline-subtitle">{{ s.subtitle }}</div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +48,8 @@ import 'leaflet/dist/leaflet.css'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+
+delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
@@ -37,10 +61,15 @@ let prevPos = null
 const props = defineProps({
   // Waypoints: array di [lng, lat]
   waypoints: { type: Array, required: true },
-  speedKmh: { type: Number, default: 1400 },
+  // Tappe opzionali: { lng, lat, title?, subtitle?, img?, html? }
+  stops: { type: Array, default: () => [] },
+  speedKmh: { type: Number, default: 600 },
   loopPauseMs: { type: Number, default: 1200 },
-  height: { type: String, default: '480px' },
+  height: { type: String, default: '420px' },
   follow: { type: Boolean, default: true },
+  showControls: { type: Boolean, default: true },
+  showTimeline: { type: Boolean, default: true },
+  autoOpenStopPopup: { type: Boolean, default: true },
 })
 
 // State
@@ -50,13 +79,13 @@ let baseLayer = null
 let routeLine = null
 let progressLine = null
 let marker = null
-let stopMarkers = []
 let customMarkerIcon = L.divIcon({
   className: 'honeymoon-marker',
   html: "<div class='plane' aria-hidden='true'>✈️</div>",
   iconSize: [28, 28],
   iconAnchor: [14, 14],
 })
+let stopMarkers = []
 
 let latlngs = [] // [L.LatLng]
 let segLengths = [] // per-segment meters
@@ -66,8 +95,15 @@ let currentD = 0 // meters progressed along route
 let lastTs = 0
 let frame = null
 let paused = false
+const activeStopIndexRef = ref(-1)
 
 const height = computed(() => props.height)
+const speedLabel = computed(() => `${Math.round(props.speedKmh)} km/h`)
+const activeStopIndex = computed(() => activeStopIndexRef.value)
+
+function togglePlay() {
+  paused = !paused
+}
 function pause() {
   paused = true
 }
@@ -79,21 +115,21 @@ function resume() {
 function resetAnimation() {
   currentD = 0
   lastTs = 0
-  const start = latlngs[0]
-  if (progressLine && start) progressLine.setLatLngs([start])
-  if (marker && start) marker.setLatLng(start)
-  if (latlngs.length > 1) setPlaneHeading(bearingDeg(latlngs[0], latlngs[1]))
-  prevPos = start || null
+  if (progressLine && latlngs[0]) progressLine.setLatLngs([latlngs[0]])
 }
 
 function toLeafletLatLngs(lngLatArray) {
   return (lngLatArray || []).map(([lng, lat]) => L.latLng(lat, lng))
 }
 
+// Converte stops in LatLng e salva una copia
+const stopsLatLngs = computed(() =>
+  (props.stops || []).map((s) => L.latLng(s.lat ?? s[1], s.lng ?? s[0])),
+)
+
 function buildGeometry() {
   if (!props.waypoints || props.waypoints.length < 2) return
-  const wp = props.waypoints.length > 2 ? [...props.waypoints, props.waypoints[0]] : props.waypoints
-  latlngs = toLeafletLatLngs(wp)
+  latlngs = toLeafletLatLngs(props.waypoints)
   segLengths = []
   cumLengths = [0]
   totalLen = 0
@@ -136,62 +172,121 @@ function setPlaneHeading(deg) {
 
 function ensureMap() {
   if (map) return
-  map = L.map(mapEl.value, { zoomControl: false, attributionControl: false })
-  baseLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  map = L.map(mapEl.value, { zoomControl: props.showControls, attributionControl: true })
+  baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | © Carto',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map)
 }
 
 function ensureLayers() {
   if (!map) return
   if (!routeLine)
-    routeLine = L.polyline(latlngs, { weight: 5, opacity: 0.85, color: '#8b2337' }).addTo(map)
+    routeLine = L.polyline(latlngs, { weight: 5, opacity: 0.9, color: '#1e3a8a' }).addTo(map)
   else routeLine.setLatLngs(latlngs)
   if (!progressLine)
     progressLine = L.polyline([latlngs[0]], {
-      weight: 7,
+      weight: 6,
       opacity: 0.95,
-      color: '#d4637b',
+      color: '#93c5fd',
       lineJoin: 'round',
       lineCap: 'round',
     }).addTo(map)
   else progressLine.setLatLngs([latlngs[0]])
-  if (!marker)
+  if (!marker) {
     marker = L.marker(latlngs[0], { icon: customMarkerIcon, zIndexOffset: 1000 }).addTo(map)
-  else marker.setLatLng(latlngs[0])
+    // Make marker visible immediately
+    setTimeout(() => {
+      if (marker && marker._icon) marker._icon.classList.add('is-visible')
+    }, 100)
+  } else {
+    marker.setLatLng(latlngs[0])
+  }
 
+  // Calculate heading for plane direction
   const pos = getPointAt(currentD)
   const head = prevPos
-    ? bearingDeg(prevPos, pos) // direzione corrente
-      : latlngs && latlngs.length > 1
+    ? bearingDeg(prevPos, pos)
+    : latlngs && latlngs.length > 1
       ? bearingDeg(latlngs[0], latlngs[1])
-      : 0 // direzione iniziale
+      : 0
 
   setPlaneHeading(head)
   prevPos = pos
 
+  // Stop markers + popups
   stopMarkers.forEach((m) => m.remove())
   stopMarkers = []
-  const labels = ['Milano', 'Nuova Zelanda', 'Fiji']
-  latlngs.slice(0, 3).forEach((ll, idx) => {
-    const dot = L.circleMarker(ll, {
-      radius: 7,
-      color: '#8b2337',
-      weight: 2,
-      fillColor: '#f5e9d5',
-      fillOpacity: 0.9,
-    }).addTo(map)
-    dot.bindTooltip(labels[idx] || `Tappa ${idx + 1}`, { direction: 'top', offset: [0, -8] })
-    stopMarkers.push(dot)
-  })
+  if (props.stops && props.stops.length) {
+    props.stops.forEach((s, i) => {
+      const ll = L.latLng(s.lat ?? s[1], s.lng ?? s[0])
+      const html =
+        s.html ||
+        `<div style='min-width:180px'>
+        <div style='font-weight:600'>${s.title || 'Tappa ' + (i + 1)}</div>
+        ${s.subtitle ? `<div style='font-size:12px;color:#555'>${s.subtitle}</div>` : ''}
+        ${s.img ? `<div style='margin-top:8px'><img src='${s.img}' alt='' style='width:100%;border-radius:8px;object-fit:cover'/></div>` : ''}
+      </div>`
+      const m = L.marker(ll).addTo(map).bindPopup(html)
+      stopMarkers.push(m)
+    })
+  }
 }
 
 function fitBounds() {
   if (!map || !latlngs || latlngs.length < 2) return
   const bounds = L.latLngBounds(latlngs)
   map.fitBounds(bounds, { padding: [40, 40] })
+}
+
+function nearestStopIndex(pos) {
+  if (!stopsLatLngs.value.length) return -1
+  let best = -1
+  let bestD = Infinity
+  for (let i = 0; i < stopsLatLngs.value.length; i++) {
+    const d = pos.distanceTo(stopsLatLngs.value[i])
+    if (d < bestD) {
+      bestD = d
+      best = i
+    }
+  }
+  return best
+}
+
+function maybeOpenPopup(idx) {
+  if (!props.autoOpenStopPopup || idx < 0 || idx >= stopMarkers.length) return
+  const m = stopMarkers[idx]
+  if (!m) return
+  // Apri popup dolcemente
+  m.openPopup()
+}
+
+function jumpToStop(i) {
+  if (!latlngs.length || i < 0 || i >= stopsLatLngs.value.length) return
+  // trova il punto della route più vicino alla tappa
+  const target = stopsLatLngs.value[i]
+  // ricerca semplice lungo i segmenti
+  let best = 0
+  let bestDist = Infinity
+  for (let s = 0; s < latlngs.length - 1; s++) {
+    const cand = latlngs[s]
+    const d = cand.distanceTo(target)
+    if (d < bestDist) {
+      bestDist = d
+      best = s
+    }
+  }
+  currentD = cumLengths[Math.min(best, cumLengths.length - 1)]
+  lastTs = 0
+  // posiziona subito marker/progress
+  const pos = getPointAt(currentD)
+  marker.setLatLng(pos)
+  if (marker._icon) marker._icon.classList.add('is-visible')
+  progressLine.setLatLngs(latlngs.slice(0, best + 1).concat([pos]))
+  map.panTo(pos)
+  activeStopIndexRef.value = i
+  maybeOpenPopup(i)
 }
 
 function tick(ts) {
@@ -215,12 +310,14 @@ function tick(ts) {
     marker.setLatLng(end)
     if (marker._icon) marker._icon.classList.add('is-visible')
     progressLine.setLatLngs(latlngs)
-    setPlaneHeading(bearingDeg(prevPos || latlngs[0], end))
-    prevPos = end
-    paused = true
+    // attiva l'ultima tappa più vicina
+    const idx = nearestStopIndex(end)
+    activeStopIndexRef.value = idx
+    maybeOpenPopup(idx)
+    // Reset immediately after a short pause
     setTimeout(() => {
       resetAnimation()
-      paused = false
+      lastTs = 0
       frame = requestAnimationFrame(tick)
     }, props.loopPauseMs)
     return
@@ -228,7 +325,12 @@ function tick(ts) {
     const pos = getPointAt(currentD)
     marker.setLatLng(pos)
     if (marker._icon) marker._icon.classList.add('is-visible')
-    setPlaneHeading(bearingDeg(prevPos || latlngs[0], pos))
+
+    // Update plane heading to point in direction of travel
+    if (prevPos) {
+      const heading = bearingDeg(prevPos, pos)
+      setPlaneHeading(heading)
+    }
     prevPos = pos
 
     // progress polyline fino al punto corrente
@@ -240,6 +342,13 @@ function tick(ts) {
 
     // camera follow
     if (props.follow) map.panTo(pos, { animate: true, duration: 0.5 })
+
+    // aggiorna evidenziazione timeline e popups
+    const idx = nearestStopIndex(pos)
+    if (idx !== activeStopIndexRef.value) {
+      activeStopIndexRef.value = idx
+      maybeOpenPopup(idx)
+    }
   }
 
   frame = requestAnimationFrame(tick)
@@ -282,77 +391,143 @@ watch(
   },
   { deep: true },
 )
+
+// watch stops to rebuild popups
+watch(
+  () => props.stops,
+  () => {
+    ensureLayers()
+  },
+  { deep: true },
+)
 </script>
 
 <style scoped>
-.map-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  color: var(--textcolor);
-}
-
-.map-header h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.subtitle {
-  text-align: center;
-  margin: 0.15rem 0 0;
-  opacity: 0.85;
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-}
-
-.map-frame {
+.honeymoon-map-wrapper {
   position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.4);
-  background: linear-gradient(135deg, rgba(245, 233, 213, 0.9), rgba(235, 221, 195, 0.85));
-  padding: 10px;
   width: 100%;
 }
 
-.map-canvas {
-  border-radius: 12px;
-  overflow: hidden;
-  width: 100%;
+.map-wrapper {
+  position: relative;
 }
 
-.legend-pill {
+.map-element {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.controls-overlay {
+  pointer-events: auto;
   position: absolute;
-  bottom: 14px;
-  right: 14px;
-  display: inline-flex;
+  top: 12px;
+  right: 12px;
+  z-index: 400;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 0.85rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #7b1e2c;
-  border: 1px solid rgba(123, 30, 44, 0.25);
-  backdrop-filter: blur(6px);
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  gap: 8px;
 }
 
-.plane-icon {
-  font-size: 2rem;
+.control-btn {
+  border-radius: 9999px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.control-btn:hover {
+  background: white;
+}
+
+.speed-display {
+  border-radius: 9999px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.timeline-overlay {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 400;
+  width: 224px;
+  max-width: 45vw;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.timeline-header {
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+}
+
+.timeline-list {
+  max-height: 300px;
+  overflow: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.timeline-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.timeline-item:hover {
+  background: white;
+}
+
+.timeline-item.active {
+  background: white;
+}
+
+.timeline-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.timeline-subtitle {
+  font-size: 0.75rem;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 :deep(.leaflet-container) {
   outline: none;
-  width: 100%;
-  height: 100%;
-  filter: saturate(1.1) contrast(1.05);
 }
 
-.honeymoon-marker .plane {
-  font-size: 22px;
+:deep(.honeymoon-marker) {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+:deep(.honeymoon-marker) .plane {
+  font-size: 24px;
   transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+:deep(.honeymoon-marker.is-visible) {
+  opacity: 1;
 }
 </style>

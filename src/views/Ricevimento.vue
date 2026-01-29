@@ -33,10 +33,8 @@
         </h4>
       </section>
     </div>
-
     <div class="infoutili">
       <h3>Info Utili</h3>
-      <p></p>
     </div>
 
     <section class="parking-card glass-card">
@@ -56,6 +54,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: "Location",
   data() {
@@ -153,6 +153,9 @@ export default {
   line-height: 1.5;
 }
 
+.infoutili{
+  margin-top: 15px;
+}
 .hero-text h3 {
   text-align: center;
   margin: 0;

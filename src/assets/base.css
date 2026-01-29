@@ -17,7 +17,7 @@
 
 html, body, #app {
   height: 100%;
-  margin: 0;
+  /* margin: 0; */
 }
 
 body {
@@ -44,7 +44,7 @@ html.home-bg::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('@/components/icons/Zanzibar3-2025.png');
+  /* background-image: url('@/components/icons/Zanzibar--2025.png'); */
   background-position: center 20%;
   background-repeat: no-repeat;
   background-size: cover;

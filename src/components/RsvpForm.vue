@@ -1,215 +1,605 @@
 <template>
-  <div id="form">
-    <iframe name="hidden_iframe" style="display: none"></iframe>
-    <form
-      action="https://script.google.com/macros/s/AKfycbwVt1Z_XskCbPMt8WIj8nTPOjr2eM2pWkR_gsoGbYGsyZvjLYUK1Hrj3f16BRHDVjQi0g/exec"
-      method="post"
-      enctype="application/x-www-form-urlencoded"
-      target="hidden_iframe"
-      @submit="onSubmit"
-    >
-      <div class="field">
-        <label for="nome">Nome</label>
-        <input id="nome" name="nome" v-model="nome" required />
+  <div class="rsvp-form-container">
+    <h2 class="form-title">Rispondi all'Invito</h2>
+    <p class="form-subtitle">Facci sapere se potrai essere con noi</p>
+    
+    <form @submit.prevent="handleSubmit" class="rsvp-form">
+      <!-- Attendance Choice -->
+      <div class="form-group attendance-group">
+        <label>Parteciperai al matrimonio? *</label>
+        <div class="attendance-options">
+          <label class="attendance-option" :class="{ selected: formData.partecipa === 'si' }">
+            <input 
+              type="radio" 
+              v-model="formData.partecipa" 
+              value="si"
+              required
+              :disabled="isSubmitting"
+            />
+            <span class="option-content">
+              <FontAwesomeIcon :icon="faCheckCircle" class="option-icon yes" />
+              <span class="option-text">Sì, ci sarò!</span>
+            </span>
+          </label>
+          <label class="attendance-option">
+            <input 
+              type="radio" 
+              v-model="formData.partecipa" 
+              value="no"
+              required
+              :disabled="isSubmitting"
+            />
+          </label>
+        </div>
       </div>
 
-      <div class="field">
-        <label for="cognome">Cognome</label>
-        <input id="cognome" name="cognome" v-model="cognome" required />
-      </div>
-
-      <div class="field">
-        <label for="email">Email per ricevere la conferma</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autocomplete="email"
-          inputmode="email"
-          v-model="email"
-          required
-          placeholder="nome@email.com"
+      <div class="form-group">
+        <label for="nome">Nome *</label>
+        <input 
+          id="nome" 
+          v-model="formData.nome" 
+          type="text"
+          required 
+          :disabled="isSubmitting"
+          placeholder="Il tuo nome"
         />
       </div>
-
-      <div class="field">
-        <label for="allergie">Allergie e Intolleranze</label>
-        <textarea
-          id="allergie"
-          name="allergie"
-          v-model="allergie"
-          rows="3"
-          placeholder="Es: Glutine, Crostacei, Lattosio"
-        ></textarea>
+      
+      <div class="form-group">
+        <label for="cognome">Cognome *</label>
+        <input 
+          id="cognome" 
+          v-model="formData.cognome" 
+          type="text"
+          required 
+          :disabled="isSubmitting"
+          placeholder="Il tuo cognome"
+        />
       </div>
-
-      <button type="submit"><b>Invia</b></button>
+      
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input 
+          id="email" 
+          v-model="formData.email" 
+          type="email"
+          required 
+          :disabled="isSubmitting"
+          placeholder="tuaemail@esempio.com"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="telefono">Telefono</label>
+        <input 
+          id="telefono" 
+          v-model="formData.telefono" 
+          type="tel"
+          :disabled="isSubmitting"
+          placeholder="+39 123 456 7890"
+        />
+      </div>
+      
+      <!-- Only show guest details if attending -->
+      <template>
+        <div class="form-group">
+          <label for="allergie">Allergie/Intolleranze alimentari</label>
+          <textarea 
+            id="allergie" 
+            v-model="formData.allergie" 
+            rows="3"
+            placeholder="Es: Mario - celiaco, Anna - vegetariana..."
+            :disabled="isSubmitting"
+          ></textarea>
+          <small class="form-hint">Indica il nome della persona e le sue esigenze alimentari</small>
+        </div>
+      </template>
+      
+      <button 
+        type="submit" 
+        class="submit-btn"
+        :class="{ 'decline-btn': formData.partecipa === 'no' }"
+        :disabled="isSubmitting || !formData.partecipa"
+      >
+        <span v-if="!isSubmitting">
+          <FontAwesomeIcon :icon="formData.partecipa === 'si' ? faHeart : faPaperPlane" />
+          {{ formData.partecipa === 'si' ? 'Conferma Presenza' : 'Invia Risposta' }}
+        </span>
+        <span v-else>
+          <FontAwesomeIcon :icon="faSpinner" spin />
+          Invio in corso...
+        </span>
+      </button>
     </form>
-
-    <div v-if="submitted" class="successo">
-      <p>Grazie per la conferma, {{ nome }}! Riceverai una mail di riepilogo con il link per aggiungere l'evento al calendario.</p>
-      <div class="calendar-actions">
-        <a
-          class="calendar-link primary"
-          :href="googleCalendarUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Aggiungi a Google Calendar
-        </a>
-        <a
-          class="calendar-link"
-          :href="icsUrl"
-          download="matrimonio-carlo-francesca.ics"
-        >
-          Scarica file .ics (Apple / Outlook)
-        </a>
+    
+    <!-- Success Message -->
+    <Transition name="fade">
+      <div v-if="showSuccess" class="success-message" :class="{ 'decline-success': formData.partecipa === 'no' }">
+        <FontAwesomeIcon :icon="faCheckCircle" class="success-icon" />
+        <h3>Grazie, {{ formData.nome }}!</h3>
+        <p v-if="formData.partecipa === 'si'">
+          La tua conferma è stata ricevuta. Ti abbiamo inviato una email di conferma a <strong>{{ formData.email }}</strong>
+        </p>
+        <p v-else>
+          Abbiamo ricevuto la tua risposta. Ci dispiace che non potrai essere con noi, ma ti penseremo!
+        </p>
+        <p class="success-note">{{ formData.partecipa === 'si' ? 'Non vediamo l\'ora di festeggiare con te! 🎉' : '💕' }}</p>
       </div>
-    </div>
+    </Transition>
+    
+    <!-- Error Message -->
+    <Transition name="fade">
+      <div v-if="errorMessage" class="error-message">
+        <FontAwesomeIcon :icon="faExclamationCircle" class="error-icon" />
+        <h4>Ops, qualcosa è andato storto</h4>
+        <p>{{ errorMessage }}</p>
+        <button @click="errorMessage = ''" class="error-close-btn">
+          Chiudi
+        </button>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { 
+  faSpinner, 
+  faCheckCircle, 
+  faExclamationCircle, 
+  faHeart,
+  faPaperPlane
+} from '@fortawesome/free-solid-svg-icons'
 
-const nome = ref("");
-const cognome = ref("");
-const email = ref("");
-const allergie = ref("");
-const submitted = ref(false);
-const googleCalendarUrl =
-  "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Matrimonio%20di%20Carlo%20e%20Francesca&dates=20260711T143000Z%2F20260711T203000Z&details=Cerimonia%20alle%2016%3A30%20-%20Chiesa%20di%20SS.%20Felice%20e%20Agata.%20Conferma%20la%20presenza%20e%20le%20allergie%20dal%20link%20RSVP.&location=Chiesa%20di%20SS.%20Felice%20e%20Agata%2C%20Via%20XX%20Settembre%2C%2059%20-%20Oviglio%20(AL)";
-const icsUrl = "/matrimonio-carlo-francesca.ics";
+const emit = defineEmits(['success'])
 
-function onSubmit() {
-  submitted.value = true;
+const formData = reactive({
+  partecipa: '',
+  nome: '',
+  cognome: '',
+  email: '',
+  telefono: '',
+  allergie: '',
+  messaggio: ''
+})
+
+const isSubmitting = ref(false)
+const showSuccess = ref(false)
+const errorMessage = ref('')
+
+async function handleSubmit() {
+  isSubmitting.value = true
+  errorMessage.value = ''
+  
+  try {
+    const response = await fetch('/api/rsvp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    
+    const data = await response.json()
+    
+    if (!response.ok) {
+      throw new Error(data.message || data.error || 'Errore durante l\'invio')
+    }
+    
+    // Success
+    showSuccess.value = true
+    emit('success')
+    
+    // Reset form after 5 seconds
+    setTimeout(() => {
+      Object.assign(formData, {
+        partecipa: '',
+        nome: '',
+        cognome: '',
+        email: '',
+        telefono: '',
+        allergie: '',
+        messaggio: ''
+      })
+      showSuccess.value = false
+    }, 5000)
+    
+  } catch (error) {
+    console.error('RSVP submission error:', error)
+    errorMessage.value = error.message
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
-<style>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 15em;
-  margin: 30px auto;
-  padding: 1.25rem 1.1rem 1.4rem;
-  color: var(--textcolor);
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.85));
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 14px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(12px);
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-label {
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.85rem;
-}
-
-input,
-textarea {
+<style scoped>
+.rsvp-form-container {
   width: 100%;
-  padding: 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 10px;
-  color: var(--textcolor);
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-
-input:focus,
-textarea:focus {
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-  color: var(--textcolor);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.02em;
-}
-
-button {
-  display: inline-flex;
-  align-self: center;
-  justify-content: center;
-  width: 50%;
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  color: var(--wine-burgundy);
+  margin: 0 0 0.5rem 0;
   text-align: center;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12));
-  color: var(--textcolor);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 12px;
+}
+
+.form-subtitle {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: var(--stone-gray);
+  text-align: center;
+  margin: 0 0 2rem 0;
+}
+
+.rsvp-form {
+  width: 100%;
+}
+
+/* Attendance Options */
+.attendance-group {
+  margin-bottom: 2rem;
+}
+
+.attendance-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.attendance-option {
+  flex: 1;
   cursor: pointer;
-  padding: 0.75rem 1rem;
-  letter-spacing: 0.04em;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-  backdrop-filter: blur(8px);
 }
 
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+.attendance-option input {
+  display: none;
 }
 
-.successo {
-  margin-top: 1rem;
-  color: var(--textcolor);
-  font-weight: bold;
-  text-align: center;
-}
-
-.calendar-actions {
+.option-content {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 0.8rem;
-}
-
-.calendar-link {
-  display: inline-flex;
-  justify-content: center;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.65rem 0.75rem;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  border: 2px solid #DDD;
   border-radius: 12px;
-  text-decoration: none;
-  color: var(--textcolor);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  transition: all 0.3s ease;
+  background: white;
 }
 
-.calendar-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+.attendance-option:hover .option-content {
+  border-color: var(--wine-burgundy);
 }
 
-.calendar-link.primary {
-  border-color: rgba(255, 255, 255, 0.45);
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12));
+.attendance-option.selected .option-content {
+  border-color: var(--wine-burgundy);
+  background: rgba(107, 28, 35, 0.05);
 }
 
-@media screen and (min-width: 769px) {
-  form {
-    width: 16em;
-    margin: 40px;
+.option-icon {
+  font-size: 1.8rem;
+}
+
+.option-icon.yes {
+  color: var(--sage-green);
+}
+
+.option-icon.no {
+  color: var(--terracotta);
+}
+
+.option-text {
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+/* Info Box */
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(138, 154, 123, 0.15);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--sage-green);
+}
+
+.info-box .info-icon {
+  color: var(--sage-green);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.info-box p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Form Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--wine-burgundy);
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.875rem;
+  border: 2px solid #DDD;
+  border-radius: 8px;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 0 0 3px rgba(107, 28, 35, 0.1);
+}
+
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group textarea:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--stone-gray);
+  font-style: italic;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: var(--wine-burgundy);
+  color: var(--text-light);
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(107, 28, 35, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: var(--terracotta);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 28, 35, 0.4);
+}
+
+.submit-btn.decline-btn {
+  background: var(--stone-gray);
+}
+
+.submit-btn.decline-btn:hover:not(:disabled) {
+  background: #5a6855;
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success Message */
+.success-message {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  border: 2px solid #8A9A7B;
+  border-radius: 12px;
+  text-align: center;
+  animation: slideIn 0.4s ease;
+}
+
+.success-message.decline-success {
+  background: linear-gradient(135deg, #f5e6d3, #ece0d1);
+  border-color: var(--terracotta);
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: #155724;
+  margin-bottom: 1rem;
+}
+
+.decline-success .success-icon {
+  color: var(--terracotta);
+}
+
+.success-message h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #155724;
+  margin: 0 0 0.5rem 0;
+}
+
+.decline-success h3 {
+  color: var(--wine-burgundy);
+}
+
+.success-message p {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: #155724;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.decline-success p {
+  color: var(--text-dark);
+}
+
+.success-note {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Error Message */
+.error-message {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8d7da;
+  border: 2px solid #f5c6cb;
+  border-radius: 12px;
+  text-align: center;
+  animation: slideIn 0.4s ease;
+}
+
+.error-icon {
+  font-size: 2.5rem;
+  color: #721c24;
+  margin-bottom: 0.75rem;
+}
+
+.error-message h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #721c24;
+  margin: 0 0 0.5rem 0;
+}
+
+.error-message p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  color: #721c24;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.error-close-btn {
+  padding: 0.6rem 1.5rem;
+  background: #721c24;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.error-close-btn:hover {
+  background: #501419;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-
-  button {
-    width: 45%;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+  .form-title {
+    font-size: 1.6rem;
+  }
+  
+  .attendance-options {
+    flex-direction: column;
+  }
+  
+  .option-content {
+    flex-direction: row;
+    padding: 1rem;
+  }
+  
+  .option-icon {
+    font-size: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .submit-btn {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .success-message,
+  .error-message {
+    padding: 1.5rem 1rem;
+  }
 }
 </style>
