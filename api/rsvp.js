@@ -18,6 +18,15 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
+
+  // Check if Resend API key is configured
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY not configured')
+    return res.status(500).json({ 
+      error: 'Configurazione mancante',
+      message: 'Il servizio email non è configurato correttamente. Contatta gli amministratori.'
+    })
+  }
   
   try {
     const {nome, cognome, email, telefono, allergie} = req.body
@@ -153,55 +162,6 @@ export default async function handler(req, res) {
           </div>
         </body>
         </html>
-
-        <!DOCTYPE html>
-        <html lang="it">
-        <head>
-          <meta charset="UTF-8">
-          <style>
-            body {
-              font-family: 'Lato', Arial, sans-serif;
-              color: #2C2416;
-              line-height: 1.6;
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-            }
-            .header {
-              background: linear-gradient(135deg, #8A9A7B, #6b7d60);
-              color: #FFFEF2;
-              padding: 40px 20px;
-              text-align: center;
-              border-radius: 10px 10px 0 0;
-            }
-            .header h1 {
-              margin: 0;
-              font-family: 'Playfair Display', Georgia, serif;
-              font-size: 32px;
-            }
-            .content {
-              background: #F4EBD9;
-              padding: 30px;
-              border-radius: 0 0 10px 10px;
-            }
-            .footer {
-              text-align: center;
-              margin-top: 30px;
-              color: #756F65;
-              font-size: 14px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>Carlo & Francesca</h1>
-            <p style="margin: 10px 0 0;">11 Luglio 2026</p>
-          </div>  
-          <div class="footer">
-            <p>Questa email è stata inviata in risposta alla tua risposta all'invito di matrimonio di Carlo e Francesca.</p>
-          </div>
-        </body>
-        </html>
       `
     })
     
@@ -280,7 +240,7 @@ export default async function handler(req, res) {
             </div>
             ` : ''}
           
-            ${allergie && isAttending ? `
+            ${allergie ? `
             <div class="info-row">
               <span class="label">Allergie/Note:</span>
               <span class="value">${allergie}</span>
@@ -321,6 +281,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ 
         error: 'Errore di validazione',
         message: error.message 
+      })
+    }
+    
+    // Handle Resend API errors
+    if (error.message && error.message.includes('resend')) {
+      return res.status(500).json({ 
+        error: 'Errore del servizio email',
+        message: 'Il servizio email non è disponibile al momento. Riprova più tardi.'
       })
     }
     
