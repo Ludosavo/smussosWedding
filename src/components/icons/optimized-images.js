@@ -28,7 +28,6 @@ function keyFromPath(path) {
 
 export const imagesMap = Object.fromEntries(
   Object.entries(optimizedMedium).map(([path, src]) => [keyFromPath(path), build(src)]),
-  ['parcheggioPiccolo', build(require('@/components/icons/parcheggioPiccolo.png'))],
 )
 
 export function getSrcSet(imageObj) {

@@ -30,7 +30,7 @@
 <script>
 
 import chiesaImg from "@/components/icons/chiesa.jpeg";
-import ParcheggiImg from "@/components/icons/ParcheggioPiccolo.png";
+import ParcheggiImg from "@/components/icons/parcheggioPiccolo.png";
 import ParcheggioGrande from "@/components/icons/ParcheggioGrande.png";
 
 export default {
