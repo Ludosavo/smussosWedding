@@ -113,7 +113,7 @@ watch(
   align-items: center;
   position: sticky;
   transition: color 0.1s, opacity 0.1s;
-  --nav-bg: #f8eedd;
+  --nav-bg: #ffffff;
   --nav-bg-strong: #ebddc3;
   --nav-text: #25744b;
   --nav-border: rgba(255, 255, 255, 0.2);
@@ -135,7 +135,7 @@ nav {
   gap: 0.75rem;
   width: 100%;
   padding: 0.9rem 1.1rem;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.85));
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85));
   border: 1px solid var(--nav-border);
   border-radius: 14px;
   color: var(--nav-text);
@@ -284,7 +284,7 @@ nav {
     border: 1px solid var(--nav-border);
     border-radius: 16px;
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
-    background: linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.85));
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.85));
     flex-wrap: wrap;
     justify-content: center;
   }

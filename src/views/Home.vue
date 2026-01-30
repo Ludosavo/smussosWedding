@@ -2,9 +2,6 @@
   <main>
     <div id="testoHome" class="glass-card">
       <h3>Carlo <span id="e">e</span> Francesca</h3>
-      <div id="hero-circle">
-        <img :src="pugliaImg" alt="Puglia 2023" />
-      </div>
       <GrapevineDivider />
       <h4>
         Sabato 11 Luglio 2026 <br />
@@ -23,6 +20,7 @@
         Rispondi all'invito
       </button>
     </section>
+    
     <!-- RSVP Modal -->
     <Transition name="modal">
       <div v-if="showRsvpModal" class="modal-overlay" @click="closeRsvpModal">
@@ -84,7 +82,6 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import RsvpForm from "@/components/RsvpForm.vue";
 import GrapevineDivider from "@/components/GrapevineDivider.vue";
-import pugliaImg from "@/components/icons/Puglia-2023.jpeg";
 
 const showRsvpModal = ref(false);
 
@@ -111,6 +108,7 @@ const countdown = ref(calculateCountdown());
 let countdownInterval = null;
 
 onMounted(() => {
+  document.documentElement.classList.add("home-bg");
   countdownInterval = setInterval(() => {
     countdown.value = calculateCountdown();
   }, 1000);
@@ -120,6 +118,7 @@ onUnmounted(() => {
   if (countdownInterval) {
     clearInterval(countdownInterval);
   }
+  document.documentElement.classList.remove("home-bg");
 });
 
 const googleCalendarUrl = computed(() => {
@@ -169,34 +168,13 @@ function handleRsvpSuccess() {
 }
 </script>
 
-<style>
+<style scoped>
 
 .glass-card {
   padding: 1.25rem 1.4rem;
   background: rgba(255, 255, 255, 0.836);
   border-radius: 16px;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
-}
-
-#hero-circle {
-  width: 240px;
-  height: 320px; /* ~3:4 */
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-  position: absolute;
-  top: 10px;
-  left: 20px;
-}
-
-#hero-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 32%;
-  transform: scale(1.2);
-  display: block;
 }
 
 #e {
@@ -312,6 +290,40 @@ function handleRsvpSuccess() {
 
 .rsvp-button:active {
   transform: translateY(0);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1.5rem;
+}
+
+.modal-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  padding: 2rem 1.5rem;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--textcolor);
 }
 
   @media screen and (min-width: 769px) {
