@@ -6,7 +6,7 @@
       <h4>
         Sabato 11 Luglio 2026 <br />
         Ore 16:30 <br />
-        Chiesa di SS. Felice e Agata, <br />
+        Chiesa dei SS. Felice e Agata, <br />
         Via XX Settembre, 59 - Oviglio (AL)
       </h4>
       <h4>
@@ -143,7 +143,7 @@ BEGIN:VEVENT
 DTSTART:20260711T143000Z
 DTEND:20260712T000000Z
 SUMMARY:Matrimonio Carlo & Francesca
-DESCRIPTION:Cerimonia alle 16:30 presso la Chiesa di SS. Felice e Agata.\\nRicevimento al Castello di Oviglio.
+DESCRIPTION:Cerimonia alle 16:30 presso la Chiesa dei SS. Felice e Agata.\\nRicevimento al Castello di Oviglio.
 LOCATION:Chiesa di SS. Felice e Agata, Via XX Settembre 59, 15026 Oviglio AL, Italia
 END:VEVENT
 END:VCALENDAR`;

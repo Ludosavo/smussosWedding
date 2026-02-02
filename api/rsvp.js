@@ -4,6 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Use verified domain or fall back to Resend's testing domain
 const SENDER_EMAIL = process.env.SENDER_EMAIL || 'Carlo & Francesca <onboarding@resend.dev>'
+const COUPLE_EMAIL = process.env.RSVP_NOTIFICATION_EMAIL || null
 
 export default async function handler(req, res) {
   // CORS headers
@@ -19,12 +20,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  // Check if Resend API key is configured
+  // Check if Resend API key and couple email are configured
   if (!process.env.RESEND_API_KEY) {
     console.error('RESEND_API_KEY not configured')
     return res.status(500).json({ 
       error: 'Configurazione mancante',
       message: 'Il servizio email non è configurato correttamente. Contatta gli amministratori.'
+    })
+  }
+
+  if (!COUPLE_EMAIL) {
+    console.error('RSVP_NOTIFICATION_EMAIL not configured')
+    return res.status(500).json({
+      error: 'Configurazione mancante',
+      message: 'Email di notifica non configurata. Contatta gli amministratori.'
     })
   }
   
@@ -49,7 +58,7 @@ export default async function handler(req, res) {
     }
         
     // Send confirmation email to guest
-    const guestEmailResult = await resend.emails.send({
+    const guestEmail = resend.emails.send({
       from: SENDER_EMAIL,
       to: email,
       subject: 'Conferma RSVP - Matrimonio Carlo & Francesca',
@@ -133,7 +142,7 @@ export default async function handler(req, res) {
               <ul>
                 <li><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
                 <li><strong>Ora:</strong> 16:30</li>
-                <li><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
+                <li><strong>Cerimonia:</strong> Chiesa dei SS. Felice e Agata</li>
                 <li><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
                 <li><strong>Ricevimento:</strong> Castello di Oviglio</li>
               </ul>
@@ -166,10 +175,11 @@ export default async function handler(req, res) {
     })
     
     // Send notification email to couple
-    const coupleEmailResult = await resend.emails.send({
+    const coupleEmail = resend.emails.send({
       from: SENDER_EMAIL,
-      to: process.env.RSVP_NOTIFICATION_EMAIL || 'smusso1126@gmail.com',
+      to: COUPLE_EMAIL,
       subject: `✓ Nuova conferma: ${nome} ${cognome}`,
+      reply_to: email,
       html: `
         <!DOCTYPE html>
         <html lang="it">
@@ -259,6 +269,8 @@ export default async function handler(req, res) {
         </html>
       `
     })
+
+    const [guestEmailResult, coupleEmailResult] = await Promise.all([guestEmail, coupleEmail])
     
     console.log('RSVP processed successfully:', { nome, cognome, email })
     console.log('Guest email ID:', guestEmailResult.data?.id)

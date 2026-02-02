@@ -65,10 +65,12 @@ export default {
 <style scoped>
 
 .chiesa-image{
-  width: 60%;
-  object-fit:scale-down;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
+  width: min(70%, 720px);
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  margin: 1rem auto 1.8rem;
+  display: block;
   box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
 }
 .info-page {
@@ -76,8 +78,11 @@ export default {
   margin: 0 auto;
   padding: 2rem clamp(1rem, 3vw, 2.6rem) 3rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
   color: var(--textcolor);
+  text-align: center;
 }
 
 .glass-card {
@@ -102,8 +107,8 @@ export default {
 
 .parking-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
 }
 
 .parking-card {
@@ -145,7 +150,7 @@ export default {
 .parking-top h3 {
   margin: 0;
   letter-spacing: 0.03em;
-  font-size: 30px;
+  font-size: 1.25rem;
 }
 
 .distance {
@@ -168,10 +173,21 @@ export default {
 @media (max-width: 768px) {
   .info-page {
     padding: 1.5rem 1rem 2.4rem;
+    align-items: stretch;
+    text-align: left;
   }
 
   .parking-grid {
     grid-template-columns: 1fr;
+  }
+
+  .chiesa-image {
+    width: 100%;
+    margin: 0 auto 1.5rem;
+  }
+
+  .section-header h3, .section-header p {
+    text-align: left;
   }
 }
 </style>

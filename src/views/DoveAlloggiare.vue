@@ -3,8 +3,8 @@
     <section class="hero">
       <h3>Dove dormire</h3>
       <p class="lede">
-        Tre indirizzi consigliati, tutti a breve distanza dalla location. Chiama
-        direttamente oppure apri il navigatore con le indicazioni già pronte.
+        I seguenti indirizzi sono tutti a breve distanza in auto dalla location. <br>
+        Chiama o prenota direttamente dai link oppure apri il navigatore con le indicazioni già pronte.
       </p>
     </section>
 
@@ -15,17 +15,27 @@
           :style="{ backgroundImage: 'url(' + place.image + ')' }"
         ></div>
         <div class="card-header">
-          <div>
-            <h3 class="placename">{{ place.name }}</h3>
-            <p class="desc">{{ place.description }}</p>
-          </div>
+          <h3 class="placename">{{ place.name }}</h3>
+          <p class="desc">{{ place.description }}</p>
           <span class="pill">{{ place.type }}</span>
         </div>
 
-        <div class="meta">
-          <a class="phone" :href="place.phoneHref">📞 {{ place.phoneLabel }}</a>
-          <a class="cta" :href="place.maps" target="_blank" rel="noopener">
-            Indicazioni Google Maps
+        <div class="actions">
+          <a 
+            v-if="place.phone" 
+            class="action-link" 
+            :href="`tel:${place.phone.replace(/\\s+/g, '')}`"
+          >
+            📞 {{ place.phone }}
+          </a>
+          <span v-else class="action-missing">📞 Telefono non indicato</span>
+
+          <a class="action-link" :href="place.maps" target="_blank" rel="noopener">
+            🗺️ Indicazioni Google Maps
+          </a>
+
+          <a class="action-link" :href="place.website" target="_blank" rel="noopener">
+            🔗 Sito / Prenotazione
           </a>
         </div>
       </article>
@@ -36,37 +46,79 @@
 <script setup>
 const places = [
   {
-    name: "Relais Rocca Civalieri",
-    description:
-      "Country hotel con spa e piscina immerso nel verde, a 15 minuti dal Castello.",
-    type: "Resort",
-    phoneLabel: "+39 0131 776142",
-    phoneHref: "tel:+390131776142",
-    maps: "https://www.google.com/maps/dir/?api=1&destination=Relais+Rocca+Civalieri,+Quattordio+AL",
+    name: "Agriturismo Cascina Amarant",
+    description: "Camere in cascina rinnovata, atmosfera rurale a 7 minuti dalla location.",
+    type: "Agriturismo",
+    phone: "+39 337 334 510",
+    maps: "https://www.google.com/maps/search/?api=1&query=Agriturismo+Cascina+Amarant",
+    website: "https://www.agriturismoamarant.it/",
     image:
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/a8/0c/1f/castello-di-lajone.jpg?w=1800&h=1000&s=1",
+      "src/components/icons/hotels/Agriturismo-Cascina-Amarant.webp",
+  },
+  {
+    name: "HM Motel Hotel",
+    description: "Hotel moderno a Castellazzo Bormida, 7 minuti dalla location.",
+    type: "Hotel",
+    phone: "+39 0131 278858",
+    maps: "https://www.google.com/maps/dir/?api=1&destination=Via+Pietro+Caselli,+15073+Castellazzo+Bormida",
+    website:
+      "https://www.motelhotel.it/",
+    image:
+      "src/components/icons/hotels/HM-Motel-Hotel.webp",
+  },
+  {
+    name: "Il Murôn Guest House",
+    description: "Guest house accogliente, 10 minuti dalla location",
+    type: "Guest House",
+    phone: "+39 366 458 4296",
+    maps: "https://www.google.com/maps/search/?api=1&query=Il+Muron+Guest+House",
+    website: "https://www.monferratoguesthouse.it/il-muron-guest-house/",
+    image:
+      "src/components/icons/hotels/Il-Murôn-Guest-House.webp",
+  },
+  {
+    name: "Agriturismo Olivazzi",
+    description: "Agriturismo con camere e ristorante a Quattordio, 13 minuti dalla location",
+    type: "Agriturismo",
+    phone: "+39 339 502 5920",
+    maps: "https://www.google.com/maps/dir/?api=1&destination=Piazza+Olivazzi+2,+15028+Quattordio",
+    website:
+      "https://www.olivazzi.it/",
+    image:
+      "src/components/icons/hotels/Agriturismo-Olivazzi.webp",
+  },
+  {
+    name: "LVG Hotel al Mulino",
+    description: "Hotel con ristorante ad Alessandria, 19 minuti dalla location.",
+    type: "Hotel",
+    phone: "+39 0131 362250",
+    maps: "https://www.google.com/maps/dir/?api=1&destination=Via+Casale+44,+15122+Alessandria",
+    website:
+      "https://almulino-hotel.it/",
+    image:
+      "src/components/icons/hotels/LVG-Hotel-al-Mulino.webp",
+  },
+  {
+    name: "Centauri (Hotel Cantalupo)",
+    description: "Camere a Cantalupo, 17 minuti dalla location",
+    type: "Hotel",
+    phone: "",
+    maps: "https://www.google.com/maps/dir/?api=1&destination=Viale+Madonnina+dei+Centauri+137,+15073+Cantalupo",
+    website: "https://www.booking.com/hotel/it/centauri-castellazzo-bormida.html",
+    image:
+      "src/components/icons/hotels/Centauri-Hotel-Cantalupo.jpg",
   },
   {
     name: "Hotel Alli Due Buoi Rossi",
     description:
-      "Storico 4 stelle nel centro di Alessandria, comodo per chi arriva in treno.",
+      "Storico 4 stelle in centro ad Alessandria, 20 minuti dalla location",
     type: "Hotel",
-    phoneLabel: "+39 0131 316151",
-    phoneHref: "tel:+390131316151",
+    phone: "+39 0131 517171",
     maps: "https://www.google.com/maps/dir/?api=1&destination=Hotel+Alli+Due+Buoi+Rossi,+Alessandria",
+    website:
+      "https://www.hotelalliduebuoirossi.com/",
     image:
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/09/e0/1d/hotel-alli-due-buoi-rossi.jpg?w=1100&h=600&s=1",
-  },
-  {
-    name: "B&B La Corte dei Bertoli",
-    description:
-      "Dimora di charme nel cuore di Oviglio, perfetta per un soggiorno intimo.",
-    type: "B&B",
-    phoneLabel: "+39 335 1234567",
-    phoneHref: "tel:+393351234567",
-    maps: "https://www.google.com/maps/dir/?api=1&destination=La+Corte+dei+Bertoli,+Oviglio",
-    image:
-      "https://images.unsplash.com/photo-1445991842772-097fea258e7b?auto=format&fit=crop&w=1200&q=80",
+      "src/components/icons/hotels/Hotel-Alli-Due-Buoi-Rossi.webp",
   },
 ];
 </script>
@@ -119,17 +171,21 @@ const places = [
   padding: 0 0 1.2rem;
   box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(12px);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.9rem;
   overflow: hidden;
+  min-height: 100%;
+  align-items: stretch;
 }
 
 .placename {
-  color: white;
+  color: #25744b;
 }
 .card-image {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
+  min-height: 280px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -140,91 +196,98 @@ const places = [
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 40%,
-    rgba(0, 0, 0, 0.45) 100%
+    185deg,
+    rgba(0, 0, 0, 0.05) 35%,
+    rgba(0, 0, 0, 0.6) 100%
   );
 }
 
 .card-header {
-  display: flex;
-  justify-content: space-between;
-  justify-self: center;
-  gap: 0.75rem;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "pill"
+    "title"
+    "desc";
+  gap: 0.40rem;
+  align-items: stretch;
   padding: 0 1.2rem;
-  margin-top: -2.8rem;
+  margin-top: 0;
   position: relative;
-  z-index: 2;
+  z-index: 3;
+  text-shadow: none;
 }
 
 .card h3 {
+  grid-area: title;
   margin: 0;
-  font-size: 1.1rem;
+  text-align: center;
+  font-size: 26px;
   letter-spacing: 0.04em;
+  color: #25744b;
 }
 
 .desc {
-  margin: 0.25rem 0 0;
-  opacity: 0.9;
+  grid-area: desc;
+  margin: 0;
   line-height: 1.3;
+  color: #25744b;
+  align-items: stretch;
+  font-size: 20px;
 }
 
 .pill {
-  color: white;
+  grid-area: pill;
+  align-self: start;
+  text-align: center;
+  color: #25744b;
   padding: 0.35rem 0.65rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.15);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.meta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+.actions {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0 1.2rem 0.6rem;
+  margin-top: auto;
 }
 
-.phone {
-  text-align: center;
-  font-size: 18px;
+.action-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 0.98rem;
   color: var(--textcolor);
   text-decoration: none;
-  border: 1px solid #25744b;
-  border-radius: 8px;
-  padding: 0.55rem 0.9rem;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+  background: rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.phone:hover {
-  border-radius: 8px;
+.action-link:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 20px rgba(238, 229, 229, 0.35);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25);
 }
 
-.cta {
-  padding: 0.55rem 0.9rem;
-  border-radius: 12px;
-  font-size: 18px;
-  background: rgba(0, 0, 0, 0.243);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: var(--textcolor);
-  text-decoration: none;
-  text-align: center;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.cta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.35);
+.action-missing {
+  display: block;
+  width: 100%;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.7);
+  padding: 0.6rem 0.8rem;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 @media screen and (max-width: 769px) {

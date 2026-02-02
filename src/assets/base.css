@@ -20,6 +20,11 @@ html, body, #app {
   margin: 0;
 }
 
+h3{
+  font-family: "Great Vibes", serif;
+  font-size: 48px;
+  color: #25744b;
+}
 body {
   font-size: 22px;
   color: #25744b;
@@ -39,7 +44,7 @@ html.home-bg::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('@/components/icons/Zanzibar--2025.png');
+  background-image: url('@/components/icons/optimized/zanzibar--2025-large.webp');
   background-size: cover;
   background-position: center 35%;
   background-repeat: no-repeat;

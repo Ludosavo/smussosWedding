@@ -138,8 +138,8 @@ defineEmits(['photo-selected'])
 
 .timeline-image {
   position: relative;
+  width: 100%;
   aspect-ratio: 4 / 3;
-  height: auto;
   overflow: hidden;
 }
 
@@ -244,7 +244,8 @@ defineEmits(['photo-selected'])
   }
   
   .timeline-image {
-    height: 200px;
+    /* keep full width and let aspect-ratio determine height */
+    width: 100%;
   }
   
   .timeline-info {
@@ -283,7 +284,7 @@ defineEmits(['photo-selected'])
   }
   
   .timeline-image {
-    height: 180px;
+    width: 100%;
   }
   
   .timeline-info {
