@@ -140,7 +140,7 @@ async function handleSubmit() {
       },
       body: JSON.stringify(formData),
     });
-    const text = await resp.text(); // use text so you see even non-JSON errors
+    const text = await response.text(); // use text so you see even non-JSON errors
     console.log("RSVP status:", resp.status);
     console.log("RSVP response:", text);
     const contentType = response.headers.get("content-type") || "";
