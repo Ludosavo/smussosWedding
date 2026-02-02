@@ -1,179 +1,134 @@
-import { Resend } from 'resend'
+import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Use verified domain or fall back to Resend's testing domain
-const SENDER_EMAIL = process.env.SENDER_EMAIL || 'Carlo & Francesca <onboarding@resend.dev>'
-const COUPLE_EMAIL = process.env.RSVP_NOTIFICATION_EMAIL || null
+const SENDER_EMAIL =
+  process.env.SENDER_EMAIL || "Carlo & Francesca <onboarding@resend.dev>";
+const COUPLE_EMAIL = process.env.RSVP_NOTIFICATION_EMAIL || null;
 
 export default async function handler(req, res) {
   // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
   }
-  
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   // Check if Resend API key and couple email are configured
   if (!process.env.RESEND_API_KEY) {
-    console.error('RESEND_API_KEY not configured')
-    return res.status(500).json({ 
-      error: 'Configurazione mancante',
-      message: 'Il servizio email non è configurato correttamente. Contatta gli amministratori.'
-    })
+    console.error("RESEND_API_KEY not configured");
+    return res.status(500).json({
+      error: "Configurazione mancante",
+      message:
+        "Il servizio email non è configurato correttamente. Contatta gli amministratori.",
+    });
   }
 
   if (!COUPLE_EMAIL) {
-    console.error('RSVP_NOTIFICATION_EMAIL not configured')
+    console.error("RSVP_NOTIFICATION_EMAIL not configured");
     return res.status(500).json({
-      error: 'Configurazione mancante',
-      message: 'Email di notifica non configurata. Contatta gli amministratori.'
-    })
+      error: "Configurazione mancante",
+      message:
+        "Email di notifica non configurata. Contatta gli amministratori.",
+    });
   }
-  
+
   try {
-    const {nome, cognome, email, telefono, allergie} = req.body
-    
+    const { nome, cognome, email, telefono, allergie } = req.body;
+
     // Validation
     if (!nome || !cognome || !email) {
-      return res.status(400).json({ 
-        error: 'Dati mancanti',
-        message: 'Nome, cognome, email e risposta sono obbligatori' 
-      })
+      return res.status(400).json({
+        error: "Dati mancanti",
+        message: "Nome, cognome, email e risposta sono obbligatori",
+      });
     }
-    
+
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ 
-        error: 'Email non valida',
-        message: 'Inserisci un indirizzo email valido' 
-      })
+      return res.status(400).json({
+        error: "Email non valida",
+        message: "Inserisci un indirizzo email valido",
+      });
     }
-        
+
     // Send confirmation email to guest
     const guestEmail = resend.emails.send({
       from: SENDER_EMAIL,
       to: email,
-      subject: 'Conferma RSVP - Matrimonio Carlo & Francesca',
+      subject: "Conferma RSVP - Matrimonio Carlo & Francesca",
       html: `
         <!DOCTYPE html>
         <html lang="it">
         <head>
           <meta charset="UTF-8">
-          <style>
-            body {
-              font-family: 'Lato', Arial, sans-serif;
-              color: #2C2416;
-              line-height: 1.6;
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-            }
-            .header {
-              background: linear-gradient(135deg, #6B1C23, #C45D3F);
-              color: #FFFEF2;
-              padding: 40px 20px;
-              text-align: center;
-              border-radius: 10px 10px 0 0;
-            }
-            .header h1 {
-              margin: 0;
-              font-family: 'Playfair Display', Georgia, serif;
-              font-size: 32px;
-            }
-            .content {
-              background: #F4EBD9;
-              padding: 30px;
-              border-radius: 0 0 10px 10px;
-            }
-            .details {
-              background: #FFFEF2;
-              padding: 20px;
-              border-left: 4px solid #6B1C23;
-              margin: 20px 0;
-              border-radius: 5px;
-            }
-            .details h3 {
-              margin-top: 0;
-              color: #6B1C23;
-            }
-            .details ul {
-              list-style: none;
-              padding: 0;
-            }
-            .details li {
-              padding: 8px 0;
-              border-bottom: 1px solid #F4EBD9;
-            }
-            .details li:last-child {
-              border-bottom: none;
-            }
-            .footer {
-              text-align: center;
-              margin-top: 30px;
-              color: #756F65;
-              font-size: 14px;
-            }
-            .icon {
-              display: inline-block;
-              margin-right: 8px;
-            }
-          </style>
         </head>
-        <body>
-          <div class="header">
-            <h1>🍷 Carlo & Francesca 🍷</h1>
-            <p style="margin: 10px 0 0;">Matrimonio · 11 Luglio 2026</p>
-          </div>
-          
-          <div class="content">
-            <h2>Grazie per la conferma, ${nome}!</h2>
-            <p>Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
-            
-            <div class="details">
-              <h3>📍 Dettagli dell'Evento</h3>
-              <ul>
-                <li><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
-                <li><strong>Ora:</strong> 16:30</li>
-                <li><strong>Cerimonia:</strong> Chiesa dei SS. Felice e Agata</li>
-                <li><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
-                <li><strong>Ricevimento:</strong> Castello di Oviglio</li>
-              </ul>
-            </div>
-            
-            <div class="details">
-              <h3>✓ La Tua Conferma</h3>
-              <ul>
-                <li><strong>Nome:</strong> ${nome} ${cognome}</li>
-                <li><strong>Email:</strong> ${email}</li>
-                ${telefono ? `<li><strong>Telefono:</strong> ${telefono}</li>` : ''}
-                ${allergie ? `<li><strong>Allergie/Note:</strong> ${allergie}</li>` : ''}
-              </ul>
-            </div>
-            
-            <p>Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
-            
-            <p style="margin-top: 30px; text-align: center;">
-              <strong>A presto!</strong><br>
-              Carlo & Francesca ❤️
-            </p>
-          </div>
-          
-          <div class="footer">
-            <p>Questa email è stata inviata in risposta alla tua conferma di partecipazione al matrimonio di Carlo e Francesca.</p>
-          </div>
+        <body style="margin:0;padding:0;background:#f7f2e8;font-family:'Lato',Arial,sans-serif;color:#2C2416;line-height:1.6;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f2e8;">
+            <tr>
+              <td align="center" style="padding:24px 12px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;background:#F4EBD9;border-radius:12px;overflow:hidden;">
+                  <tr>
+                    <td style="background:linear-gradient(135deg,#6B1C23,#C45D3F);color:#FFFEF2;padding:36px 24px;text-align:center;">
+                      <h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:30px;letter-spacing:0.5px;">🍷 Carlo & Francesca 🍷</h1>
+                      <p style="margin:8px 0 0;font-size:15px;">Matrimonio · 11 Luglio 2026</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:28px 24px 16px;background:#F4EBD9;">
+                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;color:#6B1C23;">Grazie per la conferma, ${nome}!</h2>
+                      <p style="margin:0 0 14px;font-size:16px;">Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0 24px 20px;background:#F4EBD9;">
+                      <div style="background:#FFFEF2;border-left:4px solid #6B1C23;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color:#6B1C23;font-size:18px;">📍 Dettagli dell'Evento</h3>
+                        <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Ora:</strong> 16:30</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
+                          <li style="padding:6px 0;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
+                        </ul>
+                      </div>
+                      <div style="background:#FFFEF2;border-left:4px solid #6B1C23;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color:#6B1C23;font-size:18px;">✓ La Tua Conferma</h3>
+                        <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Nome:</strong> ${nome} ${cognome}</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Email:</strong> ${email}</li>
+                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
+                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Adulti:</strong> ${numeroAdulti}</li>
+                          ${parseInt(numeroBambini) > 0 ? `<li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Bambini:</strong> ${numeroBambini}</li>` : ""}
+                          ${allergie ? `<li style="padding:6px 0;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
+                        </ul>
+                      </div>
+                      <p style="margin:0 0 18px;font-size:15px;">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
+                      <p style="margin:0 0 10px;text-align:center;font-size:16px;"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px 12px 22px;text-align:center;color:#756F65;font-size:13px;background:#F4EBD9;">
+                      Questa email è stata inviata in risposta alla tua conferma di partecipazione al matrimonio di Carlo e Francesca.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
         </body>
         </html>
-      `
-    })
-    
+      `,
+    });
+
     // Send notification email to couple
     const coupleEmail = resend.emails.send({
       from: SENDER_EMAIL,
@@ -243,70 +198,82 @@ export default async function handler(req, res) {
               <span class="value">${email}</span>
             </div>
             
-            ${telefono ? `
+            ${
+              telefono
+                ? `
             <div class="info-row">
               <span class="label">Telefono:</span>
               <span class="value">${telefono}</span>
             </div>
-            ` : ''}
+            `
+                : ""
+            }
           
-            ${allergie ? `
+            ${
+              allergie
+                ? `
             <div class="info-row">
               <span class="label">Allergie/Note:</span>
               <span class="value">${allergie}</span>
             </div>
-            ` : ''}
+            `
+                : ""
+            }
             
             <div class="timestamp">
-              Ricevuto il: ${new Date().toLocaleString('it-IT', { 
-                timeZone: 'Europe/Rome',
-                dateStyle: 'full',
-                timeStyle: 'short'
+              Ricevuto il: ${new Date().toLocaleString("it-IT", {
+                timeZone: "Europe/Rome",
+                dateStyle: "full",
+                timeStyle: "short",
               })}
             </div>
           </div>
         </body>
         </html>
-      `
-    })
+      `,
+    });
 
-    const [guestEmailResult, coupleEmailResult] = await Promise.all([guestEmail, coupleEmail])
-    
-    console.log('RSVP processed successfully:', { nome, cognome, email })
-    console.log('Guest email ID:', guestEmailResult.data?.id)
-    console.log('Couple email ID:', coupleEmailResult.data?.id)
-    
+    const [guestEmailResult, coupleEmailResult] = await Promise.all([
+      guestEmail,
+      coupleEmail,
+    ]);
+
+    console.log("RSVP processed successfully:", { nome, cognome, email });
+    console.log("Guest email ID:", guestEmailResult.data?.id);
+    console.log("Couple email ID:", coupleEmailResult.data?.id);
+
     // Optional: Store in database (Vercel Postgres, Supabase, etc.)
     // await storeRSVP({ nome, cognome, email, telefono, numeroOspiti, allergie })
-    
-    return res.status(200).json({ 
-      success: true, 
-      message: 'RSVP confermato con successo!',
-      emailSent: true
-    })
-    
+
+    return res.status(200).json({
+      success: true,
+      message: "RSVP confermato con successo!",
+      emailSent: true,
+    });
   } catch (error) {
-    console.error('RSVP Error:', error)
-    
+    console.error("RSVP Error:", error);
+
     // More specific error handling
-    if (error.name === 'validation_error') {
-      return res.status(400).json({ 
-        error: 'Errore di validazione',
-        message: error.message 
-      })
+    if (error.name === "validation_error") {
+      return res.status(400).json({
+        error: "Errore di validazione",
+        message: error.message,
+      });
     }
-    
+
     // Handle Resend API errors
-    if (error.message && error.message.includes('resend')) {
-      return res.status(500).json({ 
-        error: 'Errore del servizio email',
-        message: 'Il servizio email non è disponibile al momento. Riprova più tardi.'
-      })
+    if (error.message && error.message.includes("resend")) {
+      return res.status(500).json({
+        error: "Errore del servizio email",
+        message:
+          "Il servizio email non è disponibile al momento. Riprova più tardi.",
+      });
     }
-    
-    return res.status(500).json({ 
-      error: 'Errore durante l\'invio',
-      message: 'Si è verificato un errore. Riprova più tardi o contattaci direttamente.'
-    })
+
+    return res.status(500).json({
+      error: "Errore durante l'invio",
+      message:
+        "Si è verificato un errore. Riprova più tardi o contattaci direttamente.",
+    });
   }
 }

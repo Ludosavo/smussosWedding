@@ -1,6 +1,6 @@
 <template>
   <main class="info-page">
-    <h3> Chiesa di SS. Felice e Agata </h3>
+    <h3> Chiesa dei SS. Felice e Agata </h3>
     <img class="chiesa-image" :src="chiesaImg" alt="Chiesa SS. Felice e Agata" loading="lazy"/>
     <section class="parking-section glass-card">
       <div class="section-header">
