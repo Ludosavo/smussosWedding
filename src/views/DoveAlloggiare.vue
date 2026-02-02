@@ -44,6 +44,14 @@
 </template>
 
 <script setup>
+import CascinaAmarant from "@/components/icons/hotels/Agriturismo-Cascina-Amarant.webp";
+import HM from "@/components/icons/hotels/HM-Motel-Hotel.webp";
+import IlMuron from "@/components/icons/hotels/Il-Murôn-Guest-House.webp";
+import Olivazzi from "@/components/icons/hotels/Agriturismo-Olivazzi.webp";
+import LVG from "@/components/icons/hotels/LVG-Hotel-al-Mulino.webp";
+import Centauri from "@/components/icons/hotels/Centauri-Hotel-Cantalupo.jpg";
+import AlliDueBuoiRossi from "@/components/icons/hotels/Hotel-Alli-Due-Buoi-Rossi.webp";
+
 const places = [
   {
     name: "Agriturismo Cascina Amarant",
@@ -53,7 +61,7 @@ const places = [
     maps: "https://www.google.com/maps/search/?api=1&query=Agriturismo+Cascina+Amarant",
     website: "https://www.agriturismoamarant.it/",
     image:
-      "src/components/icons/hotels/Agriturismo-Cascina-Amarant.webp",
+      CascinaAmarant,
   },
   {
     name: "HM Motel Hotel",
@@ -64,7 +72,7 @@ const places = [
     website:
       "https://www.motelhotel.it/",
     image:
-      "src/components/icons/hotels/HM-Motel-Hotel.webp",
+      HM,
   },
   {
     name: "Il Murôn Guest House",
@@ -74,7 +82,7 @@ const places = [
     maps: "https://www.google.com/maps/search/?api=1&query=Il+Muron+Guest+House",
     website: "https://www.monferratoguesthouse.it/il-muron-guest-house/",
     image:
-      "src/components/icons/hotels/Il-Murôn-Guest-House.webp",
+      IlMuron,
   },
   {
     name: "Agriturismo Olivazzi",
@@ -85,7 +93,7 @@ const places = [
     website:
       "https://www.olivazzi.it/",
     image:
-      "src/components/icons/hotels/Agriturismo-Olivazzi.webp",
+      Olivazzi,
   },
   {
     name: "LVG Hotel al Mulino",
@@ -96,7 +104,7 @@ const places = [
     website:
       "https://almulino-hotel.it/",
     image:
-      "src/components/icons/hotels/LVG-Hotel-al-Mulino.webp",
+      LVG,
   },
   {
     name: "Centauri (Hotel Cantalupo)",
@@ -106,7 +114,7 @@ const places = [
     maps: "https://www.google.com/maps/dir/?api=1&destination=Viale+Madonnina+dei+Centauri+137,+15073+Cantalupo",
     website: "https://www.booking.com/hotel/it/centauri-castellazzo-bormida.html",
     image:
-      "src/components/icons/hotels/Centauri-Hotel-Cantalupo.jpg",
+      Centauri,
   },
   {
     name: "Hotel Alli Due Buoi Rossi",
@@ -118,7 +126,7 @@ const places = [
     website:
       "https://www.hotelalliduebuoirossi.com/",
     image:
-      "src/components/icons/hotels/Hotel-Alli-Due-Buoi-Rossi.webp",
+      AlliDueBuoiRossi,
   },
 ];
 </script>
