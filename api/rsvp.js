@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Use verified domain or fall back to Resend's testing domain
 const SENDER_EMAIL =
   process.env.SENDER_EMAIL || "Carlo & Francesca <onboarding@resend.dev>";
-const COUPLE_EMAIL = process.env.RSVP_NOTIFICATION_EMAIL || null;
+const COUPLE_EMAIL = (process.env.RSVP_NOTIFICATION_EMAIL || "").trim();
 
 export default async function handler(req, res) {
   // CORS headers
@@ -106,8 +106,6 @@ export default async function handler(req, res) {
                           <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Nome:</strong> ${nome} ${cognome}</li>
                           <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Email:</strong> ${email}</li>
                           ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Adulti:</strong> ${numeroAdulti}</li>
-                          ${parseInt(numeroBambini) > 0 ? `<li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Bambini:</strong> ${numeroBambini}</li>` : ""}
                           ${allergie ? `<li style="padding:6px 0;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
                         </ul>
                       </div>
@@ -134,7 +132,7 @@ export default async function handler(req, res) {
       from: SENDER_EMAIL,
       to: COUPLE_EMAIL,
       subject: `✓ Nuova conferma: ${nome} ${cognome}`,
-      reply_to: email,
+      replyTo: email,
       html: `
         <!DOCTYPE html>
         <html lang="it">
