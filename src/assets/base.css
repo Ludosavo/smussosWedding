@@ -48,7 +48,7 @@ html.home-bg::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('@/components/icons/optimized/Zanzibar--2025-medium.webp');
+  background-image: url('@/components/icons/optimized/zanzibar--2025-medium.webp');
   background-size: cover;
   background-position: center 35%;
   background-repeat: no-repeat;
