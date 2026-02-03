@@ -40,10 +40,8 @@ async function loadSharp() {
     const sharp = await import('sharp')
     return sharp.default
   } catch (error) {
-    console.error('\x1b[31m%s\x1b[0m', '❌ Sharp is not installed!')
-    console.log('\nPlease install sharp first:')
-    console.log('\x1b[36m%s\x1b[0m', '  npm install sharp --save-dev\n')
-    process.exit(1)
+    console.warn('\x1b[33m%s\x1b[0m', '⚠️ Sharp is not installed; skipping re-optimization and only regenerating the import map from existing optimized files.')
+    return null
   }
 }
 
@@ -197,60 +195,54 @@ async function main() {
   // Ensure output directory exists
   ensureDir(CONFIG.outputDir)
   
-  // Get all images
-  const images = getImageFiles(CONFIG.inputDir)
-  
-  if (images.length === 0) {
-    console.log('⚠️  No images found to optimize.')
-    return
-  }
-  
-  console.log(`\n📷 Found ${images.length} images to optimize`)
-  
   const processedImages = []
   let totalOriginalSize = 0
   let totalOptimizedSize = 0
-  
-  for (const image of images) {
-    const inputPath = path.join(CONFIG.inputDir, image)
-    const result = await optimizeImage(sharp, inputPath, CONFIG.outputDir, image)
-    processedImages.push(result)
-    
-    totalOriginalSize += fs.statSync(inputPath).size
-    result.results.forEach(r => {
-      if (r.size === 'medium') {
-        totalOptimizedSize += r.bytes
+
+  if (sharp) {
+    const images = getImageFiles(CONFIG.inputDir)
+    if (images.length === 0) {
+      console.log('⚠️  No images found to optimize.')
+    } else {
+      console.log(`\n📷 Found ${images.length} images to optimize`)
+      for (const image of images) {
+        const inputPath = path.join(CONFIG.inputDir, image)
+        const result = await optimizeImage(sharp, inputPath, CONFIG.outputDir, image)
+        processedImages.push(result)
+        totalOriginalSize += fs.statSync(inputPath).size
+        result.results.forEach(r => {
+          if (r.size === 'medium') totalOptimizedSize += r.bytes
+        })
       }
+    }
+  } 
+
+  // If sharp not available or no images processed, fall back to existing optimized files to rebuild the map
+  if (processedImages.length === 0) {
+    const existing = fs.readdirSync(CONFIG.outputDir).filter(f => f.endsWith('-medium.webp'))
+    existing.forEach((file, idx) => {
+      processedImages.push({
+        original: file,
+        baseName: path.parse(file).name.replace(/-medium$/i, ''),
+        results: [{ size: 'medium', filename: file, bytes: fs.statSync(path.join(CONFIG.outputDir, file)).size }]
+      })
     })
+    totalOptimizedSize = processedImages.reduce((sum, img) => sum + (img.results[0]?.bytes || 0), 0)
   }
-  
-  // Generate imports file
+
   generateImportsFile(processedImages, CONFIG.outputDir)
-  
+
   // Summary
   console.log('\n' + '━'.repeat(50))
   console.log('📊 Summary')
   console.log('━'.repeat(50))
-  console.log(`   Images processed: ${images.length}`)
-  console.log(`   Original total: ${formatBytes(totalOriginalSize)}`)
-  console.log(`   Optimized (medium): ${formatBytes(totalOptimizedSize)}`)
-  console.log(`   Total savings: ${((1 - totalOptimizedSize / totalOriginalSize) * 100).toFixed(1)}%`)
-  console.log('\n✨ Optimization complete!\n')
-  
-  console.log('💡 Usage in Vue components:')
-  console.log('━'.repeat(50))
-  console.log(`
-  import { zanzi, getSrcSet, getSizes } from '@/components/pictures/optimized-images'
-  
-  // In template:
-  <img 
-    :src="zanzi.medium" 
-    :srcset="getSrcSet(zanzi)"
-    :sizes="getSizes('33vw')"
-    alt="Zanzibar"
-    loading="lazy"
-  />
-  `)
+  console.log(`   Entries in map: ${processedImages.length}`)
+  if (sharp && totalOriginalSize) {
+    console.log(`   Original total: ${formatBytes(totalOriginalSize)}`)
+    console.log(`   Optimized (medium): ${formatBytes(totalOptimizedSize)}`)
+    console.log(`   Total savings: ${((1 - totalOptimizedSize / totalOriginalSize) * 100).toFixed(1)}%`)
+  }
+  console.log('\n✨ Map generation complete!\n')
 }
 
 main().catch(console.error)
