@@ -1,7 +1,6 @@
 import { Resend } from "resend";
 
 export default async function handler(req, res) {
-  // CORS (keep if you need it)
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -88,22 +87,22 @@ export default async function handler(req, res) {
                   </tr>
                   <tr>
                     <td style="padding:0 24px 20px;background:#F4EBD9;">
-                      <div style="background:#FFFEF2;border-left:4px solid #6B1C23;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
-                        <h3 style="margin:0 0 10px;color:#6B1C23;font-size:18px;">📍 Dettagli dell'Evento</h3>
+                      <div style="background:#fcfcfc;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color:#06415c;font-size:18px;">📍 Dettagli dell'Evento</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Ora:</strong> 16:30</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Ora:</strong> 16:30</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
                           <li style="padding:6px 0;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
                         </ul>
                       </div>
-                      <div style="background:#FFFEF2;border-left:4px solid #6B1C23;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
-                        <h3 style="margin:0 0 10px;color:#6B1C23;font-size:18px;">✓ La Tua Conferma</h3>
+                      <div style="background:#FFFEF2;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color:#06415c;font-size:18px;">✓ La Tua Conferma</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Nome:</strong> ${nome} ${cognome}</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Email:</strong> ${email}</li>
-                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #F4EBD9;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
+                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Nome:</strong> ${nome} ${cognome}</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Email:</strong> ${email}</li>
+                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
                           ${allergie ? `<li style="padding:6px 0;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
                         </ul>
                       </div>
@@ -130,7 +129,6 @@ export default async function handler(req, res) {
     from: sender,
     to: coupleEmail,
     subject: `✓ Nuova conferma: ${nome} ${cognome}`,
-    replyTo: email,
     html:`
         <!DOCTYPE html>
         <html lang="it">
@@ -139,7 +137,7 @@ export default async function handler(req, res) {
           <style>
             body {
               font-family: Arial, sans-serif;
-              color: #2C2416;
+              color: #06415c;
               line-height: 1.6;
               max-width: 600px;
               margin: 0 auto;
@@ -153,14 +151,14 @@ export default async function handler(req, res) {
               box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             }
             h2 {
-              color: #25744b;
-              border-bottom: 3px solid #25744b9f;
+              color: #06415c;
+              border-bottom: 3px solid #06415c9f;
               padding-bottom: 10px;
             }
             .info-row {
               display: flex;
               padding: 12px;
-              border-bottom: 1px solid #F4EBD9;
+              border-bottom: 1px solid #fcfcfc;
             }
             .info-row:last-child {
               border-bottom: none;
@@ -168,16 +166,16 @@ export default async function handler(req, res) {
             .label {
               font-weight: bold;
               min-width: 150px;
-              color: #25744b;
+              color: #06415c;
             }
             .value {
-              color: #2C2416;
+              color: #06415c;
             }
             .timestamp {
               margin-top: 20px;
               padding-top: 20px;
-              border-top: 2px solid #F4EBD9;
-              color: #756F65;
+              border-top: 2px solid #fcfcfc;
+              color: #7b8788;
               font-size: 14px;
             }
           </style>
