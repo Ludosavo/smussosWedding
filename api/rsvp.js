@@ -68,20 +68,20 @@ export default async function handler(req, res) {
         <head>
           <meta charset="UTF-8">
         </head>
-        <body style="margin:0;padding:0;background:#f7f2e8;font-family:'Lato',Arial,sans-serif;color:#2C2416;line-height:1.6;">
+        <body style="margin:0;padding:0;background:#f7f2e8;font-family:'Lato',Arial,sans-serif;color:#06415c;line-height:1.6;">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f2e8;">
             <tr>
               <td align="center" style="padding:24px 12px;">
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;background:#F4EBD9;border-radius:12px;overflow:hidden;">
                   <tr>
-                    <td style="background:linear-gradient(135deg,#6B1C23,#C45D3F);color:#FFFEF2;padding:36px 24px;text-align:center;">
+                    <td style="background:linear-gradient(135deg,#06415c,#318cb6);color:#fcfcfc;padding:36px 24px;text-align:center;">
                       <h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:30px;letter-spacing:0.5px;">🍷 Carlo & Francesca 🍷</h1>
                       <p style="margin:8px 0 0;font-size:15px;">Matrimonio · 11 Luglio 2026</p>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding:28px 24px 16px;background:#F4EBD9;">
-                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;color:#6B1C23;">Grazie per la conferma, ${nome}!</h2>
+                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;color:#fcfcfc;">Grazie per la conferma, ${nome}!</h2>
                       <p style="margin:0 0 14px;font-size:16px;">Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
                     </td>
                   </tr>
