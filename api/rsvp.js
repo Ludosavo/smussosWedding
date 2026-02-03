@@ -90,24 +90,24 @@ export default async function handler(req, res) {
                       <div style="background: #06415c;border-left:4px solid #ffffff;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
                         <h3 style="margin:0 0 10px;color: #ffffff;font-size:18px;">📍 Dettagli dell'Evento</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Ora:</strong> 16:30</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
-                          <li style="padding:6px 0;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff"><strong>Ora:</strong> 16:30</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
+                          <li style="padding:6px 0;color: #ffffff;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
                         </ul>
                       </div>
                       <div style="background: #06415c ;border-left:4px solid #6bbbc4;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
                         <h3 style="margin:0 0 10px;color: #ffffff;font-size:18px;">✓ La Tua Conferma</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4;"><strong>Nome:</strong> ${nome} ${cognome}</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4;"><strong>Email:</strong> ${email}</li>
-                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #6bbbc4;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
-                          ${allergie ? `<li style="padding:6px 0;color:#ffffff;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff"><strong>Nome:</strong> ${nome} ${cognome}</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff"><strong>Email:</strong> ${email}</li>
+                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #6bbbc4; color: #ffffff "><strong>Telefono:</strong> ${telefono}</li>` : ""}
+                          ${allergie ? `<li style="padding:6px 0;color: #ffffff;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
                         </ul>
                       </div>
-                      <p style="margin:0 0 18px;font-size:15px;color: #ffffff">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
-                      <p style="margin:0 0 10px;text-align:center;font-size:16px; color: #ffffff"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
+                      <p style="margin:0 0 18px;font-size:15px;color: #06415c">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
+                      <p style="margin:0 0 10px;text-align:center;font-size:16px; color: #06415c"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
                     </td>
                   </tr>
                   <tr>
