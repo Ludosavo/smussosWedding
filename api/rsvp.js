@@ -1,34 +1,21 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Use verified domain or fall back to Resend's testing domain
-const SENDER_EMAIL = process.env.SENDER_EMAIL || "";
-if (!SENDER_EMAIL) {
-  return res.status(500).json({
-    error: "Configurazione mancante",
-    message: "SENDER_EMAIL non configurata. Contatta gli amministratori.",
-  });
-}
-const COUPLE_EMAIL = (process.env.RSVP_NOTIFICATION_EMAIL || "").trim();
-
 export default async function handler(req, res) {
-  // CORS headers
+  // CORS (keep if you need it)
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
+  if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // Check if Resend API key and couple email are configured
-  if (!process.env.RESEND_API_KEY) {
-    console.error("RESEND_API_KEY not configured");
+  const apiKey = (process.env.RESEND_API_KEY || "").trim();
+  const sender = (process.env.SENDER_EMAIL || "").trim();
+  const coupleEmail = (process.env.RSVP_NOTIFICATION_EMAIL || "").trim();
+
+  if (!apiKey || !sender || !coupleEmail) {
     return res.status(500).json({
       error: "Configurazione mancante",
       message:
@@ -36,41 +23,45 @@ export default async function handler(req, res) {
     });
   }
 
-  if (!COUPLE_EMAIL) {
-    console.error("RSVP_NOTIFICATION_EMAIL not configured");
-    return res.status(500).json({
-      error: "Configurazione mancante",
-      message:
-        "Email di notifica non configurata. Contatta gli amministratori.",
+  // Parse body safely (avoids hard crashes if body is undefined/string)
+  let body = req.body;
+  if (typeof body === "string") {
+    try {
+      body = JSON.parse(body);
+    } catch {
+      return res.status(400).json({
+        error: "Dati non validi",
+        message: "Il payload inviato non è un JSON valido.",
+      });
+    }
+  }
+  body = body || {};
+
+  const { nome, cognome, email, telefono, allergie } = body;
+
+  if (!nome || !cognome || !email) {
+    return res.status(400).json({
+      error: "Dati mancanti",
+      message: "Nome, cognome ed email sono obbligatori",
     });
   }
 
-  try {
-    const { nome, cognome, email, telefono, allergie } = req.body;
-
-    // Validation
-    if (!nome || !cognome || !email) {
-      return res.status(400).json({
-        error: "Dati mancanti",
-        message: "Nome, cognome, email e risposta sono obbligatori",
-      });
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        error: "Email non valida",
-        message: "Inserisci un indirizzo email valido",
-      });
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      error: "Email non valida",
+      message: "Inserisci un indirizzo email valido",
+    });
+  }
+      
+  const resend = new Resend(apiKey);
 
     // Send confirmation email to guest
-    const guestEmail = resend.emails.send({
-      from: SENDER_EMAIL,
-      to: email,
-      subject: "Conferma RSVP - Matrimonio Carlo & Francesca",
-      html: `
+    const guestEmailPromise = resend.emails.send({
+    from: sender,
+    to: email,
+    subject: "Conferma RSVP - Matrimonio Carlo & Francesca",
+    html: `
         <!DOCTYPE html>
         <html lang="it">
         <head>
@@ -133,12 +124,12 @@ export default async function handler(req, res) {
     });
 
     // Send notification email to couple
-    const coupleEmail = resend.emails.send({
-      from: SENDER_EMAIL,
-      to: COUPLE_EMAIL,
-      subject: `✓ Nuova conferma: ${nome} ${cognome}`,
-      reply_to: email,
-      html: `
+    const coupleEmailPromise = resend.emails.send({
+    from: sender,
+    to: coupleEmail,
+    subject: `✓ Nuova conferma: ${nome} ${cognome}`,
+    replyTo: email,
+    html:`
         <!DOCTYPE html>
         <html lang="it">
         <head>
@@ -236,47 +227,24 @@ export default async function handler(req, res) {
       `,
     });
 
-    const [guestEmailResult, coupleEmailResult] = await Promise.all([
-      guestEmail,
-      coupleEmail,
-    ]);
+    // Send notification email to couple
+    const [guestResult, coupleResult] = await Promise.all([
+    guestEmailPromise,
+    coupleEmailPromise,
+  ]);
 
-    if (guestEmailResult?.error || coupleEmailResult?.error) {
-      return res.status(502).json({
-        error: "Errore del servizio email",
-        message: "Non siamo riusciti a inviare l’email. Riprova tra poco.",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: "RSVP confermato con successo!",
-      emailSent: true,
-    });
-  } catch (error) {
-    console.error("RSVP Error:", error);
-
-    // More specific error handling
-    if (error.name === "validation_error") {
-      return res.status(400).json({
-        error: "Errore di validazione",
-        message: error.message,
-      });
-    }
-
-    // Handle Resend API errors
-    if (error.message && error.message.includes("resend")) {
-      return res.status(500).json({
-        error: "Errore del servizio email",
-        message:
-          "Il servizio email non è disponibile al momento. Riprova più tardi.",
-      });
-    }
-
-    return res.status(500).json({
-      error: "Errore durante l'invio",
+  // IMPORTANT: fail if Resend returns error (it may not throw) :contentReference[oaicite:5]{index=5}
+  if (guestResult?.error || coupleResult?.error) {
+    return res.status(502).json({
+      error: "Errore del servizio email",
       message:
-        "Si è verificato un errore. Riprova più tardi o contattaci direttamente.",
+        "Non siamo riusciti a inviare l’email. Riprova tra poco.",
     });
   }
+
+  return res.status(200).json({
+    success: true,
+    message: "RSVP confermato con successo!",
+    emailSent: true,
+  });
 }
