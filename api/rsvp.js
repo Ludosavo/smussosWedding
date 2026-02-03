@@ -68,46 +68,46 @@ export default async function handler(req, res) {
         <head>
           <meta charset="UTF-8">
         </head>
-        <body style="margin:0;padding:0;background:#ebe4c0;font-family:'Lato',Arial,sans-serif;color:#06415c;line-height:1.6;">
+        <body style="margin:0;padding:0;background: #F4EBD9 ;font-family:'Lato',Arial,sans-serif;color: #06415c ;line-height:1.6;">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f2e8;">
             <tr>
               <td align="center" style="padding:24px 12px;">
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;background:#F4EBD9;border-radius:12px;overflow:hidden;">
                   <tr>
                     <td style="background:linear-gradient(135deg,#06415c,#318cb6);color:#fcfcfc;padding:36px 24px;text-align:center;">
-                      <h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:30px;letter-spacing:0.5px;">🍷 Carlo & Francesca 🍷</h1>
-                      <p style="margin:8px 0 0;font-size:15px;">Matrimonio · 11 Luglio 2026</p>
+                      <h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:30px;letter-spacing:0.5px; color: #fcfcfc">🍷 Carlo & Francesca 🍷</h1>
+                      <p style="margin:8px 0 0;font-size:15px; color: #fcfcfc">Matrimonio · 11 Luglio 2026</p>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:28px 24px 16px;background:#ebe4c0;">
-                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;">Grazie per la conferma, ${nome}!</h2>
-                      <p style="margin:0 0 14px;font-size:16px;">Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
+                    <td style="padding:28px 24px 16px;background: #F4EBD9;">
+                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px; color: #06415c">Grazie per la conferma, ${nome}!</h2>
+                      <p style="margin:0 0 14px;font-size:16px;color: #06415c">Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:0 24px 20px;background:#ebe4c0;">
-                      <div style="background:#fcfcfc;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
-                        <h3 style="margin:0 0 10px;color:#06415c;font-size:18px;">📍 Dettagli dell'Evento</h3>
+                    <td style="padding:0 24px 20px;background: #06415c;">
+                      <div style="background: #fefefe;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color: #fefefe;font-size:18px;">📍 Dettagli dell'Evento</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Ora:</strong> 16:30</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Ora:</strong> 16:30</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
                           <li style="padding:6px 0;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
                         </ul>
                       </div>
-                      <div style="background:#ebe4c0;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
-                        <h3 style="margin:0 0 10px;color:#06415c;font-size:18px;">✓ La Tua Conferma</h3>
+                      <div style="background: #06415c;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color: #fefefe;font-size:18px;">✓ La Tua Conferma</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Nome:</strong> ${nome} ${cognome}</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Email:</strong> ${email}</li>
-                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
-                          ${allergie ? `<li style="padding:6px 0;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
+                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Nome:</strong> ${nome} ${cognome}</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Email:</strong> ${email}</li>
+                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
+                          ${allergie ? `<li style="padding:6px 0;color:#fefefe;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
                         </ul>
                       </div>
-                      <p style="margin:0 0 18px;font-size:15px;">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
-                      <p style="margin:0 0 10px;text-align:center;font-size:16px;"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
+                      <p style="margin:0 0 18px;font-size:15px;color: #06415c">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
+                      <p style="margin:0 0 10px;text-align:center;font-size:16px; color: #06415c"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
                     </td>
                   </tr>
                   <tr>
