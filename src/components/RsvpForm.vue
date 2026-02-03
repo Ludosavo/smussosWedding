@@ -138,18 +138,18 @@ async function handleSubmit() {
       },
       body: JSON.stringify(formData),
     });
-    const text = await response.text(); // use text so you see even non-JSON errors
-    console.log("RSVP status:", response.status);
-    console.log("RSVP response:", text);
     const contentType = response.headers.get("content-type") || "";
     let data = {};
 
     if (contentType.includes("application/json")) {
       data = await response.json().catch(() => ({}));
     } else {
-      const text = await response.text().catch(() => "");
-      if (text) data = { message: text };
+      const t = await response.text().catch(() => "");
+      if (t) data = { message: t };
     }
+
+    console.log("RSVP status:", response.status);
+    console.log("RSVP response:", data);
 
     if (!response.ok) {
       throw new Error(data.message || data.error || "Errore durante l'invio");

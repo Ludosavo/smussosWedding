@@ -4,7 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Use verified domain or fall back to Resend's testing domain
 const SENDER_EMAIL =
-  process.env.SENDER_EMAIL || "Carlo & Francesca <onboarding@resend.dev>";
+  process.env.SENDER_EMAIL || "Carlo & Francesca <no-reply@mail.smussowedding.com>";
 const COUPLE_EMAIL = (process.env.RSVP_NOTIFICATION_EMAIL || "").trim();
 
 export default async function handler(req, res) {
