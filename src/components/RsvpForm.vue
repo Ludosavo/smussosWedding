@@ -148,11 +148,12 @@ async function handleSubmit() {
       if (t) data = { message: t };
     }
 
-    console.log("RSVP status:", response.status);
-    console.log("RSVP response:", data);
-
     if (!response.ok) {
       throw new Error(data.message || data.error || "Errore durante l'invio");
+    }
+
+    if (data.success !== true) {
+      throw new Error(data.message || "Errore durante l'invio");
     }
 
     // Success

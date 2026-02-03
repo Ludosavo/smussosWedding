@@ -3,8 +3,13 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Use verified domain or fall back to Resend's testing domain
-const SENDER_EMAIL =
-  process.env.SENDER_EMAIL || "Carlo & Francesca <no-reply@mail.smussowedding.com>";
+const SENDER_EMAIL = process.env.SENDER_EMAIL || "";
+if (!SENDER_EMAIL) {
+  return res.status(500).json({
+    error: "Configurazione mancante",
+    message: "SENDER_EMAIL non configurata. Contatta gli amministratori.",
+  });
+}
 const COUPLE_EMAIL = (process.env.RSVP_NOTIFICATION_EMAIL || "").trim();
 
 export default async function handler(req, res) {
@@ -236,12 +241,12 @@ export default async function handler(req, res) {
       coupleEmail,
     ]);
 
-    console.log("RSVP processed successfully:", { nome, cognome, email });
-    console.log("Guest email ID:", guestEmailResult.data?.id);
-    console.log("Couple email ID:", coupleEmailResult.data?.id);
-
-    // Optional: Store in database (Vercel Postgres, Supabase, etc.)
-    // await storeRSVP({ nome, cognome, email, telefono, allergie })
+    if (guestEmailResult?.error || coupleEmailResult?.error) {
+      return res.status(502).json({
+        error: "Errore del servizio email",
+        message: "Non siamo riusciti a inviare l’email. Riprova tra poco.",
+      });
+    }
 
     return res.status(200).json({
       success: true,
