@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     const guestEmailPromise = resend.emails.send({
     from: sender,
     to: email,
-    subject: "Conferma RSVP - Matrimonio Carlo & Francesca",
+    subject: "Conferma form - Matrimonio Carlo & Francesca",
     html: `
         <!DOCTYPE html>
         <html lang="it">
@@ -72,11 +72,11 @@ export default async function handler(req, res) {
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f2e8;">
             <tr>
               <td align="center" style="padding:24px 12px;">
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;background:#F4EBD9;border-radius:12px;overflow:hidden;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;background: #F4EBD9;border-radius:12px;overflow:hidden;">
                   <tr>
-                    <td style="background:linear-gradient(135deg,#06415c,#318cb6);color:#fcfcfc;padding:36px 24px;text-align:center;">
-                      <h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:30px;letter-spacing:0.5px; color: #fcfcfc">🍷 Carlo & Francesca 🍷</h1>
-                      <p style="margin:8px 0 0;font-size:15px; color: #fcfcfc">Matrimonio · 11 Luglio 2026</p>
+                    <td style="background:linear-gradient(135deg, #06415c, #318cb6);color: #ffffff;padding:36px 24px;text-align:center;">
+                      <h1 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:30px;letter-spacing:0.5px; color: #ffffff">🍷 Carlo & Francesca 🍷</h1>
+                      <p style="margin:8px 0 0;font-size:15px; color: #ffffff">Matrimonio · 11 Luglio 2026</p>
                     </td>
                   </tr>
                   <tr>
@@ -86,32 +86,32 @@ export default async function handler(req, res) {
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:0 24px 20px;background: #06415c;">
-                      <div style="background: #fefefe;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
-                        <h3 style="margin:0 0 10px;color: #fefefe;font-size:18px;">📍 Dettagli dell'Evento</h3>
+                    <td style="padding:0 24px 20px;background: #F4EBD9;">
+                      <div style="background: #06415c;border-left:4px solid #ffffff;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color: #ffffff;font-size:18px;">📍 Dettagli dell'Evento</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Ora:</strong> 16:30</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Data:</strong> Sabato, 11 Luglio 2026</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Ora:</strong> 16:30</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Cerimonia:</strong> Chiesa di SS. Felice e Agata</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #ffffff;"><strong>Indirizzo:</strong> Via XX Settembre, 59 - Oviglio (AL)</li>
                           <li style="padding:6px 0;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
                         </ul>
                       </div>
-                      <div style="background: #06415c;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
-                        <h3 style="margin:0 0 10px;color: #fefefe;font-size:18px;">✓ La Tua Conferma</h3>
+                      <div style="background: #06415c ;border-left:4px solid #6bbbc4;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                        <h3 style="margin:0 0 10px;color: #ffffff;font-size:18px;">✓ La Tua Conferma</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
-                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Nome:</strong> ${nome} ${cognome}</li>
-                          <li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Email:</strong> ${email}</li>
-                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #fefefe;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
-                          ${allergie ? `<li style="padding:6px 0;color:#fefefe;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4;"><strong>Nome:</strong> ${nome} ${cognome}</li>
+                          <li style="padding:6px 0;border-bottom:1px solid #6bbbc4;"><strong>Email:</strong> ${email}</li>
+                          ${telefono ? `<li style="padding:6px 0;border-bottom:1px solid #6bbbc4;"><strong>Telefono:</strong> ${telefono}</li>` : ""}
+                          ${allergie ? `<li style="padding:6px 0;color:#ffffff;"><strong>Allergie/Note:</strong> ${allergie}</li>` : ""}
                         </ul>
                       </div>
-                      <p style="margin:0 0 18px;font-size:15px;color: #06415c">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
-                      <p style="margin:0 0 10px;text-align:center;font-size:16px; color: #06415c"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
+                      <p style="margin:0 0 18px;font-size:15px;color: #ffffff">Se hai bisogno di modificare la tua conferma o hai domande, non esitare a contattarci.</p>
+                      <p style="margin:0 0 10px;text-align:center;font-size:16px; color: #ffffff"><strong>A presto!</strong><br>Carlo & Francesca ❤️</p>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:16px 12px 22px;text-align:center;color:#756F65;font-size:13px;background:#F4EBD9;">
+                    <td style="padding:16px 12px 22px;text-align:center;color: #06415c;font-size:13px;background: #F4EBD9;">
                       Questa email è stata inviata in risposta alla tua conferma di partecipazione al matrimonio di Carlo e Francesca.
                     </td>
                   </tr>
