@@ -132,7 +132,7 @@ export default async function handler(req, res) {
       from: SENDER_EMAIL,
       to: COUPLE_EMAIL,
       subject: `✓ Nuova conferma: ${nome} ${cognome}`,
-      replyTo: email,
+      reply_to: email,
       html: `
         <!DOCTYPE html>
         <html lang="it">
