@@ -200,7 +200,7 @@ export default {
 .branch-connector {
   width: 2px;
   height: 28px;
-  background: #25744b;
+  background: var(--textcolor);
   margin: 0.1rem auto 0.4rem;
   border-radius: 999px;
 }
@@ -219,7 +219,7 @@ export default {
   left: 0;
   right: 0;
   height: 2px;
-  background: #25744b;
+  background: var(--textcolor);
   border-radius: 999px;
 }
 
@@ -235,7 +235,7 @@ export default {
   width: 2px;
   height: 14px;
   transform: translateX(-50%);
-  background: #25744b;
+  background: var(--textcolor);
   border-radius: 999px;
 }
 
@@ -327,7 +327,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid #25744b;
+  border: 1px solid var(--textcolor);
   border-radius: 8px;
   margin-top: auto;
 }
@@ -454,7 +454,10 @@ export default {
   }
 
   .photo-container {
-    height: 160px;
+    width: 90%;
+    margin: 0 auto;
+    height: 200px;
+    border-radius: 12px;
   }
 
   .faq-section {

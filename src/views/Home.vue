@@ -17,7 +17,7 @@
       </h4>
       <section class="rsvp-section">
       <button @click="openRsvpModal" class="rsvp-button">
-        Rispondi all'invito
+        Conferma Presenza
       </button>
     </section>
     

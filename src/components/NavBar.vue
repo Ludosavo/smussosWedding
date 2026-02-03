@@ -115,7 +115,7 @@ watch(
   transition: color 0.1s, opacity 0.1s;
   --nav-bg: #ffffff;
   --nav-bg-strong: #ebddc3;
-  --nav-text: #25744b;
+  --nav-text: #06415c;
   --nav-border: rgba(255, 255, 255, 0.2);
 }
 
@@ -238,7 +238,7 @@ nav {
   padding: 1em;
   color: var(--nav-text);
   text-decoration: none;
-  border-bottom: 1px solid rgba(123, 30, 44, 0.15);
+  border-bottom: 1px solid rgba(30, 112, 123, 0.15);
   transition: background-color 0.25s ease, transform 0.2s ease;
 }
 
@@ -307,17 +307,17 @@ nav {
   }
 
   nav a:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(220, 240, 249, 0.9);
     box-shadow: 0 10px 20px rgba(153, 169, 156, 0.16);
     transform: translateY(-1px);
     border-radius: 10px;
   }
 
   nav a.router-link-active {
-    background-color: rgba(161, 177, 166, 0.429);
+    background-color: rgba(161, 171, 177, 0.429);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    border-bottom: 1px solid rgba(0, 108, 14, 0.751);
+    border-bottom: 1px solid rgba(0, 77, 108, 0.751);
   }
 
   nav svg {

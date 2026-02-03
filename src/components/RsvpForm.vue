@@ -1,8 +1,6 @@
 <template>
   <div class="rsvp-form-container">
-    <h2 class="form-title">Rispondi all'Invito</h2>
-    <p class="form-subtitle">Facci sapere se potrai essere con noi</p>
-
+    <h2 class="form-title">Conferma la tua presenza</h2>
     <form @submit.prevent="handleSubmit" class="rsvp-form">
       <div class="form-group">
         <label for="nome">Nome *</label>
@@ -141,7 +139,7 @@ async function handleSubmit() {
       body: JSON.stringify(formData),
     });
     const text = await response.text(); // use text so you see even non-JSON errors
-    console.log("RSVP status:", resp.status);
+    console.log("RSVP status:", response.status);
     console.log("RSVP response:", text);
     const contentType = response.headers.get("content-type") || "";
     let data = {};
@@ -187,7 +185,7 @@ async function handleSubmit() {
 }
 
 .form-title {
-  font-family: "Playfair Display", serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.2rem);
   color: var(--wine-burgundy);
   margin: 0 0 0.5rem 0;
@@ -195,7 +193,7 @@ async function handleSubmit() {
 }
 
 .form-subtitle {
-  font-family: "Lato", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1rem;
   color: var(--stone-gray);
   text-align: center;
@@ -222,7 +220,7 @@ async function handleSubmit() {
   margin-bottom: 0.5rem;
   color: var(--wine-burgundy);
   font-weight: 600;
-  font-family: "Lato", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 0.95rem;
   text-align: left;
 }
@@ -234,7 +232,7 @@ async function handleSubmit() {
   padding: 0.875rem;
   border: 2px solid #ddd;
   border-radius: 8px;
-  font-family: "Lato", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: white;
@@ -245,8 +243,8 @@ async function handleSubmit() {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--wine-burgundy);
-  box-shadow: 0 0 0 3px rgba(107, 28, 35, 0.1);
+  border-color: var(--textcolor);
+  box-shadow: 0 0 0 3px rgba(28, 78, 107, 0.1);
 }
 
 .form-group input:disabled,
@@ -280,10 +278,10 @@ async function handleSubmit() {
   border-radius: 50px;
   font-size: 1.1rem;
   font-weight: 600;
-  font-family: "Lato", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(28, 107, 53, 0.3);
+  box-shadow: 0 4px 15px rgba(28, 102, 107, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,7 +292,7 @@ async function handleSubmit() {
 .submit-btn:hover:not(:disabled) {
   background: var(--terracotta);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(28, 107, 50, 0.4);
+  box-shadow: 0 6px 20px rgba(28, 97, 107, 0.4);
 }
 
 .submit-btn:active:not(:disabled) {
@@ -334,7 +332,7 @@ async function handleSubmit() {
 }
 
 .success-message h3 {
-  font-family: "Playfair Display", serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1.8rem;
   color: #155724;
   margin: 0 0 0.5rem 0;
@@ -345,7 +343,7 @@ async function handleSubmit() {
 }
 
 .success-message p {
-  font-family: "Lato", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1rem;
   color: #155724;
   margin: 0.5rem 0;
@@ -380,14 +378,14 @@ async function handleSubmit() {
 }
 
 .error-message h4 {
-  font-family: "Playfair Display", serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1.4rem;
   color: #721c24;
   margin: 0 0 0.5rem 0;
 }
 
 .error-message p {
-  font-family: "Lato", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 0.95rem;
   color: #721c24;
   margin: 0.5rem 0 1rem 0;

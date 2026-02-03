@@ -1,11 +1,12 @@
 <template>
   <main class="info-page">
     <h3> Chiesa dei SS. Felice e Agata </h3>
+    <p> Via XX Settembre, 59 - Oviglio (AL)</p>
     <img class="chiesa-image" :src="chiesaImg" alt="Chiesa SS. Felice e Agata" loading="lazy"/>
     <section class="parking-section glass-card">
       <div class="section-header">
         <h3>Info utili</h3>
-        <p>Dove parcheggiare vicino alla chiesa.</p>
+        <p>La chiesa è raggiungibile in auto, ma vi consigliamo di parcheggiare in uno dei parcheggi del ricevimento, indicati anche qui sotto.</p>
       </div>
 
       <div class="parking-grid">
@@ -44,7 +45,7 @@ export default {
           nome: "Parcheggio Chiesa SS. Felice e Agata",
           indirizzo: "Via XXIV Maggio, Oviglio (AL)",
           distanza: "4-5 min a piedi dalla chiesa",
-          nota: "Stalli lungo la via e piazzale adiacente la chiesa. Arrivate con qualche minuto di anticipo.",
+          nota: "",
           img: ParcheggiImg,
         },
         {
@@ -52,7 +53,7 @@ export default {
           nome: "Parcheggio su Piazza Madre Teresa di Calcutta 6",
           indirizzo: "Piazza Madre Teresa di Calcutta 6, Oviglio (AL)",
           distanza: "6 min a piedi dalla chiesa",
-          nota: "Sosta libera lungo la via principale; seguite la segnaletica fino alla chiesa.",
+          nota: "",
           img: ParcheggioGrande,
         },
     

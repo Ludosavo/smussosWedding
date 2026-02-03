@@ -43,10 +43,10 @@
       </div>
       <div class="parking-text">
         <p>
-          Vi consigliamo di sostare al parcheggio <strong>numero 3</strong>, in quanto più comodo sia per raggiungere il castello (1) che la chiesa (4).
+          Vi consigliamo di sostare al parcheggio <strong>numero 2</strong>, in quanto più comodo e più ampio.
         </p>
         <p>
-          Tuttavia, essendo un parcheggio limitato (~15 posti auto), vi consigliamo di posteggiare al <strong>parcheggio numero 2</strong>, poiché più ampio.
+          Tuttavia, c'è un altro parcheggio (limitato ~15 posti auto) nell'area <strong>3</strong>.
         </p>
       </div>
     </section>

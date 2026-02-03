@@ -2,7 +2,6 @@
   <div class="lista-nozze-page">
     <PageHero
       title="Lista Nozze"
-      subtitle="Il vostro regalo più bello"
     />
     <div class="content-container">
       <!-- Message Section -->
@@ -190,7 +189,7 @@ function copyIBAN() {
 }
 
 .iban-header {
-  background: linear-gradient(135deg, rgba(236, 249, 239, 0.95), rgba(248, 255, 242, 0.95));
+  background: linear-gradient(135deg, rgb(220, 238, 245, 0.95), rgb(220, 238, 245, 0.95));
   color: var(--wine-burgundy);
   padding: 2rem;
   text-align: center;
@@ -198,7 +197,7 @@ function copyIBAN() {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  border-bottom: 1px solid rgba(28, 107, 56, 0.15);
+  border-bottom: 1px solid rgb(220, 238, 245);
 }
 
 .iban-icon {
@@ -270,12 +269,13 @@ function copyIBAN() {
 }
 
 .copy-btn:hover {
-  background: var(--terracotta);
+  background: rgb(220, 238, 245);
   transform: translateY(-2px);
 }
 
 .copy-btn.copied {
-  background: #4caf50;
+  background: var(--textcolor);
+  color: white;
 }
 
 .map-section {

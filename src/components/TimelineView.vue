@@ -103,7 +103,7 @@ defineEmits(['photo-selected'])
   background: white;
   border: 4px solid var(--textcolor);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(32, 107, 44, 0.211);
+  box-shadow: 0 0 0 4px rgba(32, 97, 107, 0.211);
   transition: transform 0.3s ease;
 }
 
@@ -124,7 +124,7 @@ defineEmits(['photo-selected'])
 
 .timeline-content:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(28, 107, 45, 0.15);
+  box-shadow: 0 8px 30px rgba(28, 81, 107, 0.15);
   border-color: var(--textcolor);
 }
 
@@ -157,7 +157,7 @@ defineEmits(['photo-selected'])
 .image-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(28, 107, 36, 0.416);
+  background: rgba(28, 95, 107, 0.416);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -179,7 +179,7 @@ defineEmits(['photo-selected'])
 }
 
 .timeline-info h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1.5rem;
   color: var(--wine-burgundy);
   margin: 0 0 1rem 0;
@@ -188,7 +188,7 @@ defineEmits(['photo-selected'])
 
 .event-date,
 .event-location {
-  font-family: 'Lato', sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 0.95rem;
   color: var(--stone-gray);
   margin: 0.5rem 0;

@@ -236,13 +236,14 @@ onBeforeUnmount(() => {
   .info-content {
     padding: 2rem;
     justify-content: center;
+    color: white;
   }
 }
 
 .info-content h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: clamp(1.4rem, 3vw, 2rem);
-  color: var(--wine-burgundy);
+  color: white;
   margin: 0 0 1rem 0;
   font-weight: 600;
   line-height: 1.2;
@@ -253,11 +254,12 @@ onBeforeUnmount(() => {
   flex-wrap: wrap;
   gap: 0.5rem 1.5rem;
   margin-bottom: 1rem;
+  
 }
 
 .location,
 .date {
-  font-family: 'Lato', sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 0.95rem;
   color: var(--stone-gray);
   margin: 0;
@@ -268,12 +270,12 @@ onBeforeUnmount(() => {
 
 .location svg,
 .date svg {
-  color: var(--wine-burgundy);
+  color: white;
   font-size: 0.85rem;
 }
 
 .description {
-  font-family: 'Lato', sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1rem;
   line-height: 1.65;
   color: var(--text-dark);
@@ -301,7 +303,7 @@ onBeforeUnmount(() => {
 .photo-counter span {
   font-family: 'Lato', sans-serif;
   font-size: 0.85rem;
-  color: var(--stone-gray);
+  color: white;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -338,7 +340,7 @@ onBeforeUnmount(() => {
   width: 44px;
   height: 44px;
   background: var(--wine-burgundy);
-  color: var(--text-light);
+  color: white;
   border: 3px solid var(--ivory);
   border-radius: 50%;
   font-size: 1.2rem;
@@ -396,6 +398,7 @@ onBeforeUnmount(() => {
     width: 40px;
     height: 40px;
     font-size: 0.95rem;
+    color: white;
   }
   
   .nav-btn.prev {
@@ -453,6 +456,7 @@ onBeforeUnmount(() => {
   .location,
   .date {
     font-size: 0.85rem;
+    color: white;
   }
   
   .description {

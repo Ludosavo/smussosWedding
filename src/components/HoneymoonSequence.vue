@@ -170,8 +170,8 @@ onBeforeUnmount(() => {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 
-    0 10px 40px rgba(22, 44, 28, 0.2),
-    0 4px 12px rgba(28, 107, 45, 0.1);
+    0 10px 40px rgb(220, 238, 245, 0.95),
+    0 4px 12px rgb(220, 238, 245, 0.95);
   border: 3px solid var(--textcolor);
 }
 
@@ -199,8 +199,8 @@ onBeforeUnmount(() => {
 .map-silhouette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 40%, rgba(40, 123, 60, 0.15), transparent 45%),
-  radial-gradient(circle at 70% 60%, rgba(67, 169, 82, 0.15), transparent 50%);
+  background: radial-gradient(circle at 30% 40%, rgba(92, 147, 169, 0.25), transparent 45%),
+  radial-gradient(circle at 70% 60%, rgb(220, 238, 245, 0.25), transparent 50%);
   opacity: 0.6;
 }
 
@@ -211,9 +211,9 @@ onBeforeUnmount(() => {
   bottom: 2.5rem;
   height: 3px;
   background: linear-gradient(90deg, 
-    rgba(28, 107, 48, 0.4) 0%, 
-    rgba(63, 196, 67, 0.5) 50%, 
-    rgba(28, 107, 36, 0.4) 100%);
+    rgba(23, 133, 176, 0.95) 0%, 
+    rgba(119, 187, 214, 0.95) 50%, 
+    rgb(220, 238, 245, 0.95) 100%);
   border-radius: 2px;
 }
 
@@ -230,8 +230,8 @@ onBeforeUnmount(() => {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: rgba(28, 107, 65, 0.3);
-  border: 2px solid rgba(16, 65, 33, 0.442);
+  background: rgb(220, 238, 245, 0.95);
+  border: 2px solid rgba(13, 86, 115, 0.95);
   transform: translate(-50%, 50%); /* Center horizontally and vertically on the line */
   transition: all 0.4s ease;
 }
@@ -246,7 +246,7 @@ onBeforeUnmount(() => {
   height: 18px;
   background: var(--textcolor);
   border-color: white;
-  box-shadow: 0 0 0 6px rgba(28, 107, 54, 0.15);
+  box-shadow: 0 0 0 6px rgb(220, 238, 245, 0.15);
 }
 
 .plane {
@@ -262,8 +262,8 @@ onBeforeUnmount(() => {
   color: var(--textcolor);
   font-size: 1.1rem;
   box-shadow: 
-    0 6px 20px rgba(22, 44, 22, 0.15),
-    0 3px 6px rgba(28, 107, 61, 0.1);
+    0 6px 20px rgb(220, 238, 245, 0.15),
+    0 3px 6px rgb(220, 238, 245, 0.15);
   transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
 }

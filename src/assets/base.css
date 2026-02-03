@@ -1,8 +1,11 @@
 /* base.css */
 @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100..400&display=swap');
+
+
 :root {
-  --textcolor: #25744b;
+  --textcolor: #06415c;
   --background: #fdfdfd;
 
   --color-background: var(--background);
@@ -23,19 +26,20 @@ html, body, #app {
 h3{
   font-family: "Great Vibes", serif;
   font-size: 48px;
-  color: #25744b;
+  color: #06415c;
 }
 body {
   font-size: 22px;
-  color: #25744b;
+  color: #06415c;
   line-height: 1.6;
-  font-family: "Jersey 10", sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
 
 html {
+  font-family: "Playwrite NZ Basic", sans-serif;
   position: relative;
   overflow: auto;
 }
@@ -44,7 +48,7 @@ html.home-bg::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('@/components/icons/optimized/zanzibar--2025-large.webp');
+  background-image: url('@/components/icons/optimized/Zanzibar--2025-medium.webp');
   background-size: cover;
   background-position: center 35%;
   background-repeat: no-repeat;

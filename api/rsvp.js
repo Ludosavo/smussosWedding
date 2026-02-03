@@ -155,8 +155,8 @@ export default async function handler(req, res) {
               box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             }
             h2 {
-              color: #6B1C23;
-              border-bottom: 3px solid #C45D3F;
+              color: #25744b;
+              border-bottom: 3px solid #25744b9f;
               padding-bottom: 10px;
             }
             .info-row {
@@ -170,7 +170,7 @@ export default async function handler(req, res) {
             .label {
               font-weight: bold;
               min-width: 150px;
-              color: #6B1C23;
+              color: #25744b;
             }
             .value {
               color: #2C2416;
@@ -241,7 +241,7 @@ export default async function handler(req, res) {
     console.log("Couple email ID:", coupleEmailResult.data?.id);
 
     // Optional: Store in database (Vercel Postgres, Supabase, etc.)
-    // await storeRSVP({ nome, cognome, email, telefono, numeroOspiti, allergie })
+    // await storeRSVP({ nome, cognome, email, telefono, allergie })
 
     return res.status(200).json({
       success: true,

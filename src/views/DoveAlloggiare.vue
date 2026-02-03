@@ -188,7 +188,7 @@ const places = [
 }
 
 .placename {
-  color: #25744b;
+  color: var(--textcolor);
 }
 .card-image {
   width: 100%;
@@ -234,14 +234,14 @@ const places = [
   text-align: center;
   font-size: 26px;
   letter-spacing: 0.04em;
-  color: #25744b;
+  color: var(--textcolor);
 }
 
 .desc {
   grid-area: desc;
   margin: 0;
   line-height: 1.3;
-  color: #25744b;
+  color: var(--textcolor);
   align-items: stretch;
   font-size: 20px;
 }
@@ -250,7 +250,7 @@ const places = [
   grid-area: pill;
   align-self: start;
   text-align: center;
-  color: #25744b;
+  color: var(--textcolor);
   padding: 0.35rem 0.65rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.35);

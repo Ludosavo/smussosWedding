@@ -2,7 +2,6 @@
   <div class="nostra-storia">
     <PageHero
       title="La Nostra Storia"
-      subtitle="Un viaggio d'amore attraverso i ricordi più belli"
     />
 
     <div class="timeline-view">
@@ -92,7 +91,7 @@ function navigateNext() {
 }
 
 .map-legend p {
-  font-family: 'Lato', sans-serif;
+  font-family: "Playwrite NZ Basic", sans-serif;
   font-size: 1rem;
   color: var(--wine-burgundy);
   margin: 0;
