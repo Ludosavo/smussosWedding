@@ -68,7 +68,7 @@ export default async function handler(req, res) {
         <head>
           <meta charset="UTF-8">
         </head>
-        <body style="margin:0;padding:0;background:#f7f2e8;font-family:'Lato',Arial,sans-serif;color:#06415c;line-height:1.6;">
+        <body style="margin:0;padding:0;background:#ebe4c0;font-family:'Lato',Arial,sans-serif;color:#06415c;line-height:1.6;">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f2e8;">
             <tr>
               <td align="center" style="padding:24px 12px;">
@@ -80,13 +80,13 @@ export default async function handler(req, res) {
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:28px 24px 16px;background:#06415c;">
+                    <td style="padding:28px 24px 16px;background:#ebe4c0;">
                       <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;">Grazie per la conferma, ${nome}!</h2>
                       <p style="margin:0 0 14px;font-size:16px;">Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:0 24px 20px;background:#F4EBD9;">
+                    <td style="padding:0 24px 20px;background:#ebe4c0;">
                       <div style="background:#fcfcfc;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
                         <h3 style="margin:0 0 10px;color:#06415c;font-size:18px;">📍 Dettagli dell'Evento</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
@@ -97,7 +97,7 @@ export default async function handler(req, res) {
                           <li style="padding:6px 0;"><strong>Ricevimento:</strong> Castello di Oviglio</li>
                         </ul>
                       </div>
-                      <div style="background:#FFFEF2;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
+                      <div style="background:#ebe4c0;border-left:4px solid #06415c;padding:16px 16px 14px;border-radius:8px;margin-bottom:18px;">
                         <h3 style="margin:0 0 10px;color:#06415c;font-size:18px;">✓ La Tua Conferma</h3>
                         <ul style="margin:0;padding:0;list-style:none;font-size:15px;">
                           <li style="padding:6px 0;border-bottom:1px solid #fcfcfc;"><strong>Nome:</strong> ${nome} ${cognome}</li>
