@@ -80,8 +80,8 @@ export default async function handler(req, res) {
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:28px 24px 16px;background:#F4EBD9;">
-                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;color:#fcfcfc;">Grazie per la conferma, ${nome}!</h2>
+                    <td style="padding:28px 24px 16px;background:#06415c;">
+                      <h2 style="margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:24px;">Grazie per la conferma, ${nome}!</h2>
                       <p style="margin:0 0 14px;font-size:16px;">Siamo felicissimi che parteciperai al nostro matrimonio. Non vediamo l'ora di condividere con te questo giorno speciale!</p>
                     </td>
                   </tr>
