@@ -5,6 +5,8 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  
+  res.setHeader("Content-Type", "application/json");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
@@ -233,12 +235,12 @@ export default async function handler(req, res) {
     coupleEmailPromise,
   ]);
 
-  // IMPORTANT: fail if Resend returns error (it may not throw) :contentReference[oaicite:5]{index=5}
+  // IMPORTANT: fail if Resend returns error (it may not throw)
   if (guestResult?.error || coupleResult?.error) {
     return res.status(502).json({
       error: "Errore del servizio email",
       message:
-        "Non siamo riusciti a inviare l’email. Riprova tra poco.",
+        "Non siamo riusciti a inviare l'email. Riprova tra poco.",
     });
   }
 
