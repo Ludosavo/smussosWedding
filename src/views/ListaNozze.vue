@@ -39,6 +39,11 @@
         </div>
       </section>
 
+      <!-- Message Section -->
+      <section class="iban-message-section">
+        <IbanMessage />
+      </section>
+
       <!-- Honeymoon Journey Section -->
       <section class="map-section">
         <h2>Il Nostro Viaggio di Nozze</h2>
@@ -79,6 +84,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import HoneymoonSequence from '@/components/HoneymoonSequence.vue'
 import PageHero from '@/components/PageHero.vue'
+import IbanMessage from '@/components/IbanMessage.vue'
 
 const STOPS = [
   {
@@ -178,6 +184,10 @@ function copyIBAN() {
 }
 
 .iban-section {
+  margin-bottom: 3rem;
+}
+
+.iban-message-section {
   margin-bottom: 4rem;
 }
 
