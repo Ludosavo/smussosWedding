@@ -42,8 +42,8 @@ export default {
       parcheggi: [
         {
           id: "chiesa-principale",
-          nome: "Parcheggio Chiesa SS. Felice e Agata",
-          indirizzo: "Via XXIV Maggio, Oviglio (AL)",
+          nome: "Parcheggio su Piazza Umberto I",
+          indirizzo: "Piazza Umberto I, Oviglio (AL)",
           distanza: "4-5 min a piedi dalla chiesa",
           nota: "",
           img: ParcheggiImg,
