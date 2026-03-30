@@ -1,6 +1,5 @@
-# smussos
-
-This template should help get you started developing with Vue 3 in Vite.
+# smusso's wedding
+This project is a webpage for the wedding of Francesca and Carlo!! 💍
 
 ## Recommended IDE Setup
 
