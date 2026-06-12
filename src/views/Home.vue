@@ -9,27 +9,27 @@
         Chiesa dei SS. Felice e Agata, <br />
         Via XX Settembre, 59 - Oviglio (AL)
       </h4>
-      <h4>
+      <!-- <h4>
         Vi chiediamo di confermare la presenza di ogni invitato (entro il
         31.05.2026),
         <br />
         utilizzando il seguente form.
-      </h4>
-      <section class="rsvp-section">
+      </h4> -->
+      <!-- <section class="rsvp-section">
       <button @click="openRsvpModal" class="rsvp-button">
         Conferma Presenza
       </button>
-    </section>
+      </section> -->
     
     <!-- RSVP Modal -->
-    <Transition name="modal">
+    <!-- <Transition name="modal">
       <div v-if="showRsvpModal" class="modal-overlay" @click="closeRsvpModal">
         <div class="modal-container" @click.stop>
           <button @click="closeRsvpModal" class="close-modal-btn">✕</button>
           <RsvpForm @success="handleRsvpSuccess" />
         </div>
       </div>
-    </Transition>
+    </Transition> -->
     </div>
     
     <div class="countdown-container">
