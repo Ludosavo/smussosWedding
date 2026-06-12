@@ -9,10 +9,10 @@
       
       <!-- Quick Links -->
       <div class="footer-links">
-        <button @click="openRsvpModal" class="footer-rsvp-btn" style="border: 1px solid var(--textcolor);">
+        <!-- <button @click="openRsvpModal" class="footer-rsvp-btn" style="border: 1px solid var(--textcolor);">
           <FontAwesomeIcon :icon="faEnvelopeOpenText" />
           Conferma Presenza
-        </button>
+        </button> -->
         <RouterLink to="/contatti" class="footer-link">
           <FontAwesomeIcon :icon="faPhone" />
           Contatti
@@ -28,7 +28,7 @@
     </div>
 
     <!-- RSVP Modal -->
-    <Teleport to="body">
+    <!-- <Teleport to="body">
       <Transition name="modal">
         <div v-if="showRsvpModal" class="modal-overlay" @click="closeRsvpModal">
           <div class="modal-container" @click.stop>
@@ -39,7 +39,7 @@
           </div>
         </div>
       </Transition>
-    </Teleport>
+    </Teleport> -->
   </footer>
 </template>
 
