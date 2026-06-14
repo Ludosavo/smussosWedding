@@ -30,10 +30,10 @@
             <p class="iban-name">Carlo Musso & Francesca Savoia</p>
             <div class="iban-code">
               <code>IT71 J036 6901 6000 6944 7104 684</code>
-              <button @click="copyIBAN" class="copy-btn" :class="{ copied: isCopied }">
+              <!-- <button @click="copyIBAN" class="copy-btn" :class="{ copied: isCopied }">
                 <FontAwesomeIcon :icon="isCopied ? faCheck : faCopy" />
                 {{ isCopied ? 'Copiato!' : 'Copia' }}
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
